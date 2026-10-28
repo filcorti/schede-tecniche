@@ -123,6 +123,52 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  background:var(--panel);border:1px solid var(--line);border-bottom:2px solid var(--ambra);
  border-radius:5px}
 .dv input:focus{outline:2px solid var(--verde);outline-offset:1px}
+.salva{background:var(--panel);border:1px solid var(--ink);border-radius:10px;
+ padding:14px 18px 16px;margin-top:12px}
+.salva .due{display:flex;gap:10px;flex-wrap:wrap;margin-top:11px}
+.salva .due .f{flex:1 1 126px;min-width:0;margin-bottom:0}
+.salva .due .f label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.salva .due .f input{font-size:13.5px;padding:8px 9px}
+.salva button{width:100%;margin-top:11px;padding:13px 14px;min-height:44px;font-weight:700;
+ background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.salva button[disabled]{opacity:.55;cursor:default}
+.salva .arch{margin-top:9px;line-height:1.5}
+/* storico */
+.st{border-top:1px solid var(--line);padding-top:18px;margin-top:26px}
+.st-cap{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+ flex-wrap:wrap;margin-bottom:6px}
+.st-cap .q{font-size:11.5px;color:var(--ink-soft)}
+.st-box{background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.st-vuoto{padding:16px;font-size:12.5px;color:var(--ink-soft)}
+.vr{border-bottom:1px solid var(--line)}
+.vr:last-child{border-bottom:none}
+.vr .rg{display:grid;grid-template-columns:96px minmax(0,1fr) 88px 88px 66px 18px;gap:12px;
+ align-items:center;padding:11px 16px;width:100%;text-align:left;background:none;border:none;
+ border-radius:0;cursor:pointer;color:var(--ink);font:inherit}
+.vr .rg:hover{background:var(--bg);border-color:transparent}
+.vr.ap{background:var(--bg)}
+.vr .dt{font-size:13px;font-weight:700;white-space:nowrap}
+.vr .nt{min-width:0;font-size:12.5px;color:var(--ink-soft);overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap}
+.vr .nc,.vr .np{text-align:right;font-size:14px;font-weight:600;white-space:nowrap}
+.vr .np{color:var(--verde)}
+.vr .dl{text-align:right}
+.vr .dl span{font-size:11px;font-weight:700;border-radius:4px;padding:2px 6px}
+.vr .dl .su{color:#8a4a1e;background:rgba(176,106,67,.15)}
+.vr .dl .giu{color:#1b6b3a;background:var(--verde-soft)}
+.vr .dl .pari{font-size:11px;color:var(--ink-soft)}
+.vr .fr{text-align:right;color:var(--ink-soft);font-size:11px}
+.vd{padding:0 16px 14px}
+.vd-box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.vd h4{margin:0 0 8px;font-size:10px;font-weight:700;letter-spacing:.08em;
+ text-transform:uppercase;color:var(--ink-soft)}
+.vd .vv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px;font-size:12.5px}
+.vd .vv div{display:flex;justify-content:space-between;gap:12px;padding:3px 0;
+ border-bottom:1px solid var(--line)}
+.vd .vv span{color:var(--ink-soft);min-width:0;overflow:hidden;text-overflow:ellipsis;
+ white-space:nowrap}
+.vd .azioni{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.vd .azioni button{padding:10px 13px;min-height:38px}
 .prow{display:grid;grid-template-columns:1fr auto 92px 76px;gap:12px;align-items:center;
  padding:11px 0;border-bottom:1px solid var(--line)}
 .prow:last-of-type{border-bottom:none}
@@ -282,6 +328,7 @@ header.agg ~ main #list{display:none}
   .prow .pn .nm{ font-size:9.5pt } .prow .pn i,.prow .pg{ font-size:8pt }
   .prow .pc{ font-size:9.5pt }
   .cc{ display:block!important } .cc-out{ position:static!important; margin-top:3mm }
+  #storico,.salva{ display:none!important }
   .cap h1{ font-size:15pt } .cap .desc{ font-size:9pt }
   .spec{ margin:2mm 0 3mm } .sp{ padding:1mm 4mm; border-color:#999!important }
   .sh{ font-size:8pt; margin-bottom:1mm }
@@ -540,12 +587,13 @@ function card(rec){
 /* ---------- pannello costo ---------- */
 var eur=new Intl.NumberFormat('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});
 var nf=new Intl.NumberFormat('it-IT',{maximumFractionDigits:2});
+var fine=new Intl.NumberFormat('it-IT',{minimumFractionDigits:2,maximumFractionDigits:4});
 var REC=null;
 var MAN={calo:3,ordit:0,tar:'',fin1:'',fin2:'',fin3:'',divis:'0.86'};
 
 /* prezzi dei filati, tenuti per codifica: riaprendo un altro articolo che
    usa lo stesso filato il prezzo e' gia' li'. Restano su questo browser. */
-var PRZ={}, FILI=[];
+var PRZ={}, FILI=[], STORICO=[], UTENTE='', ULT={};
 try{ PRZ=JSON.parse(localStorage.getItem('prezzi_filati')||'{}')||{}; }catch(e){ PRZ={}; }
 try{ var sm=JSON.parse(localStorage.getItem('voci_costo')||'null');
      if(sm) for(var kk in sm) if(MAN.hasOwnProperty(kk)) MAN[kk]=sm[kk]; }catch(e){}
@@ -663,6 +711,7 @@ function pannello(rec,dove){
      (arcTot? '<p class="nota">In archivio FileMaker: <b>Costo TOT.</b> '+nf.format(arcTot)+
         ' · <b>Divisore 86</b> '+nf.format(arcDiv)+
         ' — valori storici in lire, da leggere come riferimento, non come prezzo di oggi.</p>' : '')+
+     '<div id="storico"></div>'+
    '</div>'+
 
    '<div class="cc-out">'+
@@ -681,6 +730,19 @@ function pannello(rec,dove){
        '<div class="big big-v"><span id="pVen">–</span><em>€/m lineare</em></div>'+
        '<div class="small"><span id="pVenQ">–</span><em>€/m²</em></div>'+
      '</div>'+
+     '<div class="salva">'+
+       '<div class="et">Salva nello storico</div>'+
+       '<div class="due">'+
+         '<div class="f"><label for="s-data">Data</label>'+
+           '<input id="s-data" type="date" value="'+oggi()+'"></div>'+
+         '<div class="f"><label for="s-nota">Nota</label>'+
+           '<input id="s-nota" type="text" placeholder="es. listino autunno" '+
+           'autocomplete="off" maxlength="80"></div>'+
+       '</div>'+
+       '<button type="button" id="s-salva">Salva valutazione</button>'+
+       '<div class="arch" id="s-msg">Finisce nello storico qui sotto, '+
+         'visibile anche ai colleghi.</div>'+
+     '</div>'+
    '</div>'+
   '</div></div>';
   elView.innerHTML=h;
@@ -695,8 +757,162 @@ function pannello(rec,dove){
       FILI.forEach(function(g){
         if(g.k===f.k && g.id!==f.id){ var o=$(g.id); if(o) o.value=e.value; } });
       salvaPrezzi(); calc(); }); });
+  $('s-salva').addEventListener('click',salvaValutazione);
   calc();
+  caricaStorico();
 }
+
+/* ---------- storico delle valutazioni ---------- */
+function oggi(){ var d=new Date();
+  return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function dataIt(s){ var p=String(s||'').slice(0,10).split('-');
+  return p.length===3 ? (p[2]+'/'+p[1]+'/'+p[0]) : esc(s); }
+function quando(s){
+  var p=String(s||'').slice(0,10).split('-'); if(p.length!==3) return '';
+  var n=new Date(), oggiMez=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime();
+  var g=Math.round((oggiMez-new Date(+p[0],+p[1]-1,+p[2]).getTime())/86400000);
+  if(g<0) return 'con data futura'; if(g===0) return 'oggi'; if(g===1) return 'ieri';
+  return g+' giorni fa'; }
+
+/* La fotografia da congelare: non solo i quattro numeri, ma come ci si e'
+   arrivati. Fra sei mesi e' l'unica cosa che spiega perche' il prezzo
+   e' cambiato. */
+function istantanea(){
+  var f=[];
+  FILI.forEach(function(x){
+    var e=$(x.id), p=e?parseFloat(String(e.value).replace(',','.')):NaN;
+    f.push({ ruolo:x.ruolo, n:x.n, nome:x.nome, cod:x.cod, k:x.k,
+             gm:+(x.q*(x.ruolo==='ordito'?ULT.pOrd:ULT.pTr)).toFixed(3),
+             prezzo:isNaN(p)?0:p }); });
+  return { filati:f, calo:inp('calo'), ordit:inp('ordit'), tar:inp('tar'),
+           battute:ULT.batt, fin:[inp('fin1'),inp('fin2'),inp('fin3')],
+           peso_ordito:ULT.pOrd, peso_trama:ULT.pTr, altezza_finita:ULT.altF,
+           voci:{ materie_prime:ULT.mp, calo:ULT.cCalo, orditura:ULT.cOrdit,
+                  tessitura:ULT.cTess, finissaggi:ULT.cFin } }; }
+
+function salvaValutazione(){
+  if(!REC) return;
+  var b=$('s-salva'), msg=$('s-msg');
+  if(!(ULT.cTot>0)){ msg.textContent='Prima inserisci i prezzi: non c’è ancora un costo da salvare.';
+    return; }
+  b.disabled=true; b.textContent='Salvo…';
+  sb.from('valutazioni').insert({
+    articolo:T('Articolo'), altezza:T('Altezza'), colore:T('Colore'),
+    id_record:T('ID record'),
+    data:$('s-data').value||oggi(), nota:$('s-nota').value.trim()||null,
+    utente:UTENTE||null,
+    costo_ml:+ULT.cTot.toFixed(4), costo_mq:+ULT.cTotQ.toFixed(4),
+    prezzo_ml:+ULT.pVen.toFixed(4), prezzo_mq:+ULT.pVenQ.toFixed(4),
+    divisore:inp('divis'), dettaglio:istantanea()
+  }).then(function(res){
+    b.disabled=false; b.textContent='Salva valutazione';
+    if(res.error){ msg.textContent='Non sono riuscito a salvare: '+res.error.message; return; }
+    $('s-nota').value='';
+    msg.textContent='Salvata. La trovi nello storico qui sotto.';
+    caricaStorico(); }); }
+
+function caricaStorico(){
+  var box=$('storico'); if(!box||!REC) return;
+  sb.from('valutazioni')
+    .select('id,data,nota,utente,costo_ml,costo_mq,prezzo_ml,prezzo_mq,divisore,dettaglio')
+    .eq('articolo',T('Articolo')).eq('altezza',T('Altezza')).eq('colore',T('Colore'))
+    .order('data',{ascending:false}).order('id',{ascending:false}).limit(60)
+    .then(function(res){
+      if(res.error){ box.innerHTML='<div class="st"><div class="st-box">'+
+        '<div class="st-vuoto">Lo storico non si carica: '+esc(res.error.message)+'</div>'+
+        '</div></div>'; return; }
+      STORICO=res.data||[]; disegnaStorico(); }); }
+
+function disegnaStorico(){
+  var box=$('storico'); if(!box) return;
+  var n=STORICO.length;
+  var testa='<div class="st"><div class="st-cap">'+
+    '<h2 class="sh">Storico di questo articolo</h2><span class="q">'+
+    (n? (n+(n===1?' valutazione':' valutazioni')+' · l’ultima '+quando(STORICO[0].data)) :
+        'nessuna valutazione salvata')+'</span></div><div class="st-box">';
+  if(!n){ box.innerHTML=testa+'<div class="st-vuoto">Quando salvi una valutazione '+
+    'la ritrovi qui, con la composizione di quel giorno.</div></div></div>'; return; }
+
+  var righe='';
+  STORICO.forEach(function(v,i){
+    var prec=STORICO[i+1], dl='<span class="pari">prima</span>';
+    if(prec && prec.costo_ml>0){
+      var d=(v.costo_ml-prec.costo_ml)/prec.costo_ml*100;
+      dl='<span class="'+(d>=0?'su':'giu')+'">'+(d>=0?'+':'−')+
+         Math.abs(d).toFixed(1).replace('.',',')+'%</span>'; }
+    var cap=[]; if(v.nota) cap.push(esc(v.nota));
+    if(v.utente) cap.push(esc(String(v.utente).split('@')[0]));
+    if(v.divisore) cap.push('divisore '+nf.format(v.divisore));
+    righe+='<div class="vr'+(v.aperta?' ap':'')+'" data-i="'+i+'">'+
+      '<button type="button" class="rg" aria-expanded="'+(v.aperta?'true':'false')+'">'+
+        '<span class="dt">'+dataIt(v.data)+'</span>'+
+        '<span class="nt">'+(cap.join(' · ')||'&ndash;')+'</span>'+
+        '<span class="nc">'+eur.format(v.costo_ml||0)+' €</span>'+
+        '<span class="np">'+eur.format(v.prezzo_ml||0)+' €</span>'+
+        '<span class="dl">'+dl+'</span>'+
+        '<span class="fr">'+(v.aperta?'▾':'▸')+'</span>'+
+      '</button>'+
+      (v.aperta?dettaglio(v,i):'')+'</div>'; });
+  box.innerHTML=testa+righe+'</div>'+
+    '<p class="nota">Ogni valutazione congela i prezzi dei filati, le lavorazioni e il '+
+    'divisore di quel giorno. Lo scostamento è sul costo rispetto alla valutazione '+
+    'precedente.</p></div>';
+
+  box.querySelectorAll('.rg').forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.parentNode.dataset.i;
+      STORICO.forEach(function(x,j){ x.aperta = (j===i) ? !x.aperta : false; });
+      disegnaStorico(); }); });
+  box.querySelectorAll('[data-ric]').forEach(function(b){
+    b.addEventListener('click',function(){ ricarica(STORICO[+b.dataset.ric]); }); });
+  box.querySelectorAll('[data-del]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.del;
+      if(b.dataset.sicuro!=='1'){ b.dataset.sicuro='1'; b.textContent='Confermi?'; return; }
+      b.disabled=true; b.textContent='Elimino…';
+      sb.from('valutazioni').delete().eq('id',STORICO[i].id).then(function(res){
+        if(res.error){ b.disabled=false; b.textContent='Elimina';
+          b.dataset.sicuro=''; alert('Non eliminata: '+res.error.message); return; }
+        caricaStorico(); }); }); }); }
+
+function dettaglio(v,i){
+  var d=v.dettaglio||{}, r=[];
+  (d.filati||[]).forEach(function(f){
+    r.push([esc(f.nome||'–')+' · '+nf.format(f.gm||0)+' g/m × '+eur.format(f.prezzo||0)+' €/kg',
+            (f.gm||0)/1000*(f.prezzo||0)]); });
+  var vo=d.voci||{};
+  if(d.calo) r.push(['Calo '+nf.format(d.calo)+'%', vo.calo]);
+  if(d.ordit) r.push(['Orditura '+eur.format(d.ordit)+' €/kg', vo.orditura]);
+  if(d.tar) r.push(['Tessitura '+fine.format(d.tar)+' € × '+nf.format(d.battute||0), vo.tessitura]);
+  if(vo.finissaggi) r.push(['Finissaggi '+(d.fin||[]).map(function(x){
+      return eur.format(x||0); }).join(' + '), vo.finissaggi]);
+  var vv='';
+  r.forEach(function(x){ vv+='<div><span>'+x[0]+'</span><b>'+
+    eur.format(x[1]||0)+' €</b></div>'; });
+  return '<div class="vd"><div class="vd-box"><h4>Com’era composta</h4>'+
+    '<div class="vv">'+vv+'</div>'+
+    '<div class="azioni">'+
+      '<button type="button" data-ric="'+i+'">Ricarica questi valori</button>'+
+      '<button type="button" data-del="'+i+'">Elimina</button>'+
+    '</div></div></div>'; }
+
+/* Rimette nel calcolo i valori di una valutazione passata. Non tocca
+   l'archivio: cambia solo quello che hai davanti. */
+function ricarica(v){
+  var d=v.dettaglio||{};
+  (d.filati||[]).forEach(function(f){
+    if(f.k==null) return;
+    PRZ[f.k]=String(f.prezzo==null?'':f.prezzo);
+    FILI.forEach(function(x){ if(x.k===f.k){ var e=$(x.id); if(e) e.value=PRZ[f.k]; } }); });
+  var met={calo:d.calo, ordit:d.ordit, tar:d.tar,
+           fin1:(d.fin||[])[0], fin2:(d.fin||[])[1], fin3:(d.fin||[])[2],
+           divis:v.divisore};
+  for(var id in met){ var e=$(id);
+    if(e && met[id]!=null) e.value=met[id]; }
+  salvaPrezzi(); calc();
+  var m=$('s-msg');
+  if(m) m.textContent='Ripresi i valori del '+dataIt(v.data)+'. Non è ancora salvato niente.';
+  if(elView.scrollTo) elView.scrollTo({top:0,behavior:'smooth'}); }
 
 var VOCI=[
   ['materie prime','#2f7d52','#7fc79b'],
@@ -731,6 +947,8 @@ function calc(){
   var cTotQ=altM>0?cTot/altM:0;
   var d=inp('divis');
   var pVen=d>0?cTot/d:0, pVenQ=(altM>0&&d>0)?pVen/altM:0;
+  ULT={ pOrd:pOrd, pTr:pTr, batt:batt, altF:altM*100, mp:mp, cCalo:cCalo, cOrdit:cOrdit,
+        cTess:cTess, cFin:cFin, cTot:cTot, cTotQ:cTotQ, pVen:pVen, pVenQ:pVenQ };
 
   var E=function(v){ return v>0?(eur.format(v)+' €'):'–'; };
   var scrivi=function(id,v){ var e=$(id); if(e) e.textContent=E(v); };
@@ -909,6 +1127,8 @@ function vaiA(m){                 /* null = dashboard */
 
 function entra(){
   gate.hidden=true; top.hidden=false;
+  sb.auth.getUser().then(function(r){
+    UTENTE = (r.data && r.data.user && r.data.user.email) || ''; });
   vaiA(null); }
 
 document.getElementById('gform').addEventListener('submit',function(e){

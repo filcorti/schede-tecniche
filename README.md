@@ -11,6 +11,7 @@ il codice su GitHub.
 | `index.html` | l'applicazione: accesso, dashboard, ricerca, scheda tecnica, calcolo costo, aggiornamento archivio |
 | `config.js` | i due dati del tuo progetto Supabase — **da compilare** |
 | `schema.sql` | la struttura del database, da eseguire una volta sola |
+| `storico.sql` | la tabella dello storico valutazioni, da eseguire una volta sola |
 | `netlify.toml` | impostazioni di pubblicazione |
 
 ---
@@ -74,6 +75,31 @@ sta caricando, l'archivio online è incompleto. Fallo quando i colleghi non
 stanno consultando.
 
 ---
+
+## Lo storico delle valutazioni
+
+Nella vista **Calcolo costo**, sotto al calcolo, c'è lo storico dell'articolo.
+Il riquadro *Salva nello storico* in alto a destra prende data e nota e registra
+la valutazione: i quattro numeri più la composizione congelata di quel giorno —
+ogni filato col suo peso e il suo prezzo, calo, orditura, tessitura, finissaggi,
+divisore.
+
+Ogni riga si apre e mostra quella composizione, con due pulsanti: *Ricarica
+questi valori*, che li rimette nel calcolo senza salvare niente, e *Elimina*,
+che chiede conferma al secondo clic.
+
+Lo storico sta nella tabella `valutazioni`, **separata da `schede`**. È
+deliberato: *Aggiorna archivio* svuota `schede` e la ricarica dall'Excel, e se lo
+storico stesse lì dentro sparirebbe al primo allineamento.
+
+Due cose da sapere. Lo storico è **condiviso**: lo vedono, e possono
+modificarlo, tutti quelli che entrano — mentre i prezzi che scrivi nel pannello,
+finché non salvi, restano solo nel tuo browser. E le valutazioni vecchie
+conservano i **pesi di allora**: se un domani l'Excel cambia i pesi di un
+articolo, confrontando due righe lontane potresti confrontare due tessuti un po'
+diversi. I pesi si vedono nel dettaglio, quindi te ne accorgi.
+
+In stampa lo storico non esce: sull'A4 va il calcolo.
 
 ## La dashboard
 
