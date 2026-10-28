@@ -88,6 +88,22 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .card.man .f input,.card.man .f select{border-color:var(--ambra);background:var(--panel)}
 .f input:focus,.f select:focus{outline:2px solid var(--verde);outline-offset:1px}
 .arch{font-size:11px;color:var(--ink-soft);margin-top:3px}
+.card.wide{grid-column:1/-1}
+.card.wide .f{max-width:250px;margin-top:11px}
+.prow{display:grid;grid-template-columns:1fr auto 88px 74px;gap:10px;align-items:center;
+ padding:7px 0;border-bottom:1px dashed var(--line)}
+.prow:last-of-type{border-bottom:none}
+.prow .pn b{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+ color:var(--verde)}
+.prow .pn span{display:block;font-size:13px;font-weight:700;line-height:1.25}
+.prow .pn i{display:block;font-size:11px;font-style:normal;color:var(--ink-soft)}
+.prow .pg{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;
+ font-variant-numeric:tabular-nums}
+.prow input{font:700 14px/1.2 inherit;padding:7px 8px;width:100%;text-align:right;
+ color:var(--ink);background:var(--panel);border:1px solid var(--ambra);border-radius:6px}
+.prow input:focus{outline:2px solid var(--verde);outline-offset:1px}
+.prow .pc{font-size:13px;font-weight:700;text-align:right;white-space:nowrap;
+ font-variant-numeric:tabular-nums}
 .arch b{color:var(--ambra)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .out{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
@@ -241,8 +257,11 @@ header.agg ~ main #list{display:none}
   .card h3{ font-size:10pt; margin-bottom:1.5mm }
   .f{ margin-bottom:1.4mm } .f label{ font-size:8pt; margin-bottom:1px }
   .tag,.arch{ display:none }
-  .f input,.f select{ font-size:10pt; padding:.8mm 2mm; border:1px solid #999!important;
+  .f input,.f select,.prow input{ font-size:10pt; padding:.8mm 2mm; border:1px solid #999!important;
     background:#fff!important; color:#000!important }
+  .prow{ break-inside:avoid; padding:1mm 0; gap:2mm }
+  .prow .pn span{ font-size:9.5pt } .prow .pn i,.prow .pg{ font-size:8pt }
+  .prow .pc{ font-size:9.5pt }
   .filati{ padding:1.5mm 3mm; margin-bottom:2.5mm }
   .grid{ gap:2mm; grid-template-columns:repeat(3,1fr)!important }
   .out{ padding:1.5mm 2.5mm; border:1px solid #777!important; background:#fff!important }
@@ -497,7 +516,57 @@ function card(rec){
 var eur=new Intl.NumberFormat('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});
 var nf=new Intl.NumberFormat('it-IT',{maximumFractionDigits:2});
 var REC=null;
-var MAN={przO:'',przT:'',calo:3,ordit:0,tar:'',finM:'',marg:30,margMode:'margine'};
+var MAN={calo:3,ordit:0,tar:'',finM:'',marg:30,margMode:'margine'};
+
+/* prezzi dei filati, tenuti per codifica: riaprendo un altro articolo che
+   usa lo stesso filato il prezzo e' gia' li'. Restano su questo browser. */
+var PRZ={}, FILI=[];
+try{ PRZ=JSON.parse(localStorage.getItem('prezzi_filati')||'{}')||{}; }catch(e){ PRZ={}; }
+try{ var sm=JSON.parse(localStorage.getItem('voci_costo')||'null');
+     if(sm) for(var kk in sm) if(MAN.hasOwnProperty(kk)) MAN[kk]=sm[kk]; }catch(e){}
+function salvaPrezzi(){
+  try{ localStorage.setItem('prezzi_filati',JSON.stringify(PRZ));
+       localStorage.setItem('voci_costo',JSON.stringify(MAN)); }catch(e){} }
+
+/* I filati che compongono l'articolo, ognuno col suo peso al metro.
+   I 'gr1..gr10' dell'archivio sono al netto dell'imborso e non sommano al
+   peso ordito calcolato: li uso come proporzioni e li ridistribuisco sul
+   peso totale, cosi' la somma torna sempre. Stessa cosa per le due trame. */
+function filatiCosto(){
+  var COD={1:'codifica filato',2:'codifica filato2',3:'codifica filato3',4:'codifica filato4',
+           5:'codifica filato5',6:'codifica filato6',7:'codifica filato 11',8:'codifica filato 12',
+           9:'codifica filato 9',10:'codifica filato 10'};
+  var o=[], t=[], n;
+  for(n=1;n<=10;n++){
+    var gr=V('gr'+n)||0;
+    if(gr>0) o.push({ruolo:'ordito',n:n,nome:T('colore filato '+n),cod:T(COD[n]),peso:gr*1000}); }
+  if(!o.length) o.push({ruolo:'ordito',n:0,nome:T('colore filato 1')||T('ordito colore')||'ordito',
+                        cod:T(COD[1]),peso:1});
+  [1,2].forEach(function(i){
+    var k=V('kg tr'+i)||0;
+    if(k>0) t.push({ruolo:'trama',n:i,nome:T('colore  tr'+i),
+                    cod:T(i===1?'codifica filato7':'codifica filato8'),peso:k}); });
+  if(!t.length) t.push({ruolo:'trama',n:1,nome:T('colore  tr1')||'trama',
+                        cod:T('codifica filato7'),peso:1});
+  var tutti=o.concat(t);
+  [o,t].forEach(function(g){
+    var s=0; g.forEach(function(f){ s+=f.peso; });
+    g.forEach(function(f){ f.q = s>0 ? f.peso/s : 0; }); });
+  tutti.forEach(function(f,i){ f.id='pz'+i; f.k = f.cod || (f.ruolo+f.n); });
+  return tutti; }
+
+function righeFilati(){
+  var h='';
+  FILI.forEach(function(f){
+    h+='<div class="prow"><div class="pn"><b>'+(f.ruolo==='ordito'?'Ordito':'Trama')+
+       (f.n?' '+f.n:'')+'</b><span>'+(esc(f.nome)||'&ndash;')+'</span>'+
+       (f.cod?'<i>'+esc(f.cod)+'</i>':'')+'</div>'+
+       '<div class="pg" id="'+f.id+'g">&ndash;</div>'+
+       '<input id="'+f.id+'" type="number" step="0.01" inputmode="decimal" '+
+         'aria-label="prezzo al kg" placeholder="€/kg" value="'+
+         (PRZ[f.k]==null?'':esc(PRZ[f.k]))+'">'+
+       '<div class="pc" id="'+f.id+'c">&ndash;</div></div>'; });
+  return h; }
 
 function V(n){ var x=get(REC,n); return (typeof x==='number')?x:toF(x); }
 function T(n){ var x=get(REC,n); return x===0?'':String(x==null?'':x).trim(); }
@@ -539,8 +608,9 @@ function pannello(rec,dove){
     fl+='<div class="fl"><span class="fll">Trama 2</span><b>tit. '+(esc(T('titolo tr2'))||'–')+
       '</b> <span class="t">· '+(esc(T('colore  tr2'))||'–')+'</span></div>';
 
-  var hintO=aO?('in archivio <b>'+nf.format(aO)+'</b> lire/kg'):'';
-  var hintT=aT?('in archivio <b>'+nf.format(aT)+'</b> lire/kg'):'';
+  FILI=filatiCosto();
+  var hintO=aO?('<b>'+nf.format(aO)+'</b> lire/kg'):'';
+  var hintT=aT?('<b>'+nf.format(aT)+'</b> lire/kg'):'';
   var hintB=aB?('in archivio <b>'+nf.format(aB)+'</b> lire'):'';
   var hintF=aF?('in archivio <b>'+nf.format(aF)+'</b> lire/m'):'';
 
@@ -551,15 +621,18 @@ function pannello(rec,dove){
   '<div class="chips">'+chips+'</div>'+
   '<div class="filati">'+fl+'</div>'+
   '<div class="cards">'+
+   '<div class="card man wide"><h3>Materie prime '+
+     '<span class="tag">un prezzo per filato</span></h3>'+
+     righeFilati()+
+     ((hintO||hintT)?'<div class="arch">In archivio: '+
+        (hintO?'ordito '+hintO:'')+(hintO&&hintT?' · ':'')+
+        (hintT?'trama '+hintT:'')+'</div>':'')+
+     campo('calo','Calo materie prime (%)',MAN.calo,true,'in FileMaker vale <b>3</b>','0.1')+
+   '</div>'+
    '<div class="card"><h3>Pesi (da scheda)</h3>'+
      campo('pOrd','Peso ordito (g/m)',pOrd?pOrd.toFixed(2):'',false,'campo <b>ord</b>')+
      campo('pTr','Peso trama (g/m)',pTr?pTr.toFixed(2):'',false,'campo <b>Tra 100</b>')+
      campo('batt','Battute (/cm)',batt?nf.format(batt):'',false,'campo <b>battute</b>','0.1')+
-   '</div>'+
-   '<div class="card man"><h3>Materie prime</h3>'+
-     campo('przO','Prezzo ordito (€/kg)',MAN.przO,true,hintO)+
-     campo('przT','Prezzo trama (€/kg)',MAN.przT,true,hintT)+
-     campo('calo','Calo materie prime (%)',MAN.calo,true,'in FileMaker vale <b>3</b>','0.1')+
    '</div>'+
    '<div class="card man"><h3>Lavorazioni</h3>'+
      campo('ordit','Orditura (€/kg)',MAN.ordit,false,'in FileMaker vale <b>800</b> lire/kg')+
@@ -578,14 +651,24 @@ function pannello(rec,dove){
   (arcTot? '<div class="split">In archivio FileMaker: <b>Costo TOT.</b> '+nf.format(arcTot)+
      ' · <b>Divisore 86</b> '+nf.format(arcDiv)+
      ' — valori storici in lire, utili come riferimento, non come prezzo di oggi.</div>' : '')+
-  '<div class="nota">ordito = peso ordito × €/kg ÷ 1000 · trama = peso trama × €/kg ÷ 1000 · '+
+  '<div class="nota">ogni filato = suo peso g/m × €/kg ÷ 1000 · '+
+   'ordito e trama = somma dei rispettivi filati · '+
    'calo = % sul totale materie prime · orditura = peso ordito × €/kg ÷ 1000 · '+
    'tessitura = tariffa battuta × battute/cm · greggio = materie prime + calo + orditura + tessitura · '+
    'totale = greggio + finissaggio. Il €/m² usa l\'altezza finita.</div>'+
   '</div>';
   elView.innerHTML=h;
-  ['przO','przT','calo','ordit','tar','finM','marg','pOrd','pTr','batt'].forEach(function(id){
+  ['calo','ordit','tar','finM','marg','pOrd','pTr','batt'].forEach(function(id){
     var e=$(id); if(e) e.addEventListener('input',calc); });
+  /* Lo stesso filato puo' stare in ordito e in trama: ha una codifica sola,
+     quindi un prezzo solo. Scrivendolo da una parte si allinea l'altra. */
+  FILI.forEach(function(f){
+    var e=$(f.id); if(!e) return;
+    e.addEventListener('input',function(){
+      PRZ[f.k]=e.value;
+      FILI.forEach(function(g){
+        if(g.k===f.k && g.id!==f.id){ var o=$(g.id); if(o) o.value=e.value; } });
+      salvaPrezzi(); calc(); }); });
   $('margMode').value=MAN.margMode;
   $('margMode').addEventListener('change',calc);
   calc();
@@ -593,12 +676,19 @@ function pannello(rec,dove){
 
 function calc(){
   if(!REC) return;
-  ['przO','przT','calo','ordit','tar','finM','marg'].forEach(function(id){
+  ['calo','ordit','tar','finM','marg'].forEach(function(id){
     var e=$(id); if(e) MAN[id]=e.value; });
   MAN.margMode=$('margMode')?$('margMode').value:'margine';
+  salvaPrezzi();
   var pOrd=inp('pOrd'), pTr=inp('pTr'), batt=inp('batt');
-  var cOrd=pOrd/1000*inp('przO');
-  var cTr=pTr/1000*inp('przT');
+  var cOrd=0, cTr=0;
+  FILI.forEach(function(f){
+    var e=$(f.id); if(!e) return;
+    var prezzo=parseFloat(String(e.value).replace(',','.')); if(isNaN(prezzo)) prezzo=0;
+    var gm=f.q*(f.ruolo==='ordito'?pOrd:pTr), c=gm/1000*prezzo;
+    if(f.ruolo==='ordito') cOrd+=c; else cTr+=c;
+    var g=$(f.id+'g'); if(g) g.textContent=nf.format(gm)+' g/m';
+    var p=$(f.id+'c'); if(p) p.textContent=prezzo?(eur.format(c)+' €'):'–'; });
   var mp=cOrd+cTr;
   var cCalo=mp*inp('calo')/100;
   var cOrdit=pOrd/1000*inp('ordit');
