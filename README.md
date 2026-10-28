@@ -12,6 +12,10 @@ il codice su GitHub.
 | `config.js` | i due dati del tuo progetto Supabase — **da compilare** |
 | `schema.sql` | la struttura del database, da eseguire una volta sola |
 | `storico.sql` | la tabella dello storico valutazioni, da eseguire una volta sola |
+| `manifest.webmanifest` | i dati dell'app installabile (nome, icone, colori) |
+| `sw.js` | il service worker: installabilita' e apertura rapida |
+| `logo.png`, `logo-marchio.png` | il marchio Corti: intero e senza la guglia |
+| `icon-*.png`, `favicon-32.png`, `apple-touch-icon.png` | le icone, ricavate dal marchio |
 | `netlify.toml` | impostazioni di pubblicazione |
 
 ---
@@ -75,6 +79,40 @@ sta caricando, l'archivio online è incompleto. Fallo quando i colleghi non
 stanno consultando.
 
 ---
+
+## Il marchio
+
+Il logo Corti compare in tre posti: grande sulla schermata di accesso, piccolo
+in testata accanto a "Schede & costi" (su schermi stretti resta solo il
+marchio), e come icona dell'app.
+
+Per l'icona non si usa il logo intero: rimpicciolito a 48 pixel la guglia si
+mangia tutto lo spazio e "Corti" diventa illeggibile. Si usa `logo-marchio.png`,
+cioe' il logo tagliato sopra la scritta, che tiene il nome leggibile fin da 48
+pixel. Se un domani il logo cambia, basta rigenerare le icone dallo stesso
+ritaglio.
+
+## Installarla come app
+
+Il sito e' una PWA: Chrome la puo' installare come un'applicazione, con la sua
+icona e la sua finestra, senza barra degli indirizzi.
+
+**Da computer.** Apri il sito in Chrome: nella barra degli indirizzi, a destra,
+compare un'icona di installazione. In alternativa menu a tre puntini ->
+*Trasmetti, salva e condividi* -> *Installa pagina come applicazione*. La trovi
+poi fra i programmi, e si apre in una finestra sua.
+
+**Da telefono.** Chrome su Android: menu -> *Aggiungi a schermata Home*.
+Safari su iPhone: il tasto Condividi -> *Aggiungi alla schermata Home*.
+
+**Cosa cambia e cosa no.** L'app e' la stessa pagina: serve sempre il login, i
+dati arrivano sempre da Supabase. Senza linea la pagina si apre ma l'archivio
+non si carica, perche' le schede stanno sul database, non nel telefono.
+
+**Quando pubblichi una versione nuova** l'app si aggiorna da sola: la pagina
+viene sempre chiesta alla rete per prima, la copia salvata serve solo da rete di
+sicurezza. Se dopo un push vedi ancora la versione vecchia, chiudi e riapri la
+finestra dell'app.
 
 ## Lo storico delle valutazioni
 

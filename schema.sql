@@ -24,6 +24,16 @@ create index if not exists schede_descr_idx    on public.schede using gin (to_ts
 
 -- 2. Chi puo' leggere e scrivere ---------------------------------------
 --    Nessun accesso anonimo: solo utenti autenticati.
+
+--    2a. I permessi sulla tabella. Servono perche' in fase di creazione del
+--        progetto abbiamo lasciato spenta l'esposizione automatica delle
+--        tabelle nuove: i privilegi li diamo qui, uno per uno.
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on public.schede to authenticated;
+grant usage, select on sequence public.schede_id_seq to authenticated;
+
+--    2b. Le regole di riga. I permessi di sopra aprono la porta, queste
+--        dicono chi passa: solo chi ha fatto l'accesso.
 alter table public.schede enable row level security;
 
 drop policy if exists "lettura utenti autenticati" on public.schede;

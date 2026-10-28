@@ -1,0 +1,20 @@
+{
+  "name": "Schede tecniche — Manifattura Corti",
+  "short_name": "Schede Corti",
+  "description": "Archivio delle schede tecniche di produzione e calcolo del costo tessuto.",
+  "lang": "it",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "any",
+  "background_color": "#F6FBF4",
+  "theme_color": "#2A6B45",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

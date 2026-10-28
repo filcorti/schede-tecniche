@@ -2,6 +2,14 @@
 <html lang="it"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Schede Tecniche Corti</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2A6B45">
+<meta name="description" content="Archivio delle schede tecniche di produzione e calcolo del costo tessuto — Manifattura Corti.">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Schede Corti">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -25,7 +33,9 @@ header{background:var(--panel);border-bottom:1px solid var(--line);
  padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
  display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;position:sticky;top:0;z-index:5}
 .brand{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
- color:var(--verde);padding-bottom:5px}
+ color:var(--verde);padding-bottom:5px;display:flex;align-items:center;gap:9px}
+.brand img{width:auto;height:32px;display:block}
+@media (max-width:760px){ .brand span{display:none} }
 .fld{display:flex;flex-direction:column;gap:3px;min-width:0}
 .fld label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
  color:var(--ink-soft)}
@@ -237,16 +247,19 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 /* accesso */
 #gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;
  justify-content:center;z-index:50;padding:20px}
-.gbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;
- padding:28px 26px;width:min(380px,100%);box-shadow:0 10px 40px rgba(0,0,0,.10)}
-.gbox h1{font-size:19px;margin:0 0 4px;color:var(--verde)}
+.gbox{background:var(--panel);border:none;border-radius:28px;
+ padding:32px 28px;width:min(390px,100%);box-shadow:0 10px 40px rgba(0,0,0,.08)}
+.glogo{display:block;width:auto;height:142px;margin:0 auto 20px}
+.gbox h1{font-size:19px;margin:0 0 4px;color:var(--verde);text-align:center}
+.gbox>p{text-align:center}
 .gbox p{margin:0 0 18px;color:var(--ink-soft);font-size:13px}
 .gbox label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;
  text-transform:uppercase;color:var(--ink-soft);margin:10px 0 4px}
-.gbox input{width:100%;font:500 15px/1.2 inherit;padding:10px 11px;color:var(--ink);
- background:var(--bg);border:1px solid var(--line);border-radius:8px}
-.gbox button{width:100%;margin-top:18px;padding:11px;font:700 14px inherit;
- background:var(--verde);color:#fff;border:none;border-radius:8px;cursor:pointer}
+.gbox input{width:100%;font:500 15px/1.2 inherit;padding:13px 14px;color:var(--ink);
+ background:var(--surf2);border:none;border-bottom:2px solid var(--verde);
+ border-radius:14px 14px 4px 4px}
+.gbox button{width:100%;margin-top:20px;padding:16px;min-height:52px;font:600 14px inherit;
+ background:var(--verde);color:#fff;border:none;border-radius:999px;cursor:pointer}
 .gerr{color:#b3261e;font-size:12.5px;margin-top:12px;min-height:1em}
 /* aggiornamento archivio */
 #agg{max-width:620px;margin:30px auto;background:var(--panel);border:1px solid var(--line);
@@ -399,6 +412,8 @@ header.agg ~ main #list{display:none}
 
 <div id="gate">
   <form class="gbox" id="gform" autocomplete="on">
+    <img class="glogo" src="logo.png" width="560" height="622"
+         alt="Manifattura Corti" decoding="async">
     <h1>Schede tecniche</h1>
     <p>Manifattura Corti — accesso riservato</p>
     <label for="g-mail">Indirizzo email</label>
@@ -411,7 +426,8 @@ header.agg ~ main #list{display:none}
 </div>
 
 <header hidden id="top">
-  <div class="brand">Schede &amp; costi</div>
+  <div class="brand"><img src="logo-marchio.png" width="256" height="148"
+       alt="Manifattura Corti" decoding="async"><span>Schede &amp; costi</span></div>
   <button id="indietro" type="button">&larr; Dashboard</button>
   <div class="fld"><label for="q-art">Articolo</label><input id="q-art" autocomplete="off"></div>
   <div class="fld"><label for="q-alt">Altezza</label><input id="q-alt" autocomplete="off"></div>
@@ -1257,6 +1273,13 @@ elList.addEventListener('click',function(e){
   var t=e.target.closest?e.target.closest('.it'):null; if(t) apri(+t.dataset.j); });
 
 sb.auth.getSession().then(function(res){ if(res.data && res.data.session) entra(); });
+
+/* Service worker: rende l'app installabile da Chrome e la apre anche al volo.
+   Se il browser non lo supporta, o siamo aperti da file locale, non succede
+   niente: la pagina funziona lo stesso. */
+if('serviceWorker' in navigator && location.protocol==='https:'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
 })();
 </script>
 </body></html>
