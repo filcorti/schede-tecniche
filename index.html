@@ -178,10 +178,17 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .vd h4{margin:0 0 8px;font-size:10px;font-weight:700;letter-spacing:.08em;
  text-transform:uppercase;color:var(--ink-soft)}
 .vd .vv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px;font-size:12.5px}
-.vd .vv div{display:flex;justify-content:space-between;gap:12px;padding:3px 0;
- border-bottom:1px solid var(--line)}
-.vd .vv span{color:var(--ink-soft);min-width:0;overflow:hidden;text-overflow:ellipsis;
- white-space:nowrap}
+.vd .vv div{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+ padding:3px 0;border-bottom:1px solid var(--line)}
+.vd .vv span{color:var(--ink-soft);min-width:0}
+.vd .vv b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.vd .vv .cam{background:var(--ambra-soft);box-shadow:inset 2px 0 0 var(--ambra);
+ padding:3px 7px;border-radius:0 3px 3px 0}
+.vd .vv .cam span{color:var(--ink)}
+.vd .vv em{display:block;font-style:normal;font-size:10.5px;color:var(--ambra);
+ margin-top:1px;font-weight:600}
+.vd h4 small{font-weight:600;letter-spacing:0;text-transform:none;font-size:10.5px;
+ color:var(--ink-soft)}
 .vd-pie{margin:10px 0 0;font-size:11.5px;color:var(--ink-soft);line-height:1.5}
 .vd .azioni{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 .vd .azioni button{padding:10px 13px;min-height:38px}
@@ -899,21 +906,47 @@ function disegnaStorico(){
           b.dataset.sicuro=''; alert('Non eliminata: '+res.error.message); return; }
         caricaStorico(); }); }); }); }
 
+/* Confronto con la valutazione precedente per data: le voci che sono
+   cambiate vengono marcate, con accanto quanto valevano prima. */
 function dettaglio(v,i){
-  var d=v.dettaglio||{}, r=[];
+  var d=v.dettaglio||{}, pre=STORICO[i+1], p=pre?(pre.dettaglio||{}):null, r=[];
+  var pf={}; if(p) (p.filati||[]).forEach(function(f){ if(f.k!=null) pf[f.k]=f; });
+  var diverso=function(a,b){ return Math.abs((+a||0)-(+b||0))>1e-9; };
+
   (d.filati||[]).forEach(function(f){
-    r.push([esc(f.nome||'–')+' · '+nf.format(f.gm||0)+' g/m × '+eur.format(f.prezzo||0)+' €/kg',
-            (f.gm||0)/1000*(f.prezzo||0)]); });
+    var old=p?pf[f.k]:null, era=null;
+    if(p){
+      if(!old) era='filato nuovo rispetto alla volta prima';
+      else if(diverso(old.prezzo,f.prezzo))
+        era='era '+eur.format(old.prezzo||0)+' €/kg'+
+            ((+f.prezzo||0)>(+old.prezzo||0)?' ↑':' ↓');
+      else if(diverso(old.gm,f.gm)) era='era '+nf.format(old.gm||0)+' g/m'; }
+    r.push([esc(f.nome||'–')+' · '+nf.format(f.gm||0)+' g/m × '+
+            eur.format(f.prezzo||0)+' €/kg', (f.gm||0)/1000*(f.prezzo||0), era]); });
+
   var vo=d.voci||{};
-  if(d.calo) r.push(['Calo '+nf.format(d.calo)+'%', vo.calo]);
-  if(d.ordit) r.push(['Orditura '+eur.format(d.ordit)+' €/kg', vo.orditura]);
-  if(d.tar) r.push(['Tessitura '+fine.format(d.tar)+' € × '+nf.format(d.battute||0), vo.tessitura]);
-  if(vo.finissaggi) r.push(['Finissaggi '+(d.fin||[]).map(function(x){
-      return eur.format(x||0); }).join(' + '), vo.finissaggi]);
+  var cam=function(ora,prima,testo){
+    if(!p || !diverso(ora,prima)) return null;
+    return 'era '+testo+((+ora||0)>(+prima||0)?' ↑':' ↓'); };
+  if(d.calo) r.push(['Calo '+nf.format(d.calo)+'%', vo.calo,
+    cam(d.calo,p&&p.calo,p?nf.format(p.calo||0)+'%':'')]);
+  if(d.ordit) r.push(['Orditura '+eur.format(d.ordit)+' €/kg', vo.orditura,
+    cam(d.ordit,p&&p.ordit,p?eur.format(p.ordit||0)+' €/kg':'')]);
+  if(d.tar) r.push(['Tessitura '+fine.format(d.tar)+' € × '+nf.format(d.battute||0),
+    vo.tessitura, cam(d.tar,p&&p.tar,p?fine.format(p.tar||0)+' €':'')]);
+  if(vo.finissaggi){
+    var fs=function(x){ return (x||[]).map(function(y){ return eur.format(y||0); }).join(' + '); };
+    r.push(['Finissaggi '+fs(d.fin), vo.finissaggi,
+      cam(vo.finissaggi, p&&(p.voci||{}).finissaggi, p?fs(p.fin):'')]); }
+
   var vv='';
-  r.forEach(function(x){ vv+='<div><span>'+x[0]+'</span><b>'+
-    eur.format(x[1]||0)+' €</b></div>'; });
-  return '<div class="vd"><div class="vd-box"><h4>Com’era composta</h4>'+
+  r.forEach(function(x){ vv+='<div'+(x[2]?' class="cam"':'')+'><span>'+x[0]+
+    (x[2]?'<em>'+x[2]+'</em>':'')+'</span><b>'+eur.format(x[1]||0)+' €</b></div>'; });
+
+  var sott = p ? 'Com’era composta <small>— in evidenza le voci cambiate rispetto al '+
+                 dataIt(pre.data)+'</small>'
+               : 'Com’era composta <small>— è la prima valutazione di questo articolo</small>';
+  return '<div class="vd"><div class="vd-box"><h4>'+sott+'</h4>'+
     '<div class="vv">'+vv+'</div>'+
     '<p class="vd-pie">Costo '+eur.format(v.costo_ml||0)+' €/m · '+
       eur.format(v.costo_mq||0)+' €/m² — divisore '+nf.format(v.divisore||0)+
