@@ -34,7 +34,8 @@ header{background:var(--panel);border-bottom:1px solid var(--line);
  display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;position:sticky;top:0;z-index:5}
 .brand{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
  color:var(--verde);padding-bottom:5px;display:flex;align-items:center;gap:9px}
-.brand img{width:auto;height:32px;display:block}
+/* sotto i 40px il marchio diventa illeggibile: "Corti" finisce in 30 pixel */
+.brand img{width:auto;height:46px;display:block;flex:none;object-fit:contain}
 @media (max-width:760px){ .brand span{display:none} }
 .fld{display:flex;flex-direction:column;gap:3px;min-width:0}
 .fld label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
