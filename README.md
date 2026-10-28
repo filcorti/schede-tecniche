@@ -14,7 +14,7 @@ il codice su GitHub.
 | `storico.sql` | la tabella dello storico valutazioni, da eseguire una volta sola |
 | `manifest.webmanifest` | i dati dell'app installabile (nome, icone, colori) |
 | `sw.js` | il service worker: installabilita' e apertura rapida |
-| `logo.png`, `logo-marchio.png` | il marchio Corti: intero e senza la guglia |
+| `logo.png` | il marchio Corti, intero |
 | `icon-*.png`, `favicon-32.png`, `apple-touch-icon.png` | le icone, ricavate dal marchio |
 | `netlify.toml` | impostazioni di pubblicazione |
 
@@ -83,14 +83,14 @@ stanno consultando.
 ## Il marchio
 
 Il logo Corti compare in tre posti: grande sulla schermata di accesso, piccolo
-in testata accanto a "Schede & costi" (su schermi stretti resta solo il
-marchio), e come icona dell'app.
+in testata accanto a "Schede & costi" (su schermi stretti resta solo il logo), e
+come icona dell'app.
 
-Per l'icona non si usa il logo intero: rimpicciolito a 48 pixel la guglia si
-mangia tutto lo spazio e "Corti" diventa illeggibile. Si usa `logo-marchio.png`,
-cioe' il logo tagliato sopra la scritta, che tiene il nome leggibile fin da 48
-pixel. Se un domani il logo cambia, basta rigenerare le icone dallo stesso
-ritaglio.
+Il logo si usa **sempre intero**: la guglia con la Madonnina non e' un
+ornamento, e' il Duomo, e tagliarla disfa il senso del marchio. Niente ritagli,
+quindi, nemmeno per l'icona: `logo.png` e' il file unico da cui si ricavano
+icone e favicon, solo riscalato. Se un domani il logo cambia, si sostituisce
+quel file e si rigenerano le icone dalla stessa immagine.
 
 ## Installarla come app
 
