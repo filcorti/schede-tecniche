@@ -8,7 +8,7 @@ il codice su GitHub.
 
 | File | A cosa serve |
 |---|---|
-| `index.html` | l'applicazione: accesso, dashboard, ricerca, scheda, calcolo costo, aggiornamento archivio |
+| `index.html` | l'applicazione: accesso, dashboard, ricerca, scheda tecnica, calcolo costo, aggiornamento archivio |
 | `config.js` | i due dati del tuo progetto Supabase — **da compilare** |
 | `schema.sql` | la struttura del database, da eseguire una volta sola |
 | `netlify.toml` | impostazioni di pubblicazione |
@@ -78,9 +78,9 @@ stanno consultando.
 ## La dashboard
 
 Dopo l'accesso non si entra direttamente nella ricerca, ma in una pagina con un
-riquadro per ogni vista: **Scheda tecnica**, **Calcolo costo**, **Scheda e
-costo**. Si sceglie il riquadro, si lavora, e col pulsante *← Dashboard* in alto
-si torna indietro per cambiare vista.
+riquadro per ogni vista: oggi **Scheda tecnica** e **Calcolo costo**. Si sceglie
+il riquadro, si lavora, e col pulsante *← Dashboard* in alto si torna indietro
+per cambiare vista.
 
 Tutte le viste leggono lo stesso archivio: non ci sono dati diversi dietro i
 riquadri, cambia solo come li vedi.

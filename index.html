@@ -117,11 +117,6 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 /* colori della carta: costanti nei due temi */
 :root{ --paper:#ffffff; --paper-ink:#111111; --paper-line:#111111;
   --rosso:#c62828; --blu:#1047d4; --verde-carta:#0a8a2a; }
-.tabs{display:flex;gap:6px;margin:0 auto 16px;max-width:1080px}
-.tabs button{font:700 13px/1 inherit;padding:9px 18px;border-radius:8px 8px 0 0;
- border:1px solid var(--line);border-bottom:none;background:var(--bg);color:var(--ink-soft)}
-.tabs button[aria-selected="true"]{background:var(--panel);color:var(--verde);
- box-shadow:inset 0 3px 0 var(--verde)}
 #content{min-height:200px}
 /* accesso */
 #gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;
@@ -148,7 +143,7 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 #aggstato{font-size:12.5px;color:var(--ink-soft);min-height:1.4em}
 .avviso{background:var(--ambra-soft);border:1px solid var(--ambra);border-radius:8px;
  padding:10px 13px;font-size:12.5px;color:var(--ink);margin-bottom:16px}
-@media print{ .tabs,#gate,#agg{display:none!important} }
+@media print{ #gate,#agg{display:none!important} }
 /* ---- la scheda ---- */
 .sheet{width:210mm;max-width:100%;margin:0 auto;background:var(--paper);color:var(--paper-ink);
  padding:6mm;box-shadow:0 2px 14px rgba(0,0,0,.18);font-family:Arial,Helvetica,sans-serif}
@@ -225,7 +220,7 @@ header.agg ~ main #list{display:none}
 @media print{
   @page{ size:A4 portrait; margin:6mm }
   #home{ display:none!important }
-  header,#list,.tabs,.pie,.hint{ display:none!important }
+  header,#list,.pie,.hint{ display:none!important }
   html,body{ background:#fff!important; color:#000!important; height:auto!important }
   body{ display:block!important } main{ display:block!important }
   #view{ overflow:visible!important; padding:0!important } #content{ min-height:0 }
@@ -310,8 +305,7 @@ header.agg ~ main #list{display:none}
 (function(){
 "use strict";
 var sb = window.supabase.createClient(window.CONFIG.url, window.CONFIG.key);
-var REC=null, hits=[], sel=-1, VISTA='scheda', MODO=null;
-try{ var sv=localStorage.getItem('vista'); if(sv==='scheda'||sv==='costo') VISTA=sv; }catch(e){}
+var REC=null, hits=[], sel=-1, MODO=null;
 
 /* ---------- le viste della dashboard ----------------------------------
    Per aggiungerne una: una voce qui sotto piu' la sua funzione di disegno
@@ -320,9 +314,7 @@ var ICO={
   scheda:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/>'+
          '<path d="M8 8h8M8 12h8M8 16h5"/></svg>',
   costo: '<svg viewBox="0 0 24 24"><path d="M17.5 6.2a6.8 6.8 0 1 0 0 11.6"/>'+
-         '<path d="M4.8 10.4h9.4M4.8 13.6h9.4"/></svg>',
-  combo: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="16" rx="1.5"/>'+
-         '<rect x="13" y="4" width="8" height="16" rx="1.5"/></svg>'
+         '<path d="M4.8 10.4h9.4M4.8 13.6h9.4"/></svg>'
 };
 var VISTE=[
   { id:'scheda', nome:'Scheda tecnica', icona:ICO.scheda,
@@ -330,10 +322,7 @@ var VISTE=[
          'tolleranze, note. Pronta per l’A4.' },
   { id:'costo', nome:'Calcolo costo', icona:ICO.costo,
     riga:'Prezzi dei filati e tariffe, e ne esce il costo al metro con la '+
-         'ripartizione per voce.' },
-  { id:'combo', nome:'Scheda e costo', icona:ICO.combo,
-    riga:'Le due viste insieme, con le linguette per passare da una '+
-         'all’altra sullo stesso articolo.' }
+         'ripartizione per voce.' }
 ];
 
 /* Quando servira' dare a ogni utente solo certe viste, il filtro va qui:
@@ -644,30 +633,14 @@ function calc(){
 }
 
 
-/* ---------- due viste ---------- */
-function telaio(){
-  if(MODO!=='combo') return '<div id="content"></div>';
-  return '<div class="tabs">'+
-   '<button type="button" id="tab-scheda" role="tab" aria-selected="'+(VISTA==='scheda')+'">Scheda tecnica</button>'+
-   '<button type="button" id="tab-costo" role="tab" aria-selected="'+(VISTA==='costo')+'">Calcolo costo</button>'+
-   '</div><div id="content"></div>'; }
+/* ---------- disegno della vista scelta ---------- */
 function mostra(rec){
-  REC=rec; elView.innerHTML=telaio();
-  if(MODO==='combo'){
-    document.getElementById('tab-scheda').addEventListener('click',function(){ cambia('scheda'); });
-    document.getElementById('tab-costo').addEventListener('click',function(){ cambia('costo'); }); }
+  REC=rec; elView.innerHTML='<div id="content"></div>';
   disegna(); elView.scrollTop=0; }
-function cambia(v){
-  if(VISTA===v) return;
-  VISTA=v; try{ localStorage.setItem('vista',v); }catch(e){}
-  document.getElementById('tab-scheda').setAttribute('aria-selected',v==='scheda');
-  document.getElementById('tab-costo').setAttribute('aria-selected',v==='costo');
-  disegna(); }
 function disegna(){
   var c=document.getElementById('content');
   if(!c||!REC) return;
-  var v = (MODO==='combo') ? VISTA : MODO;
-  if(v==='costo'){ pannello(REC,c); } else { c.innerHTML=card(REC); } }
+  if(MODO==='costo'){ pannello(REC,c); } else { c.innerHTML=card(REC); } }
 
 /* ---------- ricerca sul database ---------- */
 var timer=null;
