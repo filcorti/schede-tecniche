@@ -86,7 +86,9 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .sp .v{font-size:14px;font-weight:600;margin-top:1px}
 .cc{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
 .cc-in{flex:999 1 520px;min-width:0}
-.cc-out{flex:1 1 330px;min-width:0;position:sticky;top:0}
+/* il padding mette il bordo alto del Costo totale alla stessa quota del
+   riquadro Materie prime, che sta sotto al suo titolino */
+.cc-out{flex:1 1 330px;min-width:0;position:sticky;top:0;padding-top:21px}
 .sh{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
  color:var(--ink-soft);margin:0 0 5px}
 .pan{background:var(--panel);border:1px solid var(--line);border-radius:8px;
@@ -350,7 +352,8 @@ header.agg ~ main #list{display:none}
   .prow{ break-inside:avoid; padding:1mm 0; gap:2mm }
   .prow .pn .nm{ font-size:9.5pt } .prow .pn i,.prow .pg{ font-size:8pt }
   .prow .pc{ font-size:9.5pt }
-  .cc{ display:block!important } .cc-out{ position:static!important; margin-top:3mm }
+  .cc{ display:block!important }
+  .cc-out{ position:static!important; margin-top:3mm; padding-top:0!important }
   #storico,.salva{ display:none!important }
   .cap h1{ font-size:15pt } .cap .desc{ font-size:9pt }
   .spec{ margin:2mm 0 3mm } .sp{ padding:1mm 4mm; border-color:#999!important }
