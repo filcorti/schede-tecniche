@@ -63,21 +63,6 @@ main{flex:1;display:grid;grid-template-columns:260px 1fr;min-height:0}
 h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .sub{color:var(--ink-soft);font-size:12.5px;margin-bottom:14px}
 .sub b{color:var(--ambra)}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
-.chip{background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:5px 10px;
- font-size:12px;color:var(--ink-soft)}
-.chip b{color:var(--ink);font-weight:700}
-.filati{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--verde);
- border-radius:8px;padding:10px 14px;margin-bottom:14px}
-.fl{display:flex;gap:10px;align-items:baseline;padding:2px 0;flex-wrap:wrap}
-.fll{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
- color:var(--verde);min-width:70px}
-.fl .t{color:var(--ink-soft);font-size:12.5px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:12px;
- margin-bottom:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
-.card.man{border-color:var(--ambra);background:var(--ambra-soft)}
-.card h3{margin:0 0 10px;font-size:14px}
 .f{margin-bottom:9px}
 .f label{display:flex;gap:7px;align-items:center;font-size:12.5px;color:var(--ink-soft);
  margin-bottom:3px;flex-wrap:wrap}
@@ -85,42 +70,80 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  color:var(--ambra);background:rgba(154,116,22,.14);border-radius:4px;padding:1px 5px}
 .f input,.f select{width:100%;font:600 15px/1.2 inherit;padding:8px 10px;color:var(--ink);
  background:var(--panel);border:1px solid var(--line);border-radius:7px}
-.card.man .f input,.card.man .f select{border-color:var(--ambra);background:var(--panel)}
 .f input:focus,.f select:focus{outline:2px solid var(--verde);outline-offset:1px}
 .arch{font-size:11px;color:var(--ink-soft);margin-top:3px}
-.card.wide{grid-column:1/-1}
-.card.wide .f{max-width:250px;margin-top:11px}
-.prow{display:grid;grid-template-columns:1fr auto 88px 74px;gap:10px;align-items:center;
- padding:7px 0;border-bottom:1px dashed var(--line)}
+/* ---------- pannello costo ---------- */
+.cap{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.cap h1{font-size:25px;font-weight:700;letter-spacing:-.02em;margin:0}
+.cap .desc{font-size:13px;color:var(--ink-soft)}
+.spec{display:flex;flex-wrap:wrap;margin:14px 0 20px;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sp{padding:9px 18px;border-right:1px solid var(--line)}
+.sp:first-child{padding-left:0}
+.sp:last-child{border-right:none;padding-right:0}
+.sp .k{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ color:var(--ink-soft)}
+.sp .v{font-size:14px;font-weight:600;margin-top:1px}
+.cc{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.cc-in{flex:999 1 520px;min-width:0}
+.cc-out{flex:1 1 330px;min-width:0;position:sticky;top:0}
+.sh{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+ color:var(--ink-soft);margin:0 0 5px}
+.pan{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+ padding:2px 16px;margin-bottom:18px}
+.pan.pad{padding:16px}
+.pan .f{margin-bottom:0}
+.pan .f input{text-align:right;border-bottom:2px solid var(--ambra)}
+.tre{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.riga{height:1px;background:var(--line);margin:16px 0}
+.arch-up{margin:-13px 0 18px}
+.tot,.sell{border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+.tot{background:var(--panel)}
+.sell{background:var(--verde-soft);border-color:var(--verde);margin-top:12px}
+.et{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+ color:var(--ink-soft)}
+.et-v{color:var(--verde)}
+.big{display:flex;align-items:baseline;gap:8px;margin-top:4px}
+.big>span{font-size:38px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.big em{font-style:normal;font-size:14px;color:var(--ink-soft)}
+.big-v>span{color:var(--verde)}
+.small{display:flex;align-items:baseline;gap:8px;margin-top:3px}
+.small>span{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.small em{font-style:normal;font-size:12px;color:var(--ink-soft)}
+.bar{display:flex;height:7px;border-radius:4px;overflow:hidden;margin:16px 0 9px;
+ background:var(--bg)}
+.bar i{display:block}
+.leg{font-size:11px;color:var(--ink-soft);line-height:1.85}
+.leg span{margin-right:12px;white-space:nowrap}
+.leg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+.dv{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dv label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+ color:var(--ink-soft)}
+.dv input{font:700 16px/1.2 inherit;padding:6px 9px;width:94px;text-align:right;color:var(--ink);
+ background:var(--panel);border:1px solid var(--line);border-bottom:2px solid var(--ambra);
+ border-radius:5px}
+.dv input:focus{outline:2px solid var(--verde);outline-offset:1px}
+.prow{display:grid;grid-template-columns:1fr auto 92px 76px;gap:12px;align-items:center;
+ padding:11px 0;border-bottom:1px solid var(--line)}
 .prow:last-of-type{border-bottom:none}
-.prow .pn b{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
- color:var(--verde)}
-.prow .pn span{display:block;font-size:13px;font-weight:700;line-height:1.25}
-.prow .pn i{display:block;font-size:11px;font-style:normal;color:var(--ink-soft)}
+.prow .pn{min-width:0}
+.prow .pn .nm{display:block;font-size:13.5px;font-weight:600;line-height:1.2}
+.prow .pn i{display:block;font-size:11px;font-style:normal;color:var(--ink-soft);margin-top:1px}
 .prow .pg{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;
  font-variant-numeric:tabular-nums}
-.prow input{font:700 14px/1.2 inherit;padding:7px 8px;width:100%;text-align:right;
- color:var(--ink);background:var(--panel);border:1px solid var(--ambra);border-radius:6px}
+.prow input{font:600 14px/1.2 inherit;padding:7px 9px;width:100%;text-align:right;
+ color:var(--ink);background:var(--panel);border:1px solid var(--line);
+ border-bottom:2px solid var(--ambra);border-radius:5px}
 .prow input:focus{outline:2px solid var(--verde);outline-offset:1px}
-.prow .pc{font-size:13px;font-weight:700;text-align:right;white-space:nowrap;
+.prow .pc{font-size:14px;font-weight:600;text-align:right;white-space:nowrap;
  font-variant-numeric:tabular-nums}
 .arch b{color:var(--ambra)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-.out{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
-.out .k{font-size:12px;color:var(--ink-soft)}
-.out .n{font-size:21px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
- margin:2px 0 1px}
-.out .u{font-size:11px;color:var(--ink-soft)}
 .out.tech{background:var(--verde-soft);border-color:transparent}
 .out.tech .n{color:var(--verde)}
-.out.tot{background:var(--verde);border-color:var(--verde)}
 .out.tot .k,.out.tot .u{color:rgba(255,255,255,.82)}
 .out.tot .n{color:#fff}
-.out.sell{background:var(--ambra);border-color:var(--ambra)}
 .out.sell .k,.out.sell .u{color:rgba(255,255,255,.85)}
 .out.sell .n{color:#fff}
-.split{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 14px;
- margin-top:12px;font-size:12.5px;color:var(--ink-soft)}
 .nota{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.5}
 @media (max-width:860px){
  main{grid-template-columns:1fr;grid-template-rows:auto 1fr}
@@ -250,25 +273,27 @@ header.agg ~ main #list{display:none}
   .frame{ padding:1mm!important; margin-bottom:1mm!important }
   .wrap{ max-width:none!important }
   h1{ font-size:16pt; margin-bottom:1mm } .sub{ font-size:9pt; margin-bottom:3mm }
-  .chip,.filati,.card,.out,.split{ break-inside:avoid; box-shadow:none!important }
-  .chips{ gap:4px; margin-bottom:3mm } .chip{ font-size:8.5pt; padding:3px 7px }
-  .cards{ gap:2.5mm; margin-bottom:2.5mm; grid-template-columns:repeat(2,1fr)!important }
-  .card,.card.man{ background:#fff!important; border:1px solid #777!important; padding:2.2mm }
-  .card h3{ font-size:10pt; margin-bottom:1.5mm }
+  .pan,.tot,.sell,.prow{ break-inside:avoid; box-shadow:none!important }
   .f{ margin-bottom:1.4mm } .f label{ font-size:8pt; margin-bottom:1px }
   .tag,.arch{ display:none }
   .f input,.f select,.prow input{ font-size:10pt; padding:.8mm 2mm; border:1px solid #999!important;
     background:#fff!important; color:#000!important }
   .prow{ break-inside:avoid; padding:1mm 0; gap:2mm }
-  .prow .pn span{ font-size:9.5pt } .prow .pn i,.prow .pg{ font-size:8pt }
+  .prow .pn .nm{ font-size:9.5pt } .prow .pn i,.prow .pg{ font-size:8pt }
   .prow .pc{ font-size:9.5pt }
-  .filati{ padding:1.5mm 3mm; margin-bottom:2.5mm }
-  .grid{ gap:2mm; grid-template-columns:repeat(3,1fr)!important }
-  .out{ padding:1.5mm 2.5mm; border:1px solid #777!important; background:#fff!important }
-  .out .k{ font-size:8pt; color:#000 } .out .n{ font-size:13pt } .out .u{ font-size:7pt }
-  .out.tot,.out.sell{ border:2px solid #000!important }
-  .out.tot .k,.out.tot .n,.out.tot .u,.out.sell .k,.out.sell .n,.out.sell .u{ color:#000!important }
-  .split{ font-size:8.5pt; padding:2mm 3mm; border:1px solid #777!important }
+  .cc{ display:block!important } .cc-out{ position:static!important; margin-top:3mm }
+  .cap h1{ font-size:15pt } .cap .desc{ font-size:9pt }
+  .spec{ margin:2mm 0 3mm } .sp{ padding:1mm 4mm; border-color:#999!important }
+  .sh{ font-size:8pt; margin-bottom:1mm }
+  .pan,.tot,.sell{ break-inside:avoid; border:1px solid #777!important;
+    background:#fff!important; padding:2.5mm 3mm; margin-bottom:3mm }
+  .pan.pad{ padding:2.5mm 3mm } .tre{ gap:2mm } .riga{ margin:2.5mm 0; background:#bbb }
+  .sell{ border:2px solid #000!important; margin-top:3mm }
+  .et,.et-v,.big-v>span{ color:#000!important }
+  .big>span{ font-size:20pt } .big em{ font-size:9pt }
+  .small>span{ font-size:12pt } .small em{ font-size:8pt }
+  .leg{ font-size:8pt; line-height:1.5 }
+  .dv input{ border:1px solid #999!important; background:#fff!important; color:#000!important }
   .nota{ font-size:7.5pt }
 }
 </style></head><body>
@@ -516,7 +541,7 @@ function card(rec){
 var eur=new Intl.NumberFormat('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});
 var nf=new Intl.NumberFormat('it-IT',{maximumFractionDigits:2});
 var REC=null;
-var MAN={calo:3,ordit:0,tar:'',finM:'',marg:30,margMode:'margine'};
+var MAN={calo:3,ordit:0,tar:'',fin1:'',fin2:'',fin3:'',divis:'0.86'};
 
 /* prezzi dei filati, tenuti per codifica: riaprendo un altro articolo che
    usa lo stesso filato il prezzo e' gia' li'. Restano su questo browser. */
@@ -558,9 +583,9 @@ function filatiCosto(){
 function righeFilati(){
   var h='';
   FILI.forEach(function(f){
-    h+='<div class="prow"><div class="pn"><b>'+(f.ruolo==='ordito'?'Ordito':'Trama')+
-       (f.n?' '+f.n:'')+'</b><span>'+(esc(f.nome)||'&ndash;')+'</span>'+
-       (f.cod?'<i>'+esc(f.cod)+'</i>':'')+'</div>'+
+    h+='<div class="prow"><div class="pn">'+
+       '<span class="nm">'+(esc(f.nome)||'&ndash;')+'</span>'+
+       '<i>'+f.ruolo+(f.n?' '+f.n:'')+(f.cod?' · '+esc(f.cod):'')+'</i></div>'+
        '<div class="pg" id="'+f.id+'g">&ndash;</div>'+
        '<input id="'+f.id+'" type="number" step="0.01" inputmode="decimal" '+
          'aria-label="prezzo al kg" placeholder="€/kg" value="'+
@@ -574,16 +599,11 @@ function $(id){ return document.getElementById(id); }
 function inp(id){ var e=$(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(',','.'));
   return isNaN(v)?0:v; }
 
-function chip(l,v){ return '<span class="chip">'+l+' <b>'+v+'</b></span>'; }
-
 function campo(id,lab,val,man,hint,step){
   return '<div class="f"><label for="'+id+'">'+lab+
     (man?' <span class="tag">da compilare</span>':'')+'</label>'+
     '<input id="'+id+'" type="number" step="'+(step||'0.01')+'" value="'+(val===''?'':val)+'">'+
     (hint?'<div class="arch">'+hint+'</div>':'')+'</div>'; }
-
-function out(k,n,u,cls){ return '<div class="out '+(cls||'')+'"><div class="k">'+k+'</div>'+
-  '<div class="n" id="'+(cls==='x'?'':'')+'">'+n+'</div><div class="u">'+u+'</div></div>'; }
 
 function pannello(rec,dove){
   REC=rec;
@@ -593,20 +613,14 @@ function pannello(rec,dove){
   var aO=V('£ o')||0, aT=V('£ t')||0, aB=V('£ battuta')||0, aF=V('Finiss')||0;
   var arcTot=V('Costo TOT.')||0, arcDiv=V('Divisore 86')||0;
 
-  var chips=chip('Altezza',esc(altC)+' cm')+chip('Altezza finita',altF?nf.format(altF)+' cm':'–')+
-    chip('Fili tot.',nf.format(V('Fili Totali')||V('Fili Tot')||0))+
-    chip('Battute',nf.format(batt)+'/cm')+chip('Fibra',esc(T('ordito fibra'))||'–')+
-    chip('g/m²',nf.format(V('laura')||V('g mq fin cap')||0))+
-    chip('g/m',nf.format(V('g m totale')||0))+
-    chip('Imborso',nf.format(V('imborso')||0)+' %');
-
-  var fl='<div class="fl"><span class="fll">Ordito</span><b>tit. '+(esc(T('ordito titolo'))||'–')+
-    '</b> <span class="t">· '+(esc(T('colore filato 1'))||esc(T('ordito colore'))||'greggio')+'</span></div>'+
-    '<div class="fl"><span class="fll">Trama 1</span><b>tit. '+(esc(T('titolo tr1'))||'–')+
-    '</b> <span class="t">· '+(esc(T('colore  tr1'))||'–')+'</span></div>';
-  if(T('titolo tr2')||T('colore  tr2'))
-    fl+='<div class="fl"><span class="fll">Trama 2</span><b>tit. '+(esc(T('titolo tr2'))||'–')+
-      '</b> <span class="t">· '+(esc(T('colore  tr2'))||'–')+'</span></div>';
+  function sp(l,v){ return '<div class="sp"><div class="k">'+l+'</div><div class="v">'+v+'</div></div>'; }
+  var spec=sp('Altezza',esc(altC)+(altF?' → '+nf.format(altF):'')+' cm')+
+    sp('Fili totali',nf.format(V('Fili Totali')||V('Fili Tot')||0))+
+    sp('Battute',nf.format(batt)+' /cm')+
+    sp('Fibra',esc(T('ordito fibra'))||'–')+
+    sp('Peso',nf.format(V('g m totale')||0)+' g/m · '+
+       nf.format(V('laura')||V('g mq fin cap')||0)+' g/m²')+
+    sp('Imborso',nf.format(V('imborso')||0)+' %');
 
   FILI=filatiCosto();
   var hintO=aO?('<b>'+nf.format(aO)+'</b> lire/kg'):'';
@@ -615,50 +629,62 @@ function pannello(rec,dove){
   var hintF=aF?('in archivio <b>'+nf.format(aF)+'</b> lire/m'):'';
 
   var h='<div class="wrap">'+
-  '<h1>'+esc(T('Articolo'))+' · '+esc(altC)+' · '+esc(T('Colore'))+'</h1>'+
-  '<div class="sub">'+esc(T('descrizione'))+' — pesi e filati dalla scheda, '+
-   '<b>campi in ambra = da compilare</b></div>'+
-  '<div class="chips">'+chips+'</div>'+
-  '<div class="filati">'+fl+'</div>'+
-  '<div class="cards">'+
-   '<div class="card man wide"><h3>Materie prime '+
-     '<span class="tag">un prezzo per filato</span></h3>'+
-     righeFilati()+
-     ((hintO||hintT)?'<div class="arch">In archivio: '+
+  '<div class="cap"><h1>'+esc(T('Articolo'))+' · '+esc(altC)+' · '+esc(T('Colore'))+'</h1>'+
+   '<span class="desc">'+esc(T('descrizione'))+'</span></div>'+
+  '<div class="spec">'+spec+'</div>'+
+
+  '<div class="cc">'+
+   '<div class="cc-in">'+
+     '<h2 class="sh">Materie prime</h2>'+
+     '<div class="pan">'+righeFilati()+'</div>'+
+     ((hintO||hintT)?'<div class="arch arch-up">In archivio: '+
         (hintO?'ordito '+hintO:'')+(hintO&&hintT?' · ':'')+
         (hintT?'trama '+hintT:'')+'</div>':'')+
-     campo('calo','Calo materie prime (%)',MAN.calo,true,'in FileMaker vale <b>3</b>','0.1')+
+
+     '<h2 class="sh">Lavorazioni e calo</h2>'+
+     '<div class="pan pad">'+
+       '<div class="tre">'+
+         campo('calo','Calo (%)',MAN.calo,false,'in FileMaker <b>3</b>','0.1')+
+         campo('ordit','Orditura (€/kg)',MAN.ordit,false,'in FileMaker <b>800</b> lire/kg')+
+         campo('tar','Tariffa battuta (€)',MAN.tar,false,hintB||('× '+nf.format(batt)+' battute'))+
+       '</div>'+
+       '<div class="riga"></div>'+
+       '<div class="tre">'+
+         campo('fin1','Finissaggio 1 (€/m)',MAN.fin1,false,hintF)+
+         campo('fin2','Finissaggio 2 (€/m)',MAN.fin2,false,'')+
+         campo('fin3','Finissaggio 3 (€/m)',MAN.fin3,false,'')+
+       '</div>'+
+     '</div>'+
+
+     '<p class="nota">Ogni filato: peso g/m × €/kg ÷ 1000. Calo in percentuale sulle '+
+      'materie prime. Orditura sul peso ordito, tessitura sulla tariffa per le battute '+
+      'della scheda. Prezzo di vendita = costo totale ÷ divisore. Il €/m² usa '+
+      'l’altezza finita.</p>'+
+     (arcTot? '<p class="nota">In archivio FileMaker: <b>Costo TOT.</b> '+nf.format(arcTot)+
+        ' · <b>Divisore 86</b> '+nf.format(arcDiv)+
+        ' — valori storici in lire, da leggere come riferimento, non come prezzo di oggi.</p>' : '')+
    '</div>'+
-   '<div class="card"><h3>Pesi (da scheda)</h3>'+
-     campo('pOrd','Peso ordito (g/m)',pOrd?pOrd.toFixed(2):'',false,'campo <b>ord</b>')+
-     campo('pTr','Peso trama (g/m)',pTr?pTr.toFixed(2):'',false,'campo <b>Tra 100</b>')+
-     campo('batt','Battute (/cm)',batt?nf.format(batt):'',false,'campo <b>battute</b>','0.1')+
+
+   '<div class="cc-out">'+
+     '<div class="tot">'+
+       '<div class="et">Costo totale</div>'+
+       '<div class="big"><span id="cTot">–</span><em>€/m lineare</em></div>'+
+       '<div class="small"><span id="cTotQ">–</span><em>€/m²'+
+         (altF?' · altezza finita '+nf.format(altF):'')+'</em></div>'+
+       '<div class="bar" id="bar"></div><div class="leg" id="leg"></div>'+
+     '</div>'+
+     '<div class="sell">'+
+       '<div class="dv"><label for="divis">Divisore</label>'+
+         '<input id="divis" type="number" step="0.01" value="'+esc(MAN.divis)+'"></div>'+
+       '<div class="riga"></div>'+
+       '<div class="et et-v">Prezzo di vendita</div>'+
+       '<div class="big big-v"><span id="pVen">–</span><em>€/m lineare</em></div>'+
+       '<div class="small"><span id="pVenQ">–</span><em>€/m²</em></div>'+
+     '</div>'+
    '</div>'+
-   '<div class="card man"><h3>Lavorazioni</h3>'+
-     campo('ordit','Orditura (€/kg)',MAN.ordit,false,'in FileMaker vale <b>800</b> lire/kg')+
-     campo('tar','Tariffa battuta (€)',MAN.tar,true,hintB)+
-     campo('finM','Finissaggio (€/m)',MAN.finM,true,hintF)+
-   '</div>'+
-   '<div class="card man"><h3>Vendita</h3>'+
-     campo('marg','Margine (%)',MAN.marg,true,'','0.5')+
-     '<div class="f"><label for="margMode">Tipo</label><select id="margMode">'+
-       '<option value="margine">margine (sul prezzo)</option>'+
-       '<option value="ricarico">ricarico (sul costo)</option></select></div>'+
-   '</div>'+
-  '</div>'+
-  '<div class="grid" id="ris"></div>'+
-  '<div class="split" id="split">Ripartizione: –</div>'+
-  (arcTot? '<div class="split">In archivio FileMaker: <b>Costo TOT.</b> '+nf.format(arcTot)+
-     ' · <b>Divisore 86</b> '+nf.format(arcDiv)+
-     ' — valori storici in lire, utili come riferimento, non come prezzo di oggi.</div>' : '')+
-  '<div class="nota">ogni filato = suo peso g/m × €/kg ÷ 1000 · '+
-   'ordito e trama = somma dei rispettivi filati · '+
-   'calo = % sul totale materie prime · orditura = peso ordito × €/kg ÷ 1000 · '+
-   'tessitura = tariffa battuta × battute/cm · greggio = materie prime + calo + orditura + tessitura · '+
-   'totale = greggio + finissaggio. Il €/m² usa l\'altezza finita.</div>'+
-  '</div>';
+  '</div></div>';
   elView.innerHTML=h;
-  ['calo','ordit','tar','finM','marg','pOrd','pTr','batt'].forEach(function(id){
+  ['calo','ordit','tar','fin1','fin2','fin3','divis'].forEach(function(id){
     var e=$(id); if(e) e.addEventListener('input',calc); });
   /* Lo stesso filato puo' stare in ordito e in trama: ha una codifica sola,
      quindi un prezzo solo. Scrivendolo da una parte si allinea l'altra. */
@@ -669,18 +695,24 @@ function pannello(rec,dove){
       FILI.forEach(function(g){
         if(g.k===f.k && g.id!==f.id){ var o=$(g.id); if(o) o.value=e.value; } });
       salvaPrezzi(); calc(); }); });
-  $('margMode').value=MAN.margMode;
-  $('margMode').addEventListener('change',calc);
   calc();
 }
 
+var VOCI=[
+  ['materie prime','#2f7d52','#7fc79b'],
+  ['calo',         '#a8862a','#d9c98b'],
+  ['orditura',     '#7a7f82','#b3b8bb'],
+  ['tessitura',    '#3f6ea8','#8fb0d6'],
+  ['finissaggi',   '#b06a43','#dba78c']
+];
+
 function calc(){
   if(!REC) return;
-  ['calo','ordit','tar','finM','marg'].forEach(function(id){
+  ['calo','ordit','tar','fin1','fin2','fin3','divis'].forEach(function(id){
     var e=$(id); if(e) MAN[id]=e.value; });
-  MAN.margMode=$('margMode')?$('margMode').value:'margine';
   salvaPrezzi();
-  var pOrd=inp('pOrd'), pTr=inp('pTr'), batt=inp('batt');
+  var pOrd=V('ord')||V('ord2')||0, pTr=V('Tra 100')||V('Tra')||0,
+      batt=V('battute')||V('batt.cm fin cap')||0;
   var cOrd=0, cTr=0;
   FILI.forEach(function(f){
     var e=$(f.id); if(!e) return;
@@ -693,33 +725,29 @@ function calc(){
   var cCalo=mp*inp('calo')/100;
   var cOrdit=pOrd/1000*inp('ordit');
   var cTess=inp('tar')*batt;
-  var cFin=inp('finM');
-  var cGg=mp+cCalo+cOrdit+cTess;
-  var cTot=cGg+cFin;
+  var cFin=inp('fin1')+inp('fin2')+inp('fin3');
+  var cTot=mp+cCalo+cOrdit+cTess+cFin;
   var altM=(V('h fin cap')||V('h gg cap')||0)/100;
   var cTotQ=altM>0?cTot/altM:0;
-  var m=inp('marg')/100;
-  var pVen=MAN.margMode==='margine'?(m<1?cTot/(1-m):0):cTot*(1+m);
-  var pVenQ=altM>0?pVen/altM:0;
-  var E=function(v){ return eur.format(v)+' €'; };
-  $('ris').innerHTML=
-    '<div class="out"><div class="k">Costo ordito</div><div class="n">'+E(cOrd)+'</div><div class="u">€/m</div></div>'+
-    '<div class="out"><div class="k">Costo trama</div><div class="n">'+E(cTr)+'</div><div class="u">€/m</div></div>'+
-    '<div class="out"><div class="k">Calo materie prime</div><div class="n">'+E(cCalo)+'</div><div class="u">€/m</div></div>'+
-    '<div class="out"><div class="k">Costo orditura</div><div class="n">'+E(cOrdit)+'</div><div class="u">€/m</div></div>'+
-    '<div class="out"><div class="k">Costo tessitura</div><div class="n">'+E(cTess)+'</div><div class="u">'+
-      eur.format(inp('tar'))+' € × '+nf.format(batt)+'</div></div>'+
-    '<div class="out"><div class="k">Costo finissaggio</div><div class="n">'+E(cFin)+'</div><div class="u">€/m</div></div>'+
-    '<div class="out"><div class="k">Costo greggio</div><div class="n">'+E(cGg)+'</div><div class="u">€/m lineare</div></div>'+
-    '<div class="out tot"><div class="k">Costo totale</div><div class="n">'+E(cTot)+'</div><div class="u">€/m lineare</div></div>'+
-    '<div class="out"><div class="k">Costo totale</div><div class="n">'+E(cTotQ)+'</div><div class="u">€/m²</div></div>'+
-    '<div class="out sell"><div class="k">Prezzo di vendita</div><div class="n">'+E(pVen)+'</div><div class="u">€/m lineare</div></div>'+
-    '<div class="out"><div class="k">Prezzo di vendita</div><div class="n">'+E(pVenQ)+'</div><div class="u">€/m²</div></div>'+
-    '<div class="out"><div class="k">Margine</div><div class="n">'+E(pVen-cTot)+'</div><div class="u">€/m lineare</div></div>';
-  var pc=function(x){ return cTot>0?(x/cTot*100).toFixed(1).replace('.',',')+'%':'–'; };
-  $('split').textContent= cTot>0 ? ('Ripartizione: ordito '+pc(cOrd)+' · trama '+pc(cTr)+
-    ' · calo '+pc(cCalo)+' · orditura '+pc(cOrdit)+' · tessitura '+pc(cTess)+
-    ' · finissaggio '+pc(cFin)) : 'Ripartizione: inserisci i prezzi per vederla.';
+  var d=inp('divis');
+  var pVen=d>0?cTot/d:0, pVenQ=(altM>0&&d>0)?pVen/altM:0;
+
+  var E=function(v){ return v>0?(eur.format(v)+' €'):'–'; };
+  var scrivi=function(id,v){ var e=$(id); if(e) e.textContent=E(v); };
+  scrivi('cTot',cTot); scrivi('cTotQ',cTotQ); scrivi('pVen',pVen); scrivi('pVenQ',pVenQ);
+
+  var q=[mp,cCalo,cOrdit,cTess,cFin], barra='', leg='';
+  if(cTot>0){
+    VOCI.forEach(function(v,i){
+      var p=q[i]/cTot*100;
+      if(p<=0) return;
+      barra+='<i style="width:'+p.toFixed(2)+'%;background:'+v[1]+'"></i>';
+      leg+='<span><i style="background:'+v[1]+'"></i>'+v[0]+' '+
+           p.toFixed(1).replace('.',',')+'%</span>'; });
+  } else {
+    leg='<span class="vuoto">Inserisci i prezzi dei filati per vedere la ripartizione.</span>'; }
+  if($('bar')) $('bar').innerHTML=barra;
+  if($('leg')) $('leg').innerHTML=leg;
 }
 
 
