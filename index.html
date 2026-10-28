@@ -947,9 +947,8 @@ var VOCI=[
   ['calo',          '#a8862a'],
   ['orditura',      '#7a7f82'],
   ['tessitura',     '#3f6ea8'],
-  ['finissaggio 1', '#a85f38'],
-  ['finissaggio 2', '#c38a62'],
-  ['finissaggio 3', '#dcb394']
+  ['finissaggio 1 + 2', '#a85f38'],
+  ['finissaggio 3',     '#c99069']
 ];
 
 function calc(){
@@ -984,7 +983,9 @@ function calc(){
   var scrivi=function(id,v){ var e=$(id); if(e) e.textContent=E(v); };
   scrivi('cTot',cTot); scrivi('cTotQ',cTotQ); scrivi('pVen',pVen); scrivi('pVenQ',pVenQ);
 
-  var q=[mp,cCalo,cOrdit,cTess,inp('fin1'),inp('fin2'),inp('fin3')], barra='', leg='';
+  /* nello specchietto il finissaggio 1 e il 2 viaggiano insieme;
+     restano due caselle distinte da compilare. */
+  var q=[mp,cCalo,cOrdit,cTess,inp('fin1')+inp('fin2'),inp('fin3')], barra='', leg='';
   if(cTot>0){
     VOCI.forEach(function(v,i){
       if(!(q[i]>0)) return;
