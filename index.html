@@ -123,14 +123,17 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  background:var(--panel);border:1px solid var(--line);border-bottom:2px solid var(--ambra);
  border-radius:5px}
 .dv input:focus{outline:2px solid var(--verde);outline-offset:1px}
-.salva{background:var(--panel);border:1px solid var(--ink);border-radius:10px;
+.salva{background:var(--panel);border:1px solid var(--line);border-radius:10px;
  padding:14px 18px 16px;margin-top:12px}
 .salva .due{display:flex;gap:10px;flex-wrap:wrap;margin-top:11px}
 .salva .due .f{flex:1 1 126px;min-width:0;margin-bottom:0}
 .salva .due .f label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .salva .due .f input{font-size:13.5px;padding:8px 9px}
 .salva button{width:100%;margin-top:11px;padding:13px 14px;min-height:44px;font-weight:700;
- background:var(--ink);color:var(--bg);border-color:var(--ink)}
+ font-size:13px}
+.lnk{background:none;border:none;padding:0 0 0 10px;font:inherit;font-size:11.5px;
+ color:var(--verde);text-decoration:underline;cursor:pointer;border-radius:0}
+.lnk:hover{color:var(--ink)}
 .salva button[disabled]{opacity:.55;cursor:default}
 .salva .arch{margin-top:9px;line-height:1.5}
 /* storico */
@@ -739,7 +742,7 @@ function pannello(rec,dove){
            '<input id="s-nota" type="text" placeholder="es. listino autunno" '+
            'autocomplete="off" maxlength="80"></div>'+
        '</div>'+
-       '<button type="button" id="s-salva">Salva valutazione</button>'+
+       '<button type="button" class="primary" id="s-salva">Salva valutazione</button>'+
        '<div class="arch" id="s-msg">Finisce nello storico qui sotto, '+
          'visibile anche ai colleghi.</div>'+
      '</div>'+
@@ -826,10 +829,14 @@ function caricaStorico(){
 function disegnaStorico(){
   var box=$('storico'); if(!box) return;
   var n=STORICO.length;
+  var tutteAperte = n>0 && STORICO.every(function(x){ return x.aperta; });
   var testa='<div class="st"><div class="st-cap">'+
     '<h2 class="sh">Storico di questo articolo</h2><span class="q">'+
     (n? (n+(n===1?' valutazione':' valutazioni')+' · l’ultima '+quando(STORICO[0].data)) :
-        'nessuna valutazione salvata')+'</span></div><div class="st-box">';
+        'nessuna valutazione salvata')+
+    (n>1? ' <button type="button" class="lnk" id="st-tutte">'+
+          (tutteAperte?'chiudi tutte':'apri tutte')+'</button>' : '')+
+    '</span></div><div class="st-box">';
   if(!n){ box.innerHTML=testa+'<div class="st-vuoto">Quando salvi una valutazione '+
     'la ritrovi qui, con la composizione di quel giorno.</div></div></div>'; return; }
 
@@ -861,8 +868,13 @@ function disegnaStorico(){
   box.querySelectorAll('.rg').forEach(function(b){
     b.addEventListener('click',function(){
       var i=+b.parentNode.dataset.i;
-      STORICO.forEach(function(x,j){ x.aperta = (j===i) ? !x.aperta : false; });
+      STORICO[i].aperta = !STORICO[i].aperta;    /* le altre restano come sono */
       disegnaStorico(); }); });
+  var tutte=$('st-tutte');
+  if(tutte) tutte.addEventListener('click',function(){
+    var apri=!STORICO.every(function(x){ return x.aperta; });
+    STORICO.forEach(function(x){ x.aperta=apri; });
+    disegnaStorico(); });
   box.querySelectorAll('[data-ric]').forEach(function(b){
     b.addEventListener('click',function(){ ricarica(STORICO[+b.dataset.ric]); }); });
   box.querySelectorAll('[data-del]').forEach(function(b){
