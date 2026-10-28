@@ -29,41 +29,74 @@ html,body{margin:0;padding:0;height:100%}
 body{background:var(--bg);color:var(--ink);
  font:14px/1.45 Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
  display:flex;flex-direction:column}
-header{background:var(--panel);border-bottom:1px solid var(--line);
- padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
- display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;position:sticky;top:0;z-index:5}
-.brand{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
- color:var(--verde);padding-bottom:5px;display:flex;align-items:center;gap:9px}
-/* il logo va per intero, guglia e Madonnina comprese: niente ritagli */
-.brand img{width:auto;height:54px;display:block;flex:none;object-fit:contain}
-@media (max-width:760px){ .brand span{display:none} }
-.fld{display:flex;flex-direction:column;gap:3px;min-width:0}
-.fld label{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+/* ---------- guscio: barra, ricerca, due riquadri ---------- */
+header{background:var(--bg);padding:10px max(16px,env(safe-area-inset-right,0px)) 0
+ max(16px,env(safe-area-inset-left,0px));position:sticky;top:0;z-index:5}
+.appbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+ max-width:1180px;margin:0 auto;width:100%}
+.marchio{width:auto;height:48px;display:block;flex:none;object-fit:contain}
+.tit{min-width:0}
+.tit .t1{font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.tit .t2{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.spaz{flex:1 1 20px}
+.ib{width:48px;height:48px;min-height:48px;padding:0;border-radius:999px;border:none;
+ background:var(--surf2);color:var(--ink);cursor:pointer;display:flex;flex:none;
+ align-items:center;justify-content:center}
+.ib:hover{background:var(--verde-soft)}
+.ib svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;
+ stroke-linecap:round;stroke-linejoin:round}
+.cerca{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+ max-width:1180px;margin:12px auto 0;width:100%;padding-bottom:12px}
+.pill{flex:999 1 520px;min-width:0;display:flex;align-items:center;gap:4px;
+ background:var(--surf2);border-radius:999px;padding:6px 8px 6px 20px}
+.pill .lente{width:22px;height:22px;flex:none;fill:none;stroke:var(--ink-soft);
+ stroke-width:1.9;stroke-linecap:round;margin-right:6px}
+.fld{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 90px;
+ padding:2px 12px;border-left:1px solid var(--line)}
+.fld:first-of-type{border-left:none}
+.fld.dsc{flex:2 1 150px}
+.fld label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
  color:var(--ink-soft)}
-.fld input{font:600 15px/1.2 inherit;padding:7px 9px;width:110px;color:var(--ink);
- background:var(--bg);border:1px solid var(--line);border-radius:6px}
-.fld input:focus{outline:2px solid var(--verde);outline-offset:1px}
+.fld input{font:500 16px/1.25 inherit;padding:1px 0;width:100%;min-width:0;color:var(--ink);
+ background:none;border:none;border-radius:0}
+.fld input:focus{outline:none}
+.fld:focus-within label{color:var(--verde)}
+.fld:focus-within{box-shadow:inset 0 -2px 0 var(--verde)}
+.conta{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums;
+ flex:0 0 auto;padding-right:6px}
 button{font:600 13px inherit;padding:10px 18px;min-height:40px;border:1px solid transparent;
  border-radius:999px;background:var(--surf3);color:var(--ink);cursor:pointer}
 button:hover{background:var(--verde-soft)}
 button.primary{background:var(--verde);color:#fff}
 button.primary:hover{background:#1f5435}
-.count{font-size:12px;color:var(--ink-soft);padding-bottom:7px;margin-left:auto;text-align:right;
- font-variant-numeric:tabular-nums}
-.src{font-size:11px;color:var(--ink-soft)}
-main{flex:1;display:grid;grid-template-columns:260px 1fr;min-height:0}
-#list{border-right:1px solid var(--line);overflow:auto;background:var(--panel)}
-#list .it{padding:8px 12px;border-bottom:1px solid var(--line);cursor:pointer;
- display:flex;gap:8px;align-items:baseline}
-#list .it:hover{background:var(--verde-soft)}
-#list .it[aria-selected="true"]{background:var(--verde-soft);box-shadow:inset 3px 0 0 var(--verde)}
-#list .cod{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-#list .ds{font-size:11.5px;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;
+main{flex:1;display:flex;gap:16px;min-height:0;width:100%;max-width:1212px;margin:0 auto;
+ padding:0 max(16px,env(safe-area-inset-left,0px)) 24px}
+#list{flex:1 1 280px;min-width:0;max-width:360px;overflow:auto;background:var(--surf1);
+ border-radius:28px;padding:10px}
+main.solo #list{display:none}
+#list .it{padding:12px 16px;border-radius:20px;cursor:pointer;margin-bottom:2px}
+#list .it:hover{background:var(--surf2)}
+#list .it[aria-selected="true"]{background:var(--verde-soft)}
+#list .cod{display:block;font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;
  white-space:nowrap}
-#list .empty{padding:18px 14px;color:var(--ink-soft);font-size:12.5px}
-#view{overflow:auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 40px
- max(16px,env(safe-area-inset-left,0px))}
+#list .it[aria-selected="true"] .cod{font-weight:700}
+#list .ds{display:block;font-size:12.5px;color:var(--ink-soft);overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+#list .empty{padding:14px;color:var(--ink-soft);font-size:13px}
+#view{flex:999 1 560px;min-width:0;overflow:auto;padding:0 4px 20px}
 .wrap{max-width:1080px;margin:0 auto}
+/* lo stato vuoto: un riquadro vero, non una frase in mezzo al nulla */
+.vuoto-box{background:var(--surf1);border-radius:28px;min-height:min(420px,60vh);
+ display:flex;align-items:center;justify-content:center;padding:40px 28px;text-align:center}
+.vuoto-box .in{max-width:46ch}
+.vuoto-box .bollo{width:112px;height:112px;border-radius:999px;background:var(--surf3);
+ margin:0 auto 20px;display:flex;align-items:center;justify-content:center}
+.vuoto-box .bollo svg{width:48px;height:48px;fill:none;stroke:var(--verde);stroke-width:1.5;
+ stroke-linecap:round;stroke-linejoin:round}
+.vuoto-box h2{margin:0 0 8px;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.vuoto-box p{margin:0 0 20px;font-size:14px;color:var(--ink-soft);line-height:1.55}
+.vuoto-box .azioni{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.vuoto-box .azioni button{padding:13px 20px;min-height:44px}
 .hint{color:var(--ink-soft);max-width:52ch;margin:40px auto;text-align:center;font-size:13px}
 .drop{max-width:52ch;margin:40px auto;padding:28px 24px;border:2px dashed var(--line);
  border-radius:12px;text-align:center;background:var(--panel)}
@@ -234,8 +267,17 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .out.sell .n{color:#fff}
 .nota{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.5}
 @media (max-width:860px){
- main{grid-template-columns:1fr;grid-template-rows:auto 1fr}
- #list{border-right:none;border-bottom:1px solid var(--line);max-height:30vh}
+ main{flex-direction:column;gap:12px}
+ #list{max-width:none;flex:none;max-height:34vh}
+ .cerca{gap:8px}
+ .pill{flex-wrap:wrap;border-radius:28px;padding:8px 10px}
+ .pill .lente{margin:0 4px}
+ .fld{flex:1 1 130px;border-left:none;padding:6px 10px;background:var(--panel);
+  border-radius:14px 14px 4px 4px}
+ .fld:focus-within{box-shadow:inset 0 -2px 0 var(--verde)}
+ .conta{padding-left:6px}
+ .tit .t1{font-size:17px} .marchio{height:40px}
+ .hero{padding:22px 20px} .hwrap h1{font-size:26px}
 }
 @media print{ header,#list{display:none!important} body{display:block} main{display:block} }
 
@@ -328,29 +370,43 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 /* ---------- dashboard ---------- */
 #home{flex:1;overflow:auto;
  padding:30px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
-.hwrap{max-width:900px;margin:0 auto}
-.hwrap h1{font-size:32px;font-weight:900;letter-spacing:-.02em;margin:0 0 6px}
-.hwrap .intro{color:var(--ink-soft);font-size:13px;line-height:1.5;margin:0 0 24px;max-width:62ch}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px}
-.tile{display:flex;flex-direction:column;align-items:flex-start;gap:9px;text-align:left;
+.hwrap{max-width:1180px;margin:0 auto}
+.hero{background:var(--prim-c);color:var(--on-prim-c);border-radius:28px;
+ padding:30px 32px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.hero-t{flex:999 1 420px;min-width:0}
+.hero-n{flex:1 1 200px;display:flex;gap:26px;flex-wrap:wrap}
+.hero-n div{min-width:0}
+.hero-n .q{font-size:32px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.hero-n .e{font-size:12.5px;margin-top:2px}
+.hwrap h1{font-size:34px;font-weight:900;letter-spacing:-.02em;margin:0 0 8px;line-height:1.1}
+.hwrap .intro{font-size:15px;line-height:1.55;margin:0;max-width:56ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;
  background:var(--surf1);border:none;border-radius:28px;
- padding:22px 22px 24px;font:inherit;color:var(--ink);cursor:pointer;min-height:150px}
+ padding:26px 26px 28px;font:inherit;color:var(--ink);cursor:pointer;min-height:180px}
 .tile:hover{background:var(--verde-soft)}
 .tile:focus-visible{outline:2px solid var(--verde);outline-offset:2px}
-.tile svg{width:22px;height:22px;stroke:var(--verde);stroke-width:1.6;fill:none;
+.tile .bollo{width:64px;height:64px;border-radius:999px;background:var(--verde-soft);
+ display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.tile svg{width:30px;height:30px;stroke:var(--verde);stroke-width:1.6;fill:none;
  stroke-linecap:round;stroke-linejoin:round}
-.tile .tn{font-size:15.5px;font-weight:700;letter-spacing:-.01em}
-.tile .td{font-size:12.5px;color:var(--ink-soft);line-height:1.45}
+.tile .tn{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.tile .td{font-size:14px;color:var(--ink-soft);line-height:1.5}
 .hnota{margin:26px 0 0;font-size:12px;color:var(--ink-soft);max-width:62ch;line-height:1.5}
-header.home .fld,header.home #clear,header.home #stampa,header.home #indietro{display:none}
-header.agg .fld,header.agg #clear,header.agg #stampa{display:none}
-header.agg ~ main{grid-template-columns:1fr}
+header.home .cerca,header.home #stampa,header.home #indietro{display:none}
+header.home{padding-bottom:12px}
+header.agg .cerca,header.agg #stampa{display:none}
+/* Stampa compare solo quando c'e' davvero una scheda aperta */
+header.senza #stampa{display:none}
+header.agg{padding-bottom:12px}
 header.agg ~ main #list{display:none}
 
 @media print{
   @page{ size:A4 portrait; margin:6mm }
   #home{ display:none!important }
-  header,#list,.pie,.hint{ display:none!important }
+  header,#list,.pie,.hint,.vuoto-box{ display:none!important }
+  main{ display:block!important; padding:0!important; max-width:none!important }
+  #view{ padding:0!important }
   html,body{ background:#fff!important; color:#000!important; height:auto!important }
   body{ display:block!important } main{ display:block!important }
   #view{ overflow:visible!important; padding:0!important } #content{ min-height:0 }
@@ -427,25 +483,47 @@ header.agg ~ main #list{display:none}
 </div>
 
 <header hidden id="top">
-  <div class="brand"><img src="logo.png" width="560" height="622"
-       alt="Manifattura Corti" decoding="async"><span>Schede &amp; costi</span></div>
-  <button id="indietro" type="button">&larr; Dashboard</button>
-  <div class="fld"><label for="q-art">Articolo</label><input id="q-art" autocomplete="off"></div>
-  <div class="fld"><label for="q-alt">Altezza</label><input id="q-alt" autocomplete="off"></div>
-  <div class="fld"><label for="q-col">Colore</label><input id="q-col" autocomplete="off"></div>
-  <div class="fld"><label for="q-txt">Descrizione</label><input id="q-txt" autocomplete="off"></div>
-  <button id="clear" type="button">Azzera</button>
-  <button id="stampa" type="button" class="primary">Stampa</button>
-  <button id="aggiorna" type="button">Aggiorna archivio</button>
-  <button id="esci" type="button">Esci</button>
-  <div class="count"><div id="count"></div><div class="src" id="src"></div></div>
+  <div class="appbar">
+    <button id="indietro" class="ib" type="button" aria-label="Torna alla dashboard"
+            title="Torna alla dashboard"><svg viewBox="0 0 24 24" aria-hidden="true"
+      ><path d="M15 5l-7 7 7 7"/></svg></button>
+    <img class="marchio" src="logo.png" width="560" height="622"
+         alt="Manifattura Corti" decoding="async">
+    <div class="tit"><div class="t1">Schede tecniche</div>
+      <div class="t2" id="src"></div></div>
+    <div class="spaz"></div>
+    <button id="stampa" type="button" class="primary">Stampa</button>
+    <button id="aggiorna" type="button">Aggiorna archivio</button>
+    <button id="esci" class="ib" type="button" aria-label="Esci" title="Esci"><svg
+      viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path
+      d="M10 16l-4-4 4-4"/><path d="M6 12h9"/></svg></button>
+  </div>
+
+  <div class="cerca" id="cerca">
+    <div class="pill">
+      <svg class="lente" viewBox="0 0 24 24" aria-hidden="true"
+        ><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <div class="fld"><label for="q-art">Articolo</label><input id="q-art" autocomplete="off"></div>
+      <div class="fld"><label for="q-alt">Altezza</label><input id="q-alt" autocomplete="off"></div>
+      <div class="fld"><label for="q-col">Colore</label><input id="q-col" autocomplete="off"></div>
+      <div class="fld dsc"><label for="q-txt">Descrizione</label><input id="q-txt" autocomplete="off"></div>
+      <button id="clear" class="ib" type="button" aria-label="Azzera la ricerca"
+              title="Azzera la ricerca"><svg viewBox="0 0 24 24" aria-hidden="true"
+        ><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="conta" id="count"></div>
+  </div>
 </header>
 
 <section hidden id="home"><div class="hwrap">
-  <h1>Archivio schede tecniche</h1>
-  <p class="intro">Manifattura Corti — scegli la vista con cui vuoi lavorare.
-    I dati sono gli stessi per tutte: arrivano dall&rsquo;Excel
-    <b>FILEMAKER_2026_modello_calcoli</b>.</p>
+  <div class="hero">
+    <div class="hero-t">
+      <h1 id="saluto">Archivio schede tecniche</h1>
+      <p class="intro">Scegli la vista con cui vuoi lavorare. I dati sono gli stessi per
+        tutte: arrivano dall&rsquo;Excel <b>FILEMAKER_2026_modello_calcoli</b>.</p>
+    </div>
+    <div class="hero-n" id="hero-n"></div>
+  </div>
   <div class="tiles" id="tiles"></div>
   <p class="hnota" id="hnota"></p>
 </div></section>
@@ -1080,7 +1158,8 @@ function calc(){
 
 /* ---------- disegno della vista scelta ---------- */
 function mostra(rec){
-  REC=rec; elView.innerHTML='<div id="content"></div>';
+  REC=rec; top.classList.remove('senza');
+  elView.innerHTML='<div id="content"></div>';
   disegna(); elView.scrollTop=0; }
 function disegna(){
   var c=document.getElementById('content');
@@ -1091,12 +1170,30 @@ function disegna(){
 var timer=null;
 function cerca(){ clearTimeout(timer); timer=setTimeout(eseguiRicerca,220); }
 
+/* Lo stato vuoto occupa il riquadro, invece di essere una frase sospesa. */
+function vuotoBox(titolo, testo, azioni){
+  return '<div class="vuoto-box"><div class="in">'+
+    '<div class="bollo"><svg viewBox="0 0 24 24" aria-hidden="true">'+
+      '<rect x="4" y="3" width="16" height="18" rx="2.5"/>'+
+      '<path d="M8 8h8M8 12h8M8 16h5"/></svg></div>'+
+    '<h2>'+titolo+'</h2><p>'+testo+'</p>'+
+    (azioni?'<div class="azioni">'+azioni+'</div>':'')+'</div></div>'; }
+
 function eseguiRicerca(){
   var a=qa.value.trim(), b=ql.value.trim(), c=qc.value.trim(), t=qt.value.trim();
   if(!a && !b && !c && !t){
-    hits=[]; elList.innerHTML='<div class="empty">Scrivi qualcosa qui sopra per cercare.</div>';
-    elView.innerHTML='<p class="hint">Cerca per articolo, altezza, colore o descrizione. '+
-      'I filtri si combinano.</p>';
+    hits=[]; sel=-1; corpo.classList.add('solo'); elList.innerHTML='';
+    top.classList.add('senza');
+    elView.innerHTML=vuotoBox('Cerca una scheda',
+      'Scrivi nei campi qui sopra: articolo, altezza, colore o un pezzo di descrizione. '+
+      'I filtri si combinano fra loro.',
+      '<button type="button" class="primary" data-es="art">Prova con 8000</button>'+
+      '<button type="button" data-es="txt">Prova con Novosol</button>');
+    elView.querySelectorAll('[data-es]').forEach(function(bt){
+      bt.addEventListener('click',function(){
+        if(bt.dataset.es==='art'){ qa.value='8000'; qa.focus(); }
+        else { qt.value='Novosol'; qt.focus(); }
+        eseguiRicerca(); }); });
     elCount.textContent=''; return; }
   var q=sb.from('schede').select('id,id_record,articolo,altezza,colore,descrizione');
   if(a) q=q.ilike('articolo', a+'%');
@@ -1112,11 +1209,19 @@ function eseguiRicerca(){
         if(b && String(r.altezza).toLowerCase()===b.toLowerCase()) n++;
         if(c && String(r.colore).toLowerCase()===c.toLowerCase()) n++; return n; };
       hits.sort(function(x,y){ return ex(y)-ex(x); });
-      elCount.textContent=hits.length+(hits.length>=300?'+':'')+' schede';
+      elCount.textContent=hits.length+(hits.length>=300?'+':'')+
+        (hits.length===1?' scheda trovata':' schede trovate');
       if(!hits.length){
-        elList.innerHTML='<div class="empty">Nessuna scheda con questi criteri.</div>';
-        elView.innerHTML='<p class="hint">Nessun risultato. Prova con meno filtri.</p>';
+        corpo.classList.add('solo'); elList.innerHTML='';
+        top.classList.add('senza');
+        elView.innerHTML=vuotoBox('Nessuna scheda con questi filtri',
+          'Prova a togliere un filtro, o a cercare un pezzo di descrizione invece del codice.',
+          '<button type="button" class="primary" id="az2">Azzera i filtri</button>');
+        var az=document.getElementById('az2');
+        if(az) az.addEventListener('click',function(){
+          qa.value=ql.value=qc.value=qt.value=''; qa.focus(); eseguiRicerca(); });
         return; }
+      corpo.classList.remove('solo');
       var h='';
       for(var j=0;j<hits.length;j++){
         var r=hits[j];
@@ -1135,7 +1240,8 @@ function apri(j){
   if(n && n.scrollIntoView) n.scrollIntoView({block:'nearest'});
   elView.innerHTML='<p class="hint">Carico la scheda…</p>';
   sb.from('schede').select('dati').eq('id',hits[j].id).single().then(function(res){
-    if(res.error){ elView.innerHTML='<p class="hint">Errore: '+esc(res.error.message)+'</p>'; return; }
+    if(res.error){ elView.innerHTML=vuotoBox('Non riesco ad aprire la scheda',
+      esc(res.error.message),''); return; }
     mostra(res.data.dati||{}); }); }
 
 /* ---------- aggiornamento archivio ---------- */
@@ -1209,17 +1315,36 @@ var gate=document.getElementById('gate'), top=document.getElementById('top'),
 
 function contaSchede(){
   sb.from('schede').select('id',{count:'exact',head:true}).then(function(res){
-    var t = res.error ? '' : ((res.count||0)+' schede in archivio');
-    elSrc.textContent=t;
-    var n=document.getElementById('hnota');
-    if(n) n.textContent = res.error ? '' :
-      (t+'. Per allinearlo all’Excel usa Aggiorna archivio, qui sopra.'); }); }
+    var n = res.error ? null : (res.count||0);
+    var t = (n==null) ? 'Manifattura Corti' : ('Manifattura Corti · '+nf.format(n)+' schede');
+    elSrc.textContent = t;
+    var nota=document.getElementById('hnota');
+    if(nota) nota.textContent = (n==null) ? '' :
+      ('Archivio allineato all\u2019Excel. Per rifarlo usa Aggiorna archivio, qui sopra.');
+    riempiFascia(n); });
+  sb.from('valutazioni').select('id',{count:'exact',head:true}).then(function(res){
+    VALUT = res.error ? null : (res.count||0); riempiFascia(); }); }
+
+var VALUT=null, SCHEDE=null;
+function riempiFascia(n){
+  if(n!==undefined) SCHEDE=n;
+  var e=document.getElementById('hero-n'); if(!e) return;
+  var h='';
+  if(SCHEDE!=null) h+='<div><div class="q">'+nf.format(SCHEDE)+'</div><div class="e">schede</div></div>';
+  if(VALUT!=null)  h+='<div><div class="q">'+nf.format(VALUT)+'</div><div class="e">'+
+                      (VALUT===1?'valutazione salvata':'valutazioni salvate')+'</div></div>';
+  e.innerHTML=h;
+  var sal=document.getElementById('saluto');
+  if(sal && UTENTE){
+    var nome=String(UTENTE).split('@')[0].split(/[._-]/)[0];
+    sal.textContent='Buongiorno, '+nome.charAt(0).toUpperCase()+nome.slice(1); } }
 
 /* ---------- navigazione ---------- */
 function dashboard(){
   var h='';
   visteConsentite().forEach(function(v){
-    h+='<button class="tile" type="button" data-vista="'+esc(v.id)+'">'+v.icona+
+    h+='<button class="tile" type="button" data-vista="'+esc(v.id)+'">'+
+       '<span class="bollo">'+v.icona+'</span>'+
        '<span class="tn">'+esc(v.nome)+'</span>'+
        '<span class="td">'+esc(v.riga)+'</span></button>'; });
   document.getElementById('tiles').innerHTML=h; }
