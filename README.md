@@ -8,7 +8,7 @@ il codice su GitHub.
 
 | File | A cosa serve |
 |---|---|
-| `index.html` | l'applicazione: accesso, ricerca, scheda, calcolo costo, aggiornamento archivio |
+| `index.html` | l'applicazione: accesso, dashboard, ricerca, scheda, calcolo costo, aggiornamento archivio |
 | `config.js` | i due dati del tuo progetto Supabase — **da compilare** |
 | `schema.sql` | la struttura del database, da eseguire una volta sola |
 | `netlify.toml` | impostazioni di pubblicazione |
@@ -72,6 +72,31 @@ né Netlify.
 **Attenzione:** l'operazione sostituisce tutte le schede. Per il minuto in cui
 sta caricando, l'archivio online è incompleto. Fallo quando i colleghi non
 stanno consultando.
+
+---
+
+## La dashboard
+
+Dopo l'accesso non si entra direttamente nella ricerca, ma in una pagina con un
+riquadro per ogni vista: **Scheda tecnica**, **Calcolo costo**, **Scheda e
+costo**. Si sceglie il riquadro, si lavora, e col pulsante *← Dashboard* in alto
+si torna indietro per cambiare vista.
+
+Tutte le viste leggono lo stesso archivio: non ci sono dati diversi dietro i
+riquadri, cambia solo come li vedi.
+
+**Aggiungere una vista nuova.** Dentro `index.html`, nella sezione *le viste
+della dashboard*, c'è l'elenco `VISTE`: una voce per riquadro, con nome, icona e
+descrizione. Si aggiunge la voce e la funzione che disegna quella vista dentro
+`disegna()`. Il resto della pagina non va toccato.
+
+**Dare viste diverse a persone diverse** si potrà fare più avanti: nel codice
+c'è già la funzione `visteConsentite()`, che oggi restituisce tutto e domani
+leggerà da una tabella dei permessi su Supabase. Da tenere presente fin d'ora:
+nascondere un riquadro **non protegge i dati**, perché tutte le viste leggono la
+stessa tabella e chi se ne intende può arrivarci lo stesso. Se un giorno ci
+saranno dati davvero riservati — i costi, per esempio — vanno separati in
+un'altra tabella con le sue policy.
 
 ---
 

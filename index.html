@@ -200,8 +200,31 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .pie{font-size:6.4pt;color:#666;margin-top:2mm;line-height:1.35}
 .extra{margin-top:1.2mm;border-top:1px dashed #999;padding-top:1.2mm}
 
+/* ---------- dashboard ---------- */
+#home{flex:1;overflow:auto;
+ padding:30px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+.hwrap{max-width:900px;margin:0 auto}
+.hwrap h1{font-size:22px;margin:0 0 5px}
+.hwrap .intro{color:var(--ink-soft);font-size:13px;line-height:1.5;margin:0 0 24px;max-width:62ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;
+ background:var(--panel);border:1px solid var(--line);border-radius:12px;
+ padding:17px 17px 19px;font:inherit;color:var(--ink);cursor:pointer;min-height:138px}
+.tile:hover{border-color:var(--verde);background:var(--verde-soft)}
+.tile:focus-visible{outline:2px solid var(--verde);outline-offset:2px}
+.tile svg{width:22px;height:22px;stroke:var(--verde);stroke-width:1.6;fill:none;
+ stroke-linecap:round;stroke-linejoin:round}
+.tile .tn{font-size:15.5px;font-weight:700;letter-spacing:-.01em}
+.tile .td{font-size:12.5px;color:var(--ink-soft);line-height:1.45}
+.hnota{margin:26px 0 0;font-size:12px;color:var(--ink-soft);max-width:62ch;line-height:1.5}
+header.home .fld,header.home #clear,header.home #stampa,header.home #indietro{display:none}
+header.agg .fld,header.agg #clear,header.agg #stampa{display:none}
+header.agg ~ main{grid-template-columns:1fr}
+header.agg ~ main #list{display:none}
+
 @media print{
   @page{ size:A4 portrait; margin:6mm }
+  #home{ display:none!important }
   header,#list,.tabs,.pie,.hint{ display:none!important }
   html,body{ background:#fff!important; color:#000!important; height:auto!important }
   body{ display:block!important } main{ display:block!important }
@@ -251,6 +274,7 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 
 <header hidden id="top">
   <div class="brand">Schede &amp; costi</div>
+  <button id="indietro" type="button">&larr; Dashboard</button>
   <div class="fld"><label for="q-art">Articolo</label><input id="q-art" autocomplete="off"></div>
   <div class="fld"><label for="q-alt">Altezza</label><input id="q-alt" autocomplete="off"></div>
   <div class="fld"><label for="q-col">Colore</label><input id="q-col" autocomplete="off"></div>
@@ -262,6 +286,15 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
   <div class="count"><div id="count"></div><div class="src" id="src"></div></div>
 </header>
 
+<section hidden id="home"><div class="hwrap">
+  <h1>Archivio schede tecniche</h1>
+  <p class="intro">Manifattura Corti — scegli la vista con cui vuoi lavorare.
+    I dati sono gli stessi per tutte: arrivano dall&rsquo;Excel
+    <b>FILEMAKER_2026_modello_calcoli</b>.</p>
+  <div class="tiles" id="tiles"></div>
+  <p class="hnota" id="hnota"></p>
+</div></section>
+
 <main hidden id="corpo">
   <div id="list" role="listbox" aria-label="Risultati"></div>
   <div id="view"></div>
@@ -270,15 +303,45 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 <input type="file" id="file-input" accept=".xlsx" style="position:absolute;width:1px;
  height:1px;opacity:0;pointer-events:none">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.mini.min.js"></script>
 <script src="config.js"></script>
 <script>
 (function(){
 "use strict";
 var sb = window.supabase.createClient(window.CONFIG.url, window.CONFIG.key);
-var REC=null, hits=[], sel=-1, VISTA='scheda';
+var REC=null, hits=[], sel=-1, VISTA='scheda', MODO=null;
 try{ var sv=localStorage.getItem('vista'); if(sv==='scheda'||sv==='costo') VISTA=sv; }catch(e){}
+
+/* ---------- le viste della dashboard ----------------------------------
+   Per aggiungerne una: una voce qui sotto piu' la sua funzione di disegno
+   in 'disegna()'. Il resto della pagina non si tocca.                   */
+var ICO={
+  scheda:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/>'+
+         '<path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+  costo: '<svg viewBox="0 0 24 24"><path d="M17.5 6.2a6.8 6.8 0 1 0 0 11.6"/>'+
+         '<path d="M4.8 10.4h9.4M4.8 13.6h9.4"/></svg>',
+  combo: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="16" rx="1.5"/>'+
+         '<rect x="13" y="4" width="8" height="16" rx="1.5"/></svg>'
+};
+var VISTE=[
+  { id:'scheda', nome:'Scheda tecnica', icona:ICO.scheda,
+    riga:'La scheda di produzione come in stampa: filati, trame, pettine, '+
+         'tolleranze, note. Pronta per l’A4.' },
+  { id:'costo', nome:'Calcolo costo', icona:ICO.costo,
+    riga:'Prezzi dei filati e tariffe, e ne esce il costo al metro con la '+
+         'ripartizione per voce.' },
+  { id:'combo', nome:'Scheda e costo', icona:ICO.combo,
+    riga:'Le due viste insieme, con le linguette per passare da una '+
+         'all’altra sullo stesso articolo.' }
+];
+
+/* Quando servira' dare a ogni utente solo certe viste, il filtro va qui:
+   si legge la tabella dei permessi su Supabase e si restituisce il
+   sottoinsieme. Attenzione: nascondere un riquadro non protegge i dati,
+   perche' tutte le viste leggono la stessa tabella. Per dati davvero
+   riservati serve separarli nel database e difenderli con le policy. */
+function visteConsentite(){ return VISTE.slice(); }
 
 var elList=document.getElementById('list'), elView=document.getElementById('view'),
     elCount=document.getElementById('count'), elSrc=document.getElementById('src'),
@@ -583,14 +646,16 @@ function calc(){
 
 /* ---------- due viste ---------- */
 function telaio(){
+  if(MODO!=='combo') return '<div id="content"></div>';
   return '<div class="tabs">'+
    '<button type="button" id="tab-scheda" role="tab" aria-selected="'+(VISTA==='scheda')+'">Scheda tecnica</button>'+
    '<button type="button" id="tab-costo" role="tab" aria-selected="'+(VISTA==='costo')+'">Calcolo costo</button>'+
    '</div><div id="content"></div>'; }
 function mostra(rec){
   REC=rec; elView.innerHTML=telaio();
-  document.getElementById('tab-scheda').addEventListener('click',function(){ cambia('scheda'); });
-  document.getElementById('tab-costo').addEventListener('click',function(){ cambia('costo'); });
+  if(MODO==='combo'){
+    document.getElementById('tab-scheda').addEventListener('click',function(){ cambia('scheda'); });
+    document.getElementById('tab-costo').addEventListener('click',function(){ cambia('costo'); }); }
   disegna(); elView.scrollTop=0; }
 function cambia(v){
   if(VISTA===v) return;
@@ -601,7 +666,8 @@ function cambia(v){
 function disegna(){
   var c=document.getElementById('content');
   if(!c||!REC) return;
-  if(VISTA==='scheda'){ c.innerHTML=card(REC); } else { pannello(REC,c); } }
+  var v = (MODO==='combo') ? VISTA : MODO;
+  if(v==='costo'){ pannello(REC,c); } else { c.innerHTML=card(REC); } }
 
 /* ---------- ricerca sul database ---------- */
 var timer=null;
@@ -708,8 +774,9 @@ function caricaFile(file){
 function scrivi(righe,da){
   var BLOCCO=250;
   if(da>=righe.length){
-    avanz(1); stato('Fatto: '+righe.length+' schede caricate.');
-    setTimeout(function(){ qa.focus(); eseguiRicerca(); },600); return; }
+    avanz(1);
+    stato('Fatto: '+righe.length+' schede caricate. Torna alla dashboard per consultarle.');
+    contaSchede(); return; }
   var pezzo=righe.slice(da,da+BLOCCO);
   sb.from('schede').insert(pezzo).then(function(res){
     if(res.error){ stato('Errore in scrittura: '+res.error.message+
@@ -720,13 +787,38 @@ function scrivi(righe,da){
 
 /* ---------- accesso ---------- */
 var gate=document.getElementById('gate'), top=document.getElementById('top'),
-    corpo=document.getElementById('corpo');
+    corpo=document.getElementById('corpo'), elHome=document.getElementById('home');
+
+function contaSchede(){
+  sb.from('schede').select('id',{count:'exact',head:true}).then(function(res){
+    var t = res.error ? '' : ((res.count||0)+' schede in archivio');
+    elSrc.textContent=t;
+    var n=document.getElementById('hnota');
+    if(n) n.textContent = res.error ? '' :
+      (t+'. Per allinearlo all’Excel usa Aggiorna archivio, qui sopra.'); }); }
+
+/* ---------- navigazione ---------- */
+function dashboard(){
+  var h='';
+  visteConsentite().forEach(function(v){
+    h+='<button class="tile" type="button" data-vista="'+esc(v.id)+'">'+v.icona+
+       '<span class="tn">'+esc(v.nome)+'</span>'+
+       '<span class="td">'+esc(v.riga)+'</span></button>'; });
+  document.getElementById('tiles').innerHTML=h; }
+
+function vaiA(m){                 /* null = dashboard */
+  MODO=m;
+  var casa=(m===null);
+  top.className = casa ? 'home' : (m==='aggiorna' ? 'agg' : '');
+  elHome.hidden=!casa; corpo.hidden=casa;
+  if(casa){ REC=null; hits=[]; sel=-1; elCount.textContent='';
+            dashboard(); contaSchede(); return; }
+  if(m==='aggiorna'){ REC=null; elCount.textContent=''; paginaAggiorna(); return; }
+  REC=null; eseguiRicerca(); qa.focus(); }
 
 function entra(){
-  gate.hidden=true; top.hidden=false; corpo.hidden=false;
-  sb.from('schede').select('id',{count:'exact',head:true}).then(function(res){
-    elSrc.textContent = res.error ? '' : ((res.count||0)+' schede in archivio'); });
-  eseguiRicerca(); qa.focus(); }
+  gate.hidden=true; top.hidden=false;
+  vaiA(null); }
 
 document.getElementById('gform').addEventListener('submit',function(e){
   e.preventDefault();
@@ -742,7 +834,11 @@ document.getElementById('gform').addEventListener('submit',function(e){
 
 document.getElementById('esci').addEventListener('click',function(){
   sb.auth.signOut().then(function(){ location.reload(); }); });
-document.getElementById('aggiorna').addEventListener('click',paginaAggiorna);
+document.getElementById('aggiorna').addEventListener('click',function(){ vaiA('aggiorna'); });
+document.getElementById('indietro').addEventListener('click',function(){ vaiA(null); });
+document.getElementById('tiles').addEventListener('click',function(e){
+  var t=e.target.closest?e.target.closest('.tile'):null;
+  if(t && t.dataset.vista) vaiA(t.dataset.vista); });
 document.getElementById('stampa').addEventListener('click',function(){
   if(REC) window.print(); });
 document.getElementById('clear').addEventListener('click',function(){
