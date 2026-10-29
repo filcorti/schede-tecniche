@@ -281,21 +281,25 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .out.sell .n{color:#fff}
 .nota{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.5}
 @media (min-width:1181px){
- /* niente scorrimento di pagina: il contenuto arriva in fondo e lo storico,
-    che e' l'unica parte che puo' crescere, si prende lo spazio che resta */
- #view.costo{overflow:hidden;display:flex;flex-direction:column}
- #view.costo #content,#view.costo .wrap{flex:1 1 auto;min-height:0;
-  display:flex;flex-direction:column}
- #view.costo .cc{flex:1 1 auto;min-height:0;flex-wrap:nowrap;align-items:stretch}
- #view.costo .cc-in{min-height:0}
- #view.costo .cc-out{position:static;display:flex;flex-direction:column}
+ /* Con poche valutazioni il contenuto arriva in fondo allo schermo: lo storico,
+    l'unica parte che puo' crescere, si prende lo spazio che resta. Aprendo le
+    valutazioni lo storico si allunga e a scorrere e' la pagina: niente tagli. */
+ #view.costo{overflow:auto;display:flex;flex-direction:column}
+ #view.costo #content,#view.costo .wrap{flex:1 0 auto;display:flex;flex-direction:column}
+ #view.costo .cc{flex:1 0 auto;flex-wrap:nowrap;align-items:stretch}
+ #view.costo .cc-in{display:flex;flex-direction:column}
+ #view.costo #storico{flex:1 0 auto;min-height:130px;display:flex;flex-direction:column}
+ #view.costo .st{flex:1 0 auto;display:flex;flex-direction:column}
+ #view.costo .st-box{flex:1 0 auto;overflow:visible;display:flex;flex-direction:column}
+ /* le valutazioni aperte tengono la loro altezza, non si lasciano schiacciare */
+ #view.costo .st-box>*{flex:0 0 auto}
+ #view.costo .st-vuoto{margin:auto;max-width:46ch;text-align:center}
+ /* i numeri restano in vista mentre si scorre lo storico */
+ #view.costo .cc-out{position:static;display:block;align-self:stretch}
+ #view.costo .cc-out .dentro{position:sticky;top:0;display:flex;flex-direction:column;
+  height:100%;max-height:calc(100vh - 128px)}
  #view.costo .salva{flex:1 1 auto;min-height:150px}
  #view.costo .salva .due{margin-bottom:auto}
- #view.costo #storico{flex:1 1 auto;min-height:130px;display:flex;flex-direction:column}
- #view.costo .st{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
- #view.costo .st-box{flex:1 1 auto;min-height:0;overflow:auto;
-  display:flex;flex-direction:column}
- #view.costo .st-vuoto{margin:auto;max-width:46ch;text-align:center}
 }
 @media (max-width:1180px){
  .cc-out{position:static;flex:1 1 280px}
@@ -445,7 +449,9 @@ header.agg ~ main #list{display:none}
   body{ display:block!important } main{ display:block!important }
   #view{ overflow:visible!important; padding:0!important } #content{ min-height:0 }
   #view.costo,#view.costo #content,#view.costo .wrap,#view.costo .cc,
-  #view.costo .cc-out,#view.costo .pan{ display:block!important; overflow:visible!important }
+  #view.costo .cc-out,#view.costo .cc-out .dentro,#view.costo .pan{
+   display:block!important; overflow:visible!important; max-height:none!important;
+   position:static!important }
   .sheet{ width:auto!important; max-width:none!important; margin:0!important;
     box-shadow:none!important; padding:0!important; background:#fff!important; color:#000!important }
   .sheet .box{ min-height:9.6mm } .sheet .box.sm{ min-height:8mm }
@@ -897,7 +903,7 @@ function pannello(rec,dove){
      '<div id="storico"></div>'+
    '</div>'+
 
-   '<div class="cc-out">'+
+   '<div class="cc-out"><div class="dentro">'+
      '<div class="tot">'+
        '<div class="et">Costo totale</div>'+
        '<div class="big"><span id="cTot">–</span><em>€/m lineare</em></div>'+
@@ -928,7 +934,7 @@ function pannello(rec,dove){
        '</div>'+
        '<button type="button" class="primary" id="s-salva">Salva valutazione</button>'+
      '</div>'+
-   '</div>'+
+   '</div></div>'+
   '</div></div>';
   elView.innerHTML=h;
   ['calo','ordit','tar','fin1','fin2','fin3','divis'].forEach(function(id){
