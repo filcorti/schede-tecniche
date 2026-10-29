@@ -882,7 +882,10 @@ function pannello(rec,dove){
   '<div class="cc">'+
    '<div class="cc-in">'+
      '<div class="duecol">'+
-       '<div class="pan mp"><h2 class="sh">Materie prime</h2>'+
+       '<div class="pan mp">'+
+         '<div class="sh-riga"><h2 class="sh">Materie prime</h2>'+
+           '<button type="button" class="mini" id="azz-fil" '+
+           'title="Svuota i prezzi al kg dei filati">Azzera</button></div>'+
          '<div class="unita"><span class="u1">g/m</span>'+
            '<span class="u2">€/kg</span><span class="u3">€/m</span></div>'+
          righeFilati()+
@@ -892,8 +895,8 @@ function pannello(rec,dove){
        '</div>'+
        '<div class="pan lv">'+
          '<div class="sh-riga"><h2 class="sh">Lavorazioni e calo</h2>'+
-           '<button type="button" class="mini" id="azzera" title="Svuota i prezzi dei '+
-           'filati e le lavorazioni di questa scheda">Azzera</button></div>'+
+           '<button type="button" class="mini" id="azz-lav" title="Svuota le '+
+           'lavorazioni, il calo e il divisore">Azzera</button></div>'+
          '<div class="tre">'+
            campo('calo','Calo (%)',MAN.calo,false,'','0.1')+
            campo('ordit','Orditura €/kg',MAN.ordit,false,'')+
@@ -958,30 +961,33 @@ function pannello(rec,dove){
         if(g.k===f.k && g.id!==f.id){ var o=$(g.id); if(o) o.value=e.value; } });
       salvaPrezzi(); calc(); }); });
   $('s-salva').addEventListener('click',salvaValutazione);
-  collegaAzzera();
+  azzeratore('azz-fil',function(){
+    FILI.forEach(function(f){ var e=$(f.id); if(e) e.value=''; delete PRZ[f.k]; });
+    return 'Prezzi dei filati azzerati.'; });
+  azzeratore('azz-lav',function(){
+    ['ordit','tar','fin1','fin2','fin3'].forEach(function(id){
+      var e=$(id); if(e) e.value=''; });
+    var c=$('calo'); if(c) c.value='3';
+    var d=$('divis'); if(d) d.value='0.86';
+    return 'Lavorazioni azzerate: calo al 3%, divisore a 0,86.'; });
   calc();
   caricaStorico();
 }
 
-/* Azzera prezzi dei filati e lavorazioni. Serve un secondo clic di conferma:
-   i prezzi sono scritti a mano e un tocco di troppo li butterebbe via. */
-function collegaAzzera(){
-  var b=$('azzera'); if(!b) return;
+/* Pulsanti "Azzera": servono due clic. I prezzi sono scritti a mano e un
+   tocco di troppo li butterebbe via, quindi il primo clic chiede conferma. */
+function azzeratore(id,pulisci){
+  var b=$(id); if(!b) return;
   var pronto=false, t=null;
   function calmo(){ pronto=false; b.textContent='Azzera'; b.classList.remove('caldo');
                     if(t){ clearTimeout(t); t=null; } }
   b.addEventListener('click',function(){
-    if(!pronto){ pronto=true; b.textContent='Azzero tutto?'; b.classList.add('caldo');
+    if(!pronto){ pronto=true; b.textContent='Confermi?'; b.classList.add('caldo');
                  t=setTimeout(calmo,5000); return; }
     calmo();
-    FILI.forEach(function(f){ var e=$(f.id); if(e) e.value=''; delete PRZ[f.k]; });
-    ['ordit','tar','fin1','fin2','fin3'].forEach(function(id){
-      var e=$(id); if(e) e.value=''; });
-    var c=$('calo'); if(c) c.value='3';
+    var msg=pulisci();
     salvaPrezzi(); calc();
-    var m=$('s-msg');
-    if(m) m.textContent='Azzerato: prezzi dei filati e lavorazioni vuoti, calo di nuovo al 3%.';
-  }); }
+    var m=$('s-msg'); if(m && msg) m.textContent=msg; }); }
 
 /* ---------- storico delle valutazioni ---------- */
 function oggi(){ var d=new Date();
