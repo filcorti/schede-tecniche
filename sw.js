@@ -3,7 +3,7 @@
    push vedi subito la versione nuova; la copia in cache e' solo la rete di
    sicurezza per quando sei senza linea. I dati di Supabase non si toccano. */
 
-var VERSIONE = 'schede-v11';
+var VERSIONE = 'schede-v12';
 var GUSCIO = [
   './',
   './index.html',
