@@ -251,6 +251,53 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .vd .azioni button{padding:12px 20px;min-height:44px;border-radius:999px;
  background:var(--verde-soft);border-color:transparent;color:var(--ink)}
 .vd .azioni button:hover{background:var(--surf3)}
+
+/* ---------- storico a confronto: una colonna per valutazione ---------- */
+.st-cap .vista{margin-left:auto;display:flex;gap:6px}
+.pillv{font:600 11.5px inherit;padding:7px 13px;min-height:0;border:none;
+ border-radius:999px;background:var(--surf3);color:var(--ink-soft)}
+.pillv.on{background:var(--verde);color:#fff}
+.pillv.on:hover{background:#1f5435}
+.tabst{overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;min-width:0;max-width:100%;
+ --vo:200px;--ul:168px;--mc:118px}
+.tabst .trg,.tabst .tsz{display:grid;gap:0 8px;align-items:center}
+.tabst .trg>*{padding:5px 10px}
+.tabst .vo{padding-left:6px;position:sticky;left:0;z-index:2;background:var(--surf1)}
+.tabst .vo b{display:block;font-size:13px;font-weight:500;line-height:1.25}
+.tabst .vo i{display:block;font-style:normal;font-size:10px;color:var(--ink-soft)}
+.tabst .cel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;
+ align-items:baseline;font-variant-numeric:tabular-nums}
+.tabst .cel .p{text-align:right;font-size:11px;font-weight:600;color:var(--ink-soft);
+ white-space:nowrap}
+.tabst .cel .v{text-align:right;font-size:13.5px;font-weight:700;white-space:nowrap}
+.tabst .ult{background:var(--verde-soft);position:sticky;left:var(--vo);z-index:1}
+.tabst .primo .ult{border-radius:14px 14px 0 0}
+.tabst .cam{background:var(--ambra-soft)}
+.tabst .cam .p{color:var(--ambra)}
+.tabst .tsz{margin-top:9px;border-bottom:1px solid rgba(23,29,24,.16)}
+.tabst .tsz .et{padding:7px 6px 4px}
+.tabst .tsz .ult{height:100%}
+.tabst .int{border-bottom:1px solid var(--line);margin-bottom:2px}
+.tabst .tes{text-align:right;font-size:12.5px;font-weight:700;line-height:1.2;
+ padding:5px 10px 7px}
+.tabst .tes small{display:block;font-weight:500;font-size:10.5px;color:var(--ink-soft);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabst .tes.ult{background:var(--prim-c);color:var(--on-prim-c);border-radius:14px 14px 0 0;
+ z-index:3}
+.tabst .tes.ult small{color:var(--on-prim-c)}
+.tabst .cmd{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.tabst .cmd .lnk{font-size:10.5px;padding:0;text-decoration:underline}
+.tabst .tes.ult .cmd .lnk{color:var(--on-prim-c)}
+.tabst .somma{border-top:1px solid rgba(23,29,24,.10)}
+.tabst .somma .vo b{font-weight:700}
+.tabst .fine{margin-top:8px;padding-top:8px;border-top:2px solid rgba(23,29,24,.22)}
+.tabst .fine .r2{border-top:1px solid rgba(23,29,24,.10)}
+.tabst .fine .cel .v{font-size:18px;font-weight:900;letter-spacing:-.02em}
+.tabst .fine .vo b{font-weight:700}
+.tabst .fine .r1 .ult{background:var(--prim-c);color:var(--on-prim-c);border-radius:14px 14px 0 0}
+.tabst .fine .r2 .ult{background:var(--ter-c);color:var(--on-ter-c);border-radius:0 0 14px 14px}
+.tabst .fine .ult .p{color:inherit;opacity:.75}
+
 /* ogni filato e' una scheda bianca; i numeri stanno insieme a destra e,
    se lo spazio manca, scendono sotto al nome invece di schiacciarlo */
 .prow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;
@@ -296,10 +343,15 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  /* Con poche valutazioni il contenuto arriva in fondo allo schermo: lo storico,
     l'unica parte che puo' crescere, si prende lo spazio che resta. Aprendo le
     valutazioni lo storico si allunga e a scorrere e' la pagina: niente tagli. */
- #view.costo{overflow:auto;display:flex;flex-direction:column}
+ #view.costo{overflow-x:hidden;overflow-y:auto;display:flex;flex-direction:column}
  #view.costo #content,#view.costo .wrap{flex:1 0 auto;display:flex;flex-direction:column}
+ /* .wrap ha margin auto: senza una larghezza esplicita non si stira e prende
+    quella del contenuto, allargando la pagina quando lo storico e' a confronto */
+ #view.costo .wrap{width:100%}
  #view.costo .cc{flex:1 0 auto;flex-wrap:nowrap;align-items:stretch}
- #view.costo .cc-in{display:flex;flex-direction:column}
+ /* base 0: la colonna prende la sua fetta, non quella che vorrebbe il contenuto,
+    cosi' la tabella dello storico scorre dentro di se' invece di allargare la pagina */
+ #view.costo .cc-in{display:flex;flex-direction:column;flex-basis:0;min-width:0}
  #view.costo #storico{flex:1 0 auto;min-height:130px;display:flex;flex-direction:column}
  #view.costo .st{flex:1 0 auto;display:flex;flex-direction:column}
  #view.costo .st-box{flex:1 0 auto;overflow:visible;display:flex;flex-direction:column}
@@ -418,6 +470,15 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  main.st-aperto .cap,main.st-aperto .spec,main.st-aperto .duecol,
  main.st-aperto .riga-st{display:none}
  main.st-aperto #storico{display:block}
+ .tabst{--vo:126px;--ul:110px;--mc:104px}
+ .tabst .cel{grid-template-columns:auto auto;justify-content:end;gap:5px}
+ .tabst .vo b{font-size:12px}
+ .tabst .vo i{font-size:9.5px}
+ .tabst .cel .v{font-size:12.5px}
+ .tabst .cel .p{font-size:10px}
+ .tabst .trg>*{padding:5px 8px}
+ .tabst .tes{font-size:11.5px;padding:5px 8px 6px}
+ .tabst .fine .cel .v{font-size:15px}
  .st-cap{align-items:center;justify-content:flex-start;gap:6px}
  .st-cap .sh{flex:1 1 auto}
  .st-cap .q{flex:1 1 100%;margin-left:2px}
@@ -914,6 +975,8 @@ var eur=new Intl.NumberFormat('it-IT',{minimumFractionDigits:2,maximumFractionDi
 var nf=new Intl.NumberFormat('it-IT',{maximumFractionDigits:2});
 var fine=new Intl.NumberFormat('it-IT',{minimumFractionDigits:2,maximumFractionDigits:4});
 var REC=null;
+var VISTA_ST='conf';
+try{ if(localStorage.getItem('storico_vista')==='lista') VISTA_ST='lista'; }catch(e){}
 var MAN={calo:3,ordit:0,tar:'',fin1:'',fin2:'',fin3:'',divis:'0.86'};
 
 /* prezzi dei filati, tenuti per codifica: riaprendo un altro articolo che
@@ -1199,6 +1262,106 @@ function caricaStorico(){
         '</div></div>'; return; }
       STORICO=res.data||[]; disegnaStorico(); }); }
 
+
+/* Lo storico messo a confronto: una riga per voce, una colonna per valutazione.
+   A sinistra di ogni numero il valore con cui e' stata fatta la valutazione
+   (prezzo al kg, percentuale di calo, tariffa), a destra quanto pesa sul metro. */
+function tabellaStorico(){
+  var cols=STORICO;
+  var chiavi=[], mappa={};
+  function agg(f){ var k=f.ruolo+'#'+(f.n||1);
+    if(!mappa[k]) { mappa[k]=f; chiavi.push(k); } }
+  FILI.forEach(function(f){ agg({ruolo:f.ruolo,n:f.n,nome:f.nome,cod:f.cod,q:f.q}); });
+  cols.forEach(function(v){ ((v.dettaglio||{}).filati||[]).forEach(agg); });
+  chiavi.sort(function(a,b){ var A=mappa[a], B=mappa[b];
+    if(A.ruolo!==B.ruolo) return A.ruolo==='ordito'?-1:1;
+    return (A.n||1)-(B.n||1); });
+
+  function fil(v,k){
+    var l=(v.dettaglio||{}).filati||[];
+    for(var i=0;i<l.length;i++) if(l[i].ruolo+'#'+(l[i].n||1)===k) return l[i];
+    return null; }
+  function somma(v,ruolo){
+    var l=(v.dettaglio||{}).filati||[], s=0, c=0;
+    l.forEach(function(f){ if(f.ruolo===ruolo){ s+=f.gm/1000*f.prezzo; c++; } });
+    return c?s:null; }
+  function E(x){ return (x||x===0)?eur.format(x)+' \u20ac':'\u2013'; }
+
+  /* ogni riga e' un elenco di coppie [parametro, valore] lungo quanto le colonne */
+  function riga(nome,sub,coppie,extra){
+    var cam = cols.length>1 && coppie.length>1 &&
+              (coppie[0][0]+'|'+coppie[0][1]) !== (coppie[1][0]+'|'+coppie[1][1]);
+    var h='<div class="trg'+(extra?' '+extra:'')+'">'+
+      '<div class="vo"><b>'+nome+'</b>'+(sub?'<i>'+sub+'</i>':'')+'</div>';
+    coppie.forEach(function(c,i){
+      h+='<div class="cel'+(i===0?' ult':'')+(cam&&i===0?' cam':'')+'">'+
+         '<span class="p">'+(c[0]||'')+'</span><span class="v">'+c[1]+'</span></div>'; });
+    return h+'</div>'; }
+  function sez(t){
+    var h='<div class="tsz"><div class="et">'+t+'</div>';
+    cols.forEach(function(v,i){ h+='<div'+(i===0?' class="ult"':'')+'></div>'; });
+    return h+'</div>'; }
+
+  var h='<style>#storico .tabst .trg,#storico .tabst .tsz{'+
+        'grid-template-columns:var(--vo) var(--ul) repeat('+Math.max(cols.length-1,0)+
+        ',minmax(var(--mc),1fr))}</style>'+
+        '<div class="tabst">';
+
+  /* intestazione: data, nota e i comandi della colonna */
+  h+='<div class="trg int"><div class="vo"></div>';
+  cols.forEach(function(v,i){
+    var cap=[]; if(v.nota) cap.push(esc(v.nota));
+    if(v.utente) cap.push(esc(String(v.utente).split('@')[0]));
+    h+='<div class="tes'+(i===0?' ult':'')+'">'+dataIt(v.data)+
+       '<small>'+(cap.join(' \u00b7 ')||'&nbsp;')+'</small>'+
+       '<span class="cmd"><button type="button" class="lnk" data-ric="'+i+'">ricarica</button>'+
+       '<button type="button" class="lnk" data-del="'+i+'">elimina</button></span></div>'; });
+  h+='</div>';
+
+  var ord=chiavi.filter(function(k){ return mappa[k].ruolo==='ordito'; });
+  var tra=chiavi.filter(function(k){ return mappa[k].ruolo!=='ordito'; });
+
+  function blocco(lista,titolo,ruolo,etichetta){
+    if(!lista.length) return '';
+    var b=sez(titolo), primo=true;
+    lista.forEach(function(k){
+      var m=mappa[k];
+      var sub=m.ruolo+(m.n?' '+m.n:'')+(m.cod?' \u00b7 '+esc(m.cod):'');
+      b+=riga(esc(m.nome)||'&ndash;', sub, cols.map(function(v){
+        var f=fil(v,k);
+        return f ? [eur.format(f.prezzo), E(f.gm/1000*f.prezzo)] : ['','\u2013']; }),
+        primo?'primo':''); primo=false; });
+    b+=riga(etichetta,'\u20ac/m', cols.map(function(v){
+      return ['', E(somma(v,ruolo))]; }), 'somma');
+    return b; }
+
+  h+=blocco(ord,'Ordito','ordito','Totale ordito');
+  h+=blocco(tra,'Trama','trama','Totale trama');
+
+  h+=sez('Lavorazioni');
+  h+=riga('Calo','% sulle materie prime', cols.map(function(v){
+    var d=v.dettaglio||{};
+    return [nf.format(d.calo||0)+' %', E((d.voci||{}).calo)]; }));
+  h+=riga('Orditura','\u20ac/kg sul peso ordito', cols.map(function(v){
+    var d=v.dettaglio||{};
+    return [eur.format(d.ordit||0), E((d.voci||{}).orditura)]; }));
+  var batt=(cols[0].dettaglio||{}).battute||0;
+  h+=riga('Tessitura','tariffa battuta'+(batt?' \u00d7 '+nf.format(batt):''),
+    cols.map(function(v){ var d=v.dettaglio||{};
+      return [fine.format(d.tar||0), E((d.voci||{}).tessitura)]; }));
+  [0,1,2].forEach(function(j){
+    h+=riga('Finissaggio '+(j+1),'\u20ac/m', cols.map(function(v){
+      var x=((v.dettaglio||{}).fin||[])[j];
+      return ['', x? E(x) : '\u2013']; })); });
+
+  h+='<div class="fine">'+
+     riga('Costo totale','\u20ac/m lineare \u00b7 \u20ac/m\u00b2', cols.map(function(v){
+       return [eur.format(v.costo_mq||0)+' \u20ac/m\u00b2', E(v.costo_ml)]; }),'r1')+
+     riga('Prezzo di vendita','divisore '+nf.format(cols[0].divisore||0), cols.map(function(v){
+       return [eur.format(v.prezzo_mq||0)+' \u20ac/m\u00b2', E(v.prezzo_ml)]; }),'r2')+
+     '</div>';
+  return h+'</div>'; }
+
 function disegnaStorico(){
   var box=$('storico'); if(!box) return;
   var n=STORICO.length;
@@ -1213,11 +1376,26 @@ function disegnaStorico(){
     '<h2 class="sh">Storico di questo articolo</h2><span class="q">'+
     (n? (n+(n===1?' valutazione':' valutazioni')+' · l’ultima '+quando(STORICO[0].data)) :
         'nessuna valutazione salvata')+
-    (n>1? ' <button type="button" class="lnk" id="st-tutte">'+
+    (n>1 && VISTA_ST==='lista' ?
+          ' <button type="button" class="lnk" id="st-tutte">'+
           (tutteAperte?'chiudi tutte':'apri tutte')+'</button>' : '')+
-    '</span></div><div class="st-box">';
+    '</span>'+
+    (n? '<span class="vista">'+
+        '<button type="button" class="pillv'+(VISTA_ST==='conf'?' on':'')+
+          '" id="st-conf">Confronto</button>'+
+        '<button type="button" class="pillv'+(VISTA_ST==='lista'?' on':'')+
+          '" id="st-lista">Elenco</button></span>' : '')+
+    '</div><div class="st-box">';
   if(!n){ box.innerHTML=testa+'<div class="st-vuoto">Quando salvi una valutazione '+
-    'la ritrovi qui, con la composizione di quel giorno.</div></div></div>'; return; }
+    'la ritrovi qui, con la composizione di quel giorno.</div></div></div>';
+    collegaStorico(box); return; }
+
+  if(VISTA_ST==='conf'){
+    box.innerHTML=testa+tabellaStorico()+'</div>'+
+      '<p class="nota">In ogni colonna, a sinistra il valore con cui &egrave; stata fatta la '+
+      'valutazione (€/kg del filato, percentuale di calo, tariffa) e a destra quanto pesa sul '+
+      'metro. In giallo le voci cambiate rispetto alla valutazione precedente.</p></div>';
+    collegaStorico(box); return; }
 
   var righe='';
   STORICO.forEach(function(v,i){
@@ -1243,6 +1421,10 @@ function disegnaStorico(){
     'divisore di quel giorno. Lo scostamento è sul costo rispetto alla valutazione '+
     'precedente.</p></div>';
 
+  collegaStorico(box); }
+
+/* I comandi dello storico: valgono per tutt'e due le viste. */
+function collegaStorico(box){
   box.querySelectorAll('.rg').forEach(function(b){
     b.addEventListener('click',function(){
       var i=+b.parentNode.dataset.i;
@@ -1256,6 +1438,14 @@ function disegnaStorico(){
     var apri=!STORICO.every(function(x){ return x.aperta; });
     STORICO.forEach(function(x){ x.aperta=apri; });
     disegnaStorico(); });
+  function vista(id,quale){
+    var b=$(id); if(!b) return;
+    b.addEventListener('click',function(){
+      if(VISTA_ST===quale) return;
+      VISTA_ST=quale;
+      try{ localStorage.setItem('storico_vista',quale); }catch(e){}
+      disegnaStorico(); }); }
+  vista('st-conf','conf'); vista('st-lista','lista');
   box.querySelectorAll('[data-ric]').forEach(function(b){
     b.addEventListener('click',function(){ ricarica(STORICO[+b.dataset.ric]); }); });
   box.querySelectorAll('[data-del]').forEach(function(b){
