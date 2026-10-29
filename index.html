@@ -30,10 +30,10 @@ body{background:var(--bg);color:var(--ink);
  font:14px/1.45 Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
  display:flex;flex-direction:column}
 /* ---------- guscio: una barra sola, due riquadri ---------- */
-header{background:var(--bg);padding:8px max(12px,env(safe-area-inset-right,0px)) 0
+header{background:var(--bg);padding:22px max(12px,env(safe-area-inset-right,0px)) 12px
  max(12px,env(safe-area-inset-left,0px));position:sticky;top:0;z-index:5}
 .appbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
- max-width:1560px;margin:0 auto;width:100%}
+ max-width:1480px;margin:0 auto;width:100%}
 .marchio{width:auto;height:34px;display:block;flex:none;object-fit:contain}
 .tit{min-width:0;flex:none}
 .tit .t1{font-size:15px;font-weight:700;line-height:1.15}
@@ -47,7 +47,7 @@ header{background:var(--bg);padding:8px max(12px,env(safe-area-inset-right,0px))
 .ib svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;
  stroke-linecap:round;stroke-linejoin:round}
 .pill{flex:999 1 400px;min-width:0;display:flex;align-items:center;gap:2px;
- background:var(--surf2);border-radius:999px;padding:3px 4px 3px 14px;margin-left:4px}
+ background:var(--surf2);border-radius:999px;padding:7px 5px 7px 15px;margin-left:4px}
 .pill .lente{width:18px;height:18px;flex:none;fill:none;stroke:var(--ink-soft);
  stroke-width:1.9;stroke-linecap:round;margin-right:6px}
 .fld{display:flex;flex-direction:column;gap:0;min-width:0;flex:1 1 76px;
@@ -66,8 +66,8 @@ button{font:600 12.5px inherit;padding:10px 16px;min-height:38px;border:1px soli
 button:hover{background:var(--verde-soft)}
 button.primary{background:var(--verde);color:#fff}
 button.primary:hover{background:#1f5435}
-main{flex:1;display:flex;gap:12px;min-height:0;width:100%;max-width:1560px;margin:0 auto;
- padding:12px max(12px,env(safe-area-inset-left,0px)) 14px}
+main{flex:1;display:flex;gap:12px;min-height:0;width:100%;max-width:1480px;margin:0 auto;
+ padding:4px max(12px,env(safe-area-inset-left,0px)) 14px}
 #list{flex:0 0 220px;min-width:0;overflow:auto;background:var(--surf1);
  border-radius:20px;padding:6px}
 main.solo #list,main.senza-elenco #list{display:none}
@@ -112,20 +112,22 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .f input:focus,.f select:focus{outline:2px solid var(--verde);outline-offset:1px}
 .arch{font-size:11px;color:var(--ink-soft);margin-top:3px}
 /* ---------- pannello costo: Material 3 Expressive pieno ---------- */
-.cap{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.cap{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:6px 0 14px}
 .cap h1{font-size:25px;font-weight:900;letter-spacing:-.02em;line-height:1.1;margin:0;
  font-variant-numeric:tabular-nums}
 .cap .desc{font-size:14px;color:var(--ink-soft)}
-.spec{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 12px}
+.spec{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px}
 .sp{background:var(--surf3);border-radius:999px;padding:7px 14px;font-size:12.5px;
  color:var(--ink);display:inline-flex;gap:6px;align-items:baseline;white-space:nowrap}
 .sp .k{color:var(--ink-soft)}
 .sp .v{font-weight:700;font-variant-numeric:tabular-nums}
 .cc{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
 .cc-in{flex:999 1 640px;min-width:0;display:flex;flex-direction:column;gap:12px}
-.duecol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.duecol{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;
+ align-items:stretch}
 .cc-out{flex:0 1 296px;min-width:272px;position:sticky;top:0}
-.pan{background:var(--surf1);border-radius:24px;padding:16px 16px 14px}
+.pan{background:var(--surf1);border-radius:24px;padding:16px 16px 14px;
+ display:flex;flex-direction:column}
 .sh{font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px}
 .unita{display:grid;grid-template-columns:minmax(0,1fr) 58px 92px 62px;gap:12px;
  padding:0 16px 8px;font-size:10px;font-weight:700;letter-spacing:.08em;
@@ -138,7 +140,8 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .pan .f input{text-align:right;background:var(--panel);border:none;
  border-bottom:2px solid var(--verde);border-radius:12px 12px 4px 4px;
  font:500 14px/1.2 inherit;padding:9px 11px}
-.tre{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tre{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+ flex:1 1 auto;align-content:space-between}
 .riga{height:0;margin:12px 0 0}
 .arch{font-size:11px;color:var(--ink-soft);margin-top:8px;padding:0 4px}
 .arch-up{margin:0}
@@ -179,14 +182,16 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  font-variant-numeric:tabular-nums}
 .dv input:focus{outline:3px solid var(--ter-l);outline-offset:1px}
 .vend{display:flex;align-items:baseline;gap:16px;margin-top:12px;flex-wrap:wrap}
-.salva{background:var(--surf1);border-radius:24px;padding:14px 18px;margin-top:10px}
+.salva{background:var(--surf1);border-radius:24px;padding:14px 18px;margin-top:10px;
+ display:flex;flex-direction:column}
 .salva .due{display:flex;gap:10px;margin-top:10px}
 .salva .due .f{flex:1 1 112px;min-width:0;margin-bottom:0}
 .salva .due .f input{font-size:13.5px;padding:10px 12px;text-align:left}
 .salva button{width:100%;margin-top:10px;padding:13px 20px;min-height:46px;
  font:600 13px/1 inherit;border-radius:999px}
 .salva button[disabled]{opacity:.55;cursor:default}
-.salva .arch{margin-top:9px;line-height:1.45}
+.salva .arch{margin-top:5px;line-height:1.5;padding:0}
+.salva .cima{flex:none}
 .lnk{background:none;border:none;padding:0 0 0 8px;font:inherit;font-size:12px;
  color:var(--verde);text-decoration:underline;cursor:pointer;border-radius:0;min-height:0}
 .lnk:hover{color:var(--ink);background:none}
@@ -242,31 +247,31 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .vd .azioni button:hover{background:var(--surf3)}
 /* ogni filato e' una scheda bianca; i numeri stanno insieme a destra e,
    se lo spazio manca, scendono sotto al nome invece di schiacciarlo */
-.prow{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;
- background:var(--panel);border-radius:18px;padding:11px 14px;margin-bottom:8px}
+.prow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;
+ background:var(--panel);border-radius:16px;padding:9px 12px;margin-bottom:7px}
 .prow:last-of-type{margin-bottom:0}
-.prow .pn{flex:1 1 140px;min-width:0}
+.prow .pn{flex:1 1 110px;min-width:0}
 .prow .pn .nm{display:block;font-size:14px;font-weight:500;line-height:1.2;
  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .prow .pn i{display:block;font-size:11px;font-style:normal;color:var(--ink-soft);
  margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
  font-variant-numeric:tabular-nums}
-.prow .pv{flex:0 0 auto;display:grid;grid-template-columns:50px 76px 56px;gap:10px;
+.prow .pv{flex:0 0 auto;display:grid;grid-template-columns:46px 66px 50px;gap:8px;
  align-items:center;margin-left:auto}
 .prow .pg{font-size:12px;color:var(--ink-soft);white-space:nowrap;text-align:right;
  font-variant-numeric:tabular-nums}
-.prow input{font:500 14px/1.2 inherit;padding:9px 10px;width:100%;text-align:right;
+.prow input{font:500 13.5px/1.2 inherit;padding:8px 10px;width:100%;text-align:right;
  color:var(--ink);background:var(--surf2);border:none;
  border-bottom:2px solid var(--verde);border-radius:12px 12px 4px 4px;
  font-variant-numeric:tabular-nums}
 .prow input:focus{outline:3px solid var(--verde);outline-offset:1px}
 .prow .pc{font-size:15px;font-weight:700;text-align:right;white-space:nowrap;
  font-variant-numeric:tabular-nums}
-.unita{display:flex;justify-content:flex-end;gap:10px;padding:0 14px 6px;
- font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+.unita{display:flex;justify-content:flex-end;gap:8px;padding:0 12px 5px;
+ font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
  color:var(--ink-soft)}
 .unita span{text-align:right}
-.unita .u1{width:50px}.unita .u2{width:76px}.unita .u3{width:56px}
+.unita .u1{width:46px}.unita .u2{width:66px}.unita .u3{width:50px}
 .arch b{color:var(--ambra)}
 .out.tech{background:var(--verde-soft);border-color:transparent}
 .out.tech .n{color:var(--verde)}
@@ -275,6 +280,23 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .out.sell .k,.out.sell .u{color:rgba(255,255,255,.85)}
 .out.sell .n{color:#fff}
 .nota{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.5}
+@media (min-width:1181px){
+ /* niente scorrimento di pagina: il contenuto arriva in fondo e lo storico,
+    che e' l'unica parte che puo' crescere, si prende lo spazio che resta */
+ #view.costo{overflow:hidden;display:flex;flex-direction:column}
+ #view.costo #content,#view.costo .wrap{flex:1 1 auto;min-height:0;
+  display:flex;flex-direction:column}
+ #view.costo .cc{flex:1 1 auto;min-height:0;flex-wrap:nowrap;align-items:stretch}
+ #view.costo .cc-in{min-height:0}
+ #view.costo .cc-out{position:static;display:flex;flex-direction:column}
+ #view.costo .salva{flex:1 1 auto;min-height:150px}
+ #view.costo .salva .due{margin-bottom:auto}
+ #view.costo #storico{flex:1 1 auto;min-height:130px;display:flex;flex-direction:column}
+ #view.costo .st{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+ #view.costo .st-box{flex:1 1 auto;min-height:0;overflow:auto;
+  display:flex;flex-direction:column}
+ #view.costo .st-vuoto{margin:auto;max-width:46ch;text-align:center}
+}
 @media (max-width:1180px){
  .cc-out{position:static;flex:1 1 280px}
 }
@@ -422,6 +444,8 @@ header.agg ~ main #list{display:none}
   html,body{ background:#fff!important; color:#000!important; height:auto!important }
   body{ display:block!important } main{ display:block!important }
   #view{ overflow:visible!important; padding:0!important } #content{ min-height:0 }
+  #view.costo,#view.costo #content,#view.costo .wrap,#view.costo .cc,
+  #view.costo .cc-out,#view.costo .pan{ display:block!important; overflow:visible!important }
   .sheet{ width:auto!important; max-width:none!important; margin:0!important;
     box-shadow:none!important; padding:0!important; background:#fff!important; color:#000!important }
   .sheet .box{ min-height:9.6mm } .sheet .box.sm{ min-height:8mm }
@@ -892,6 +916,9 @@ function pannello(rec,dove){
        '</div>'+
      '</div>'+
      '<div class="salva">'+
+       '<div class="cima"><div class="et">Salva nello storico</div>'+
+         '<div class="arch" id="s-msg">Congela prezzi dei filati, lavorazioni e '+
+         'divisore di oggi: li ritrovi nello storico qui a sinistra.</div></div>'+
        '<div class="due">'+
          '<div class="f"><label for="s-data">Data</label>'+
            '<input id="s-data" type="date" value="'+oggi()+'"></div>'+
@@ -900,8 +927,6 @@ function pannello(rec,dove){
            'autocomplete="off" maxlength="80"></div>'+
        '</div>'+
        '<button type="button" class="primary" id="s-salva">Salva valutazione</button>'+
-       '<div class="arch" id="s-msg">Finisce nello storico qui accanto, '+
-         'visibile anche ai colleghi.</div>'+
      '</div>'+
    '</div>'+
   '</div></div>';
@@ -1179,6 +1204,7 @@ function mostra(rec){
 function disegna(){
   var c=document.getElementById('content');
   if(!c||!REC) return;
+  elView.classList.toggle('costo', MODO==='costo');
   if(MODO==='costo'){ pannello(REC,c); } else { c.innerHTML=card(REC); } }
 
 /* ---------- ricerca sul database ---------- */
@@ -1199,6 +1225,7 @@ function eseguiRicerca(){
   if(!a && !b && !c && !t){
     hits=[]; sel=-1; corpo.classList.add('solo'); elList.innerHTML='';
     top.classList.add('senza');
+    elView.classList.remove('costo');
     elView.innerHTML=vuotoBox('Cerca una scheda',
       'Scrivi nei campi qui sopra: articolo, altezza, colore o un pezzo di descrizione. '+
       'I filtri si combinano fra loro.',
@@ -1229,7 +1256,8 @@ function eseguiRicerca(){
       if(!hits.length){
         corpo.classList.add('solo'); elList.innerHTML='';
         top.classList.add('senza');
-        elView.innerHTML=vuotoBox('Nessuna scheda con questi filtri',
+        elView.classList.remove('costo');
+    elView.innerHTML=vuotoBox('Nessuna scheda con questi filtri',
           'Prova a togliere un filtro, o a cercare un pezzo di descrizione invece del codice.',
           '<button type="button" class="primary" id="az2">Azzera i filtri</button>');
         var az=document.getElementById('az2');
@@ -1253,15 +1281,18 @@ function apri(j){
     if(n.setAttribute) n.setAttribute('aria-selected', n.dataset && +n.dataset.j===j?'true':'false'); });
   var n=elList.querySelector('[data-j="'+j+'"]');
   if(n && n.scrollIntoView) n.scrollIntoView({block:'nearest'});
+  elView.classList.remove('costo');
   elView.innerHTML='<p class="hint">Carico la scheda…</p>';
   sb.from('schede').select('dati').eq('id',hits[j].id).single().then(function(res){
-    if(res.error){ elView.innerHTML=vuotoBox('Non riesco ad aprire la scheda',
+    if(res.error){ elView.classList.remove('costo');
+    elView.innerHTML=vuotoBox('Non riesco ad aprire la scheda',
       esc(res.error.message),''); return; }
     mostra(res.data.dati||{}); }); }
 
 /* ---------- aggiornamento archivio ---------- */
 function paginaAggiorna(){
   elList.innerHTML='';
+  elView.classList.remove('costo');
   elView.innerHTML='<div id="agg"><h2>Aggiorna l’archivio</h2>'+
    '<div class="avviso">L’operazione <b>sostituisce tutte le schede</b> con quelle del file. '+
    'Per un minuto circa l’archivio resta incompleto: evita di farlo mentre i colleghi consultano.</div>'+
