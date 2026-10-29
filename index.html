@@ -286,6 +286,12 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 .out.sell .k,.out.sell .u{color:rgba(255,255,255,.85)}
 .out.sell .n{color:#fff}
 .nota{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.5}
+.azioni{display:flex;align-items:center;gap:10px;flex:none}
+.azioni .lbl{display:none}
+.velo{display:none}
+/* tutto cio' che esiste solo sul telefono: acceso piu' sotto, nel suo media */
+.solo-tel{display:none}
+
 @media (min-width:1181px){
  /* Con poche valutazioni il contenuto arriva in fondo allo schermo: lo storico,
     l'unica parte che puo' crescere, si prende lo spazio che resta. Aprendo le
@@ -310,6 +316,121 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
 @media (max-width:1180px){
  .cc-out{position:static;flex:1 1 280px}
 }
+
+/* ------------------------------------------------------------------
+   TELEFONO. Una colonna sola, testata su una riga, e i due numeri che
+   contano (costo e vendita) sempre fermi in fondo mentre si scrive.
+   ------------------------------------------------------------------ */
+@media (max-width:760px){
+ .solo-tel{display:flex}
+
+ header{padding:14px 10px 8px}
+ .appbar{position:relative;flex-wrap:wrap;gap:7px;max-width:none}
+ .marchio,#elenco,.conta{display:none}
+ .tit{flex:1 1 auto;min-width:0}
+ .tit .t1{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .tit .t2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+ .pill{display:none}
+ #top.cerca .pill{display:flex;flex:1 1 100%;flex-wrap:wrap;gap:6px;margin:2px 0 0;
+  border-radius:22px;padding:8px 10px}
+ #top.cerca .pill .lente{margin:0 2px}
+ #top.cerca .fld{flex:1 1 42%;border-left:none;background:var(--panel);
+  border-radius:12px;padding:6px 10px}
+ #top.cerca .fld.dsc{flex:1 1 100%}
+
+ .azioni{display:none}
+ #top.menu .azioni{display:flex;flex-direction:column;align-items:stretch;gap:6px;
+  position:absolute;right:0;top:calc(100% + 8px);z-index:40;background:var(--panel);
+  border-radius:18px;padding:8px;min-width:200px;
+  box-shadow:0 12px 30px rgba(23,29,24,.20)}
+ #top.menu .azioni button{width:100%;justify-content:flex-start;border-radius:12px;
+  display:flex;align-items:center;gap:10px;height:auto;min-height:44px;padding:10px 14px}
+ #top.menu .azioni .lbl{display:inline;font:600 12.5px inherit}
+
+ main{flex-direction:column;gap:8px;padding:2px 10px 10px}
+ #list{display:none}
+ #top.cerca ~ #corpo #list{display:block;flex:none;max-height:34vh;order:-1}
+ #view{padding:0 0 84px}
+
+ .cap{margin:2px 0 10px;gap:8px}
+ .cap h1{font-size:20px}
+ .cap .desc{font-size:12.5px}
+ .spec{flex-wrap:nowrap;overflow-x:auto;gap:6px;margin:0 0 10px;padding-bottom:2px;
+  scrollbar-width:none}
+ .spec::-webkit-scrollbar{display:none}
+ .sp{flex:none;padding:6px 12px;font-size:11.5px}
+
+ .cc{display:block}
+ .duecol{grid-template-columns:minmax(0,1fr);gap:10px}
+ .pan{border-radius:20px;padding:12px 12px 10px}
+ .sh{font-size:15px}
+ .unita{display:none}
+
+ /* filato: nome e totale sopra, grammi e prezzo sotto */
+ .prow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;
+  align-items:center;padding:9px 12px;border-radius:16px}
+ .prow .pn{grid-column:1;grid-row:1}
+ .prow .pv{display:contents}
+ .prow .pc{grid-column:2;grid-row:1;font-size:15px}
+ .prow .pg{grid-column:1;grid-row:2;text-align:left;font-size:12px}
+ .prow input{grid-column:2;grid-row:2;width:118px;font-size:15px;padding:9px 11px}
+
+ /* i totali: barra fissa in fondo, e il dettaglio si apre dal basso */
+ .riass{position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:var(--prim-c);color:var(--on-prim-c);border-radius:24px 24px 0 0;
+  padding:11px 16px calc(14px + env(safe-area-inset-bottom,0px));
+  align-items:center;gap:12px;box-shadow:0 -6px 20px rgba(23,29,24,.12);cursor:pointer}
+ .riass .v{flex:1 1 0;min-width:0}
+ .riass .et{color:var(--on-prim-c)}
+ .riass b{display:block;font-size:25px;font-weight:900;letter-spacing:-.03em;
+  line-height:1.05;font-variant-numeric:tabular-nums}
+ .riass .ven b{color:#6B4000}
+ .riass .ib{background:rgba(0,33,15,.12)}
+ main.tot-aperto .riass{display:none}
+
+ .velo{position:fixed;inset:0;background:rgba(23,29,24,.30);z-index:35}
+ main.tot-aperto .velo{display:block}
+
+ .cc-out{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:40;min-width:0;
+  max-height:88vh;overflow:auto;background:var(--bg);border-radius:26px 26px 0 0;
+  padding:10px 12px calc(16px + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -12px 30px rgba(23,29,24,.22);
+  transform:translateY(110%);transition:transform .22s ease}
+ main.tot-aperto .cc-out{transform:none}
+ .cc-out .dentro{display:block}
+ .maniglia{display:block;width:100%;min-height:0;padding:0;margin:0 0 10px;border:none;
+  background:none;height:22px;position:relative}
+ .maniglia::before{content:"";position:absolute;left:50%;top:9px;width:116px;height:4px;
+  margin-left:-58px;border-radius:999px;background:#C9D3C7}
+ .salva{margin-top:9px}
+
+ /* lo storico e' una schermata a se', si apre dalla riga in fondo al calcolo */
+ .riga-st{align-items:center;justify-content:space-between;gap:10px;width:100%;
+  background:var(--surf1);border:none;border-radius:20px;padding:12px 14px;
+  margin-top:10px;text-align:left;color:var(--ink);min-height:0}
+ .riga-st b{display:block;font-size:14px;font-weight:700}
+ .riga-st i{display:block;font-style:normal;font-size:11.5px;color:var(--ink-soft);
+  margin-top:2px}
+ .riga-st svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--ink-soft);
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ #storico{display:none}
+ main.st-aperto .cap,main.st-aperto .spec,main.st-aperto .duecol,
+ main.st-aperto .riga-st{display:none}
+ main.st-aperto #storico{display:block}
+ .st-cap{align-items:center;justify-content:flex-start;gap:6px}
+ .st-cap .sh{flex:1 1 auto}
+ .st-cap .q{flex:1 1 100%;margin-left:2px}
+ .chiudi-st{margin-left:-6px}
+ .st-box{background:none;padding:0}
+ .vr{border-radius:18px;margin-bottom:8px}
+ .vr .rg{grid-template-columns:minmax(0,1fr) auto auto auto 14px;gap:8px;padding:11px 12px}
+ .vr .nt{display:none}
+ .vr .nc,.vr .np{font-size:13px}
+ .vd .vv{grid-template-columns:minmax(0,1fr)}
+ .vd .azioni{display:flex;gap:9px}
+}
+
 @media (max-width:860px){
  main{flex-direction:column;gap:10px}
  #list{flex:none;max-height:32vh}
@@ -478,7 +599,7 @@ header.agg ~ main #list{display:none}
   .prow .pc{ font-size:9.5pt }
   .cc{ display:block!important }
   .cc-out{ position:static!important; margin-top:3mm; padding-top:0!important }
-  #storico,.salva,.mini{ display:none!important }
+  #storico,.salva,.mini,.riass,.velo,.riga-st{ display:none!important }
   .cap h1{ font-size:15pt } .cap .desc{ font-size:9pt }
   .spec{ margin:2mm 0 3mm } .sp{ padding:1mm 4mm; border-color:#999!important }
   .sh{ font-size:8pt; margin-bottom:1mm }
@@ -542,6 +663,12 @@ header.agg ~ main #list{display:none}
          alt="Manifattura Corti" decoding="async">
     <div class="tit"><div class="t1">Schede tecniche</div>
       <div class="t2" id="src"></div></div>
+    <button id="cerca-m" class="ib solo-tel" type="button" aria-label="Cerca"><svg
+      viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path
+      d="M20 20l-4-4"/></svg></button>
+    <button id="menu-m" class="ib solo-tel" type="button" aria-label="Altre azioni"><svg
+      viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="none"><circle
+      cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></button>
 
     <div class="pill" id="cerca">
       <svg class="lente" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path
@@ -556,11 +683,13 @@ header.agg ~ main #list{display:none}
     </div>
     <div class="conta" id="count"></div>
 
-    <button id="stampa" type="button" class="primary">Stampa</button>
-    <button id="aggiorna" type="button">Aggiorna archivio</button>
-    <button id="esci" class="ib" type="button" aria-label="Esci" title="Esci"><svg
-      viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path
-      d="M10 16l-4-4 4-4"/><path d="M6 12h9"/></svg></button>
+    <div class="azioni" id="azioni">
+      <button id="stampa" type="button" class="primary">Stampa</button>
+      <button id="aggiorna" type="button">Aggiorna archivio</button>
+      <button id="esci" class="ib" type="button" aria-label="Esci" title="Esci"><svg
+        viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path
+        d="M10 16l-4-4 4-4"/><path d="M6 12h9"/></svg><span class="lbl">Esci</span></button>
+    </div>
   </div>
 </header>
 
@@ -912,10 +1041,15 @@ function pannello(rec,dove){
              ' · Divisore 86 '+nf.format(arcDiv)+', valori storici in lire.' : '')+'</p>'+
        '</div>'+
      '</div>'+
+     '<button type="button" class="riga-st solo-tel" id="apri-st">'+
+       '<span><b>Storico di questo articolo</b>'+
+         '<i id="st-ri">nessuna valutazione salvata</i></span>'+
+       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>'+
      '<div id="storico"></div>'+
    '</div>'+
 
    '<div class="cc-out"><div class="dentro">'+
+     '<button type="button" class="maniglia solo-tel" id="giu" aria-label="Chiudi"></button>'+
      '<div class="tot">'+
        '<div class="et">Costo totale</div>'+
        '<div class="big"><span id="cTot">–</span><em>€/m lineare</em></div>'+
@@ -936,7 +1070,7 @@ function pannello(rec,dove){
      '<div class="salva">'+
        '<div class="cima"><div class="et">Salva nello storico</div>'+
          '<div class="arch" id="s-msg">Congela prezzi dei filati, lavorazioni e '+
-         'divisore di oggi: li ritrovi nello storico qui a sinistra.</div></div>'+
+         'divisore di oggi: li ritrovi nello storico di questa scheda.</div></div>'+
        '<div class="due">'+
          '<div class="f"><label for="s-data">Data</label>'+
            '<input id="s-data" type="date" value="'+oggi()+'"></div>'+
@@ -947,6 +1081,12 @@ function pannello(rec,dove){
        '<button type="button" class="primary" id="s-salva">Salva valutazione</button>'+
      '</div>'+
    '</div></div>'+
+   '<div class="velo" id="velo"></div>'+
+   '<div class="riass solo-tel" id="riass">'+
+     '<div class="v"><div class="et">Costo &euro;/m</div><b id="rCost">&ndash;</b></div>'+
+     '<div class="v ven"><div class="et">Vendita &euro;/m</div><b id="rVen">&ndash;</b></div>'+
+     '<span class="ib" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></span>'+
+   '</div>'+
   '</div></div>';
   elView.innerHTML=h;
   ['calo','ordit','tar','fin1','fin2','fin3','divis'].forEach(function(id){
@@ -961,6 +1101,15 @@ function pannello(rec,dove){
         if(g.k===f.k && g.id!==f.id){ var o=$(g.id); if(o) o.value=e.value; } });
       salvaPrezzi(); calc(); }); });
   $('s-salva').addEventListener('click',salvaValutazione);
+  /* telefono: la barra in fondo apre il pannello dei totali, la riga porta allo storico */
+  var riass=$('riass'), velo=$('velo'), apSt=$('apri-st');
+  if(riass) riass.addEventListener('click',function(){ corpo.classList.add('tot-aperto'); });
+  function giuPannello(){ corpo.classList.remove('tot-aperto'); }
+  if(velo) velo.addEventListener('click',giuPannello);
+  var man=$('giu'); if(man) man.addEventListener('click',giuPannello);
+  if(apSt) apSt.addEventListener('click',function(){
+    corpo.classList.add('st-aperto');
+    if(elView.scrollTo) elView.scrollTo({top:0}); });
   azzeratore('azz-fil',function(){
     FILI.forEach(function(f){ var e=$(f.id); if(e) e.value=''; delete PRZ[f.k]; });
     return 'Prezzi dei filati azzerati.'; });
@@ -1053,8 +1202,14 @@ function caricaStorico(){
 function disegnaStorico(){
   var box=$('storico'); if(!box) return;
   var n=STORICO.length;
+  var ri=$('st-ri');
+  if(ri) ri.textContent = n ? (n+(n===1?' valutazione':' valutazioni')+
+        ' \u00b7 l\u2019ultima '+quando(STORICO[0].data)) : 'nessuna valutazione salvata';
   var tutteAperte = n>0 && STORICO.every(function(x){ return x.aperta; });
   var testa='<div class="st"><div class="st-cap">'+
+    '<button type="button" class="ib piatto solo-tel chiudi-st" id="chiudi-st" '+
+      'aria-label="Torna al calcolo"><svg viewBox="0 0 24 24" aria-hidden="true">'+
+      '<path d="M15 5l-7 7 7 7"/></svg></button>'+
     '<h2 class="sh">Storico di questo articolo</h2><span class="q">'+
     (n? (n+(n===1?' valutazione':' valutazioni')+' · l’ultima '+quando(STORICO[0].data)) :
         'nessuna valutazione salvata')+
@@ -1093,6 +1248,9 @@ function disegnaStorico(){
       var i=+b.parentNode.dataset.i;
       STORICO[i].aperta = !STORICO[i].aperta;    /* le altre restano come sono */
       disegnaStorico(); }); });
+  var chiudi=$('chiudi-st');
+  if(chiudi) chiudi.addEventListener('click',function(){
+    corpo.classList.remove('st-aperto'); });
   var tutte=$('st-tutte');
   if(tutte) tutte.addEventListener('click',function(){
     var apri=!STORICO.every(function(x){ return x.aperta; });
@@ -1219,6 +1377,8 @@ function calc(){
   var E=function(v){ return v>0?(eur.format(v)+' €'):'–'; };
   var scrivi=function(id,v){ var e=$(id); if(e) e.textContent=E(v); };
   scrivi('cTot',cTot); scrivi('cTotQ',cTotQ); scrivi('pVen',pVen); scrivi('pVenQ',pVenQ);
+  /* gli stessi due numeri nella barra in fondo, quella del telefono */
+  scrivi('rCost',cTot); scrivi('rVen',pVen);
 
   /* nello specchietto il finissaggio 1 e il 2 viaggiano insieme;
      restano due caselle distinte da compilare. */
@@ -1240,7 +1400,8 @@ function calc(){
 
 /* ---------- disegno della vista scelta ---------- */
 function mostra(rec){
-  REC=rec; top.classList.remove('senza');
+  REC=rec; top.classList.remove('senza','menu');
+  corpo.classList.remove('tot-aperto','st-aperto');
   elView.innerHTML='<div id="content"></div>';
   disegna(); elView.scrollTop=0; }
 function disegna(){
@@ -1445,7 +1606,9 @@ function vaiA(m){                 /* null = dashboard */
   if(casa){ REC=null; hits=[]; sel=-1; elCount.textContent='';
             dashboard(); contaSchede(); return; }
   if(m==='aggiorna'){ REC=null; elCount.textContent=''; paginaAggiorna(); return; }
-  REC=null; eseguiRicerca(); qa.focus(); }
+  REC=null; corpo.classList.remove('tot-aperto','st-aperto');
+  top.classList.add('cerca');
+  eseguiRicerca(); qa.focus(); }
 
 function entra(){
   gate.hidden=true; top.hidden=false;
@@ -1464,6 +1627,17 @@ document.getElementById('gform').addEventListener('submit',function(e){
       if(res.error){ document.getElementById('g-err').textContent=
         'Accesso non riuscito. Controlla indirizzo e password.'; return; }
       entra(); }); });
+
+/* Sul telefono la testata sta su una riga sola: la lente apre i campi di ricerca,
+   i tre puntini raccolgono Stampa, Aggiorna archivio ed Esci. */
+document.getElementById('cerca-m').addEventListener('click',function(){
+  top.classList.remove('menu');
+  top.classList.toggle('cerca');
+  if(top.classList.contains('cerca')) qa.focus(); });
+document.getElementById('menu-m').addEventListener('click',function(e){
+  e.stopPropagation(); top.classList.toggle('menu'); });
+document.addEventListener('click',function(e){
+  if(!top.contains(e.target)) top.classList.remove('menu'); });
 
 document.getElementById('esci').addEventListener('click',function(){
   sb.auth.signOut().then(function(){ location.reload(); }); });
@@ -1497,7 +1671,8 @@ document.getElementById('file-input').addEventListener('change',function(e){
     if(e.key==='ArrowDown'){ e.preventDefault(); apri(sel+1); }
     else if(e.key==='ArrowUp'){ e.preventDefault(); apri(sel-1); } }); });
 elList.addEventListener('click',function(e){
-  var t=e.target.closest?e.target.closest('.it'):null; if(t) apri(+t.dataset.j); });
+  var t=e.target.closest?e.target.closest('.it'):null;
+  if(t){ top.classList.remove('cerca'); apri(+t.dataset.j); } });
 
 sb.auth.getSession().then(function(res){ if(res.data && res.data.session) entra(); });
 
