@@ -252,51 +252,62 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  background:var(--verde-soft);border-color:transparent;color:var(--ink)}
 .vd .azioni button:hover{background:var(--surf3)}
 
-/* ---------- storico a confronto: una colonna per valutazione ---------- */
+/* ---------- storico: confronto fra due valutazioni ---------- */
 .st-cap .vista{margin-left:auto;display:flex;gap:6px}
 .pillv{font:600 11.5px inherit;padding:7px 13px;min-height:0;border:none;
  border-radius:999px;background:var(--surf3);color:var(--ink-soft)}
 .pillv.on{background:var(--verde);color:#fff}
 .pillv.on:hover{background:#1f5435}
-.tabst{overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;min-width:0;max-width:100%;
- --vo:200px;--ul:168px;--mc:118px}
-.tabst .trg,.tabst .tsz{display:grid;gap:0 8px;align-items:center}
-.tabst .trg>*{padding:5px 10px}
-.tabst .vo{padding-left:6px;position:sticky;left:0;z-index:2;background:var(--surf1)}
-.tabst .vo b{display:block;font-size:13px;font-weight:500;line-height:1.25}
-.tabst .vo i{display:block;font-style:normal;font-size:10px;color:var(--ink-soft)}
-.tabst .cel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;
- align-items:baseline;font-variant-numeric:tabular-nums}
-.tabst .cel .p{text-align:right;font-size:11px;font-weight:600;color:var(--ink-soft);
- white-space:nowrap}
-.tabst .cel .v{text-align:right;font-size:13.5px;font-weight:700;white-space:nowrap}
-.tabst .ult{background:var(--verde-soft);position:sticky;left:var(--vo);z-index:1}
-.tabst .primo .ult{border-radius:14px 14px 0 0}
-.tabst .cam{background:var(--ambra-soft)}
-.tabst .cam .p{color:var(--ambra)}
-.tabst .tsz{margin-top:9px;border-bottom:1px solid rgba(23,29,24,.16)}
-.tabst .tsz .et{padding:7px 6px 4px}
-.tabst .tsz .ult{height:100%}
-.tabst .int{border-bottom:1px solid var(--line);margin-bottom:2px}
-.tabst .tes{text-align:right;font-size:12.5px;font-weight:700;line-height:1.2;
- padding:5px 10px 7px}
-.tabst .tes small{display:block;font-weight:500;font-size:10.5px;color:var(--ink-soft);
- white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tabst .tes.ult{background:var(--prim-c);color:var(--on-prim-c);border-radius:14px 14px 0 0;
- z-index:3}
-.tabst .tes.ult small{color:var(--on-prim-c)}
-.tabst .cmd{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
-.tabst .cmd .lnk{font-size:10.5px;padding:0;text-decoration:underline}
-.tabst .tes.ult .cmd .lnk{color:var(--on-prim-c)}
-.tabst .somma{border-top:1px solid rgba(23,29,24,.10)}
-.tabst .somma .vo b{font-weight:700}
-.tabst .fine{margin-top:8px;padding-top:8px;border-top:2px solid rgba(23,29,24,.22)}
-.tabst .fine .r2{border-top:1px solid rgba(23,29,24,.10)}
-.tabst .fine .cel .v{font-size:18px;font-weight:900;letter-spacing:-.02em}
-.tabst .fine .vo b{font-weight:700}
-.tabst .fine .r1 .ult{background:var(--prim-c);color:var(--on-prim-c);border-radius:14px 14px 0 0}
-.tabst .fine .r2 .ult{background:var(--ter-c);color:var(--on-ter-c);border-radius:0 0 14px 14px}
-.tabst .fine .ult .p{color:inherit;opacity:.75}
+/* la striscia delle date: un tocco e diventa il termine di paragone */
+.cfdate{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 9px}
+.cfch{background:var(--surf2);border:none;border-radius:999px;padding:7px 13px;
+ font:500 12px inherit;color:var(--ink-soft);display:flex;align-items:center;gap:7px;
+ min-height:0;white-space:nowrap}
+.cfch b{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.cfch:hover{background:var(--verde-soft)}
+.cfch.a{background:var(--prim-c);color:var(--on-prim-c)}
+.cfch.a b{color:var(--on-prim-c)}
+.cfch.b{background:var(--surf2);outline:2px solid var(--verde)}
+.cfch .tag{font-size:9px;font-weight:900;letter-spacing:.06em;background:rgba(0,0,0,.12);
+ border-radius:999px;padding:2px 6px}
+.cfaiuto{font-size:11.5px;color:var(--ink-soft)}
+/* la griglia: voce, A, differenza, B. Larghezze fisse: non si allarga a vuoto */
+.cf{--ca:186px;--cd:124px;--cb:186px}
+.cfr,.cfs{display:grid;grid-template-columns:minmax(200px,1fr) var(--ca) var(--cd) var(--cb);
+ gap:0 10px;align-items:center}
+.cfr>*{padding:6px 12px}
+.cfv b{display:block;font-size:13.5px;font-weight:500;line-height:1.25}
+.cfv i{display:block;font-style:normal;font-size:10px;color:var(--ink-soft)}
+.cfc{text-align:right;font-variant-numeric:tabular-nums}
+.cfc .p{display:block;font-size:11px;font-weight:600;color:var(--ink-soft)}
+.cfc .v{font-size:15px;font-weight:700}
+.cfc.a{background:var(--verde-soft)}
+.cfd{text-align:center;font-variant-numeric:tabular-nums;font-size:13px;font-weight:700}
+.cfd.su{color:#8A4B12}.cfd.giu{color:var(--verde)}.cfd.pari{color:#9AA69B;font-weight:500}
+.cfr.testa .cfc,.cfr.testa .cfd{font-size:12.5px;font-weight:700;padding-bottom:8px}
+.cfr.testa .cfc.a{border-radius:14px 14px 0 0;background:#C8E8D5}
+.cfsel{width:100%;font:700 12.5px inherit;color:var(--ink);background:var(--panel);
+ border:1px solid var(--line);border-radius:12px;padding:6px 8px;text-align:right}
+.cfr.testa .cfc.a .cfsel{background:rgba(255,255,255,.75);border-color:transparent}
+.cfcmd{display:flex;gap:9px;justify-content:flex-end;margin-top:5px}
+.cfcmd .lnk{font-size:10.5px;padding:0;text-decoration:underline}
+.cfs{margin-top:9px;border-bottom:1px solid rgba(23,29,24,.16)}
+.cfs .et{padding:7px 6px 4px}
+.cfs .a{background:var(--verde-soft);height:100%}
+.cfpieg{display:flex;align-items:baseline;gap:9px;padding:6px 12px;font-size:12px;
+ color:var(--ink-soft)}
+.cfpieg .lnk{font-size:12px}
+.cfr.somma{border-top:1px solid rgba(23,29,24,.10)}
+.cfr.somma .cfv b{font-weight:700}
+.cffin{margin-top:10px;padding-top:9px;border-top:2px solid rgba(23,29,24,.22)}
+.cffin .r2{border-top:1px solid rgba(23,29,24,.10)}
+.cffin .cfc .v{font-size:20px;font-weight:900;letter-spacing:-.02em}
+.cffin .cfd{font-size:15px}
+.cffin .cfv b{font-weight:700}
+.cffin .r1 .cfc.a{background:var(--prim-c);color:var(--on-prim-c);border-radius:14px 14px 0 0}
+.cffin .r2 .cfc.a{background:var(--ter-c);color:var(--on-ter-c);border-radius:0 0 14px 14px}
+.cffin .cfc.a .p{color:inherit;opacity:.75}
+.cfsolo{padding:10px 12px;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
 
 /* ogni filato e' una scheda bianca; i numeri stanno insieme a destra e,
    se lo spazio manca, scendono sotto al nome invece di schiacciarlo */
@@ -470,15 +481,19 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  main.st-aperto .cap,main.st-aperto .spec,main.st-aperto .duecol,
  main.st-aperto .riga-st{display:none}
  main.st-aperto #storico{display:block}
- .tabst{--vo:126px;--ul:110px;--mc:104px}
- .tabst .cel{grid-template-columns:auto auto;justify-content:end;gap:5px}
- .tabst .vo b{font-size:12px}
- .tabst .vo i{font-size:9.5px}
- .tabst .cel .v{font-size:12.5px}
- .tabst .cel .p{font-size:10px}
- .tabst .trg>*{padding:5px 8px}
- .tabst .tes{font-size:11.5px;padding:5px 8px 6px}
- .tabst .fine .cel .v{font-size:15px}
+ .cf{--ca:94px;--cd:58px;--cb:94px}
+ .cfr,.cfs{grid-template-columns:minmax(110px,1fr) var(--ca) var(--cd) var(--cb);gap:0 5px}
+ .cfr>*{padding:6px 6px}
+ .cfv b{font-size:12px}
+ .cfv i{font-size:9.5px}
+ .cfc .v{font-size:12.5px}
+ .cfc .p{font-size:10px}
+ .cfd{font-size:11px}
+ .cffin .cfc .v{font-size:15px}
+ .cffin .cfd{font-size:12px}
+ .cfr.testa .cfc,.cfr.testa .cfd{font-size:11px}
+ .cfsel{font-size:11px;padding:5px 6px}
+ .cfcmd{gap:7px}
  .st-cap{align-items:center;justify-content:flex-start;gap:6px}
  .st-cap .sh{flex:1 1 auto}
  .st-cap .q{flex:1 1 100%;margin-left:2px}
@@ -1260,105 +1275,154 @@ function caricaStorico(){
       if(res.error){ box.innerHTML='<div class="st"><div class="st-box">'+
         '<div class="st-vuoto">Lo storico non si carica: '+esc(res.error.message)+'</div>'+
         '</div></div>'; return; }
-      STORICO=res.data||[]; disegnaStorico(); }); }
+      STORICO=res.data||[];
+      /* nuovo articolo o storico ricaricato: si riparte dall'ultima contro la penultima */
+      ST_A=0; ST_B=(STORICO.length>1?1:0); ST_APRI={};
+      disegnaStorico(); }); }
 
 
-/* Lo storico messo a confronto: una riga per voce, una colonna per valutazione.
-   A sinistra di ogni numero il valore con cui e' stata fatta la valutazione
-   (prezzo al kg, percentuale di calo, tariffa), a destra quanto pesa sul metro. */
-function tabellaStorico(){
-  var cols=STORICO;
+/* Storico, vista a confronto: due valutazioni affiancate con in mezzo la
+   differenza. Le voci che non sono cambiate si piegano in una riga sola,
+   cosi' sotto gli occhi resta solo quello che e' davvero cambiato. */
+var ST_A=0, ST_B=1, ST_APRI={};
+
+function confrontoStorico(){
+  var n=STORICO.length;
+  if(ST_A>=n) ST_A=0;
+  if(ST_B>=n) ST_B=(n>1?(ST_A===0?1:0):0);
+  if(n>1 && ST_B===ST_A) ST_B=(ST_A===0?1:0);
+  var A=STORICO[ST_A], B=(n>1?STORICO[ST_B]:null);
+
+  /* le righe: i filati della scheda, piu' quelli che compaiono solo nelle
+     valutazioni messe a confronto */
   var chiavi=[], mappa={};
   function agg(f){ var k=f.ruolo+'#'+(f.n||1);
-    if(!mappa[k]) { mappa[k]=f; chiavi.push(k); } }
-  FILI.forEach(function(f){ agg({ruolo:f.ruolo,n:f.n,nome:f.nome,cod:f.cod,q:f.q}); });
-  cols.forEach(function(v){ ((v.dettaglio||{}).filati||[]).forEach(agg); });
-  chiavi.sort(function(a,b){ var A=mappa[a], B=mappa[b];
-    if(A.ruolo!==B.ruolo) return A.ruolo==='ordito'?-1:1;
-    return (A.n||1)-(B.n||1); });
+    if(!mappa[k]){ mappa[k]=f; chiavi.push(k); } }
+  FILI.forEach(function(f){ agg({ruolo:f.ruolo,n:f.n,nome:f.nome,cod:f.cod}); });
+  [A,B].forEach(function(v){ if(v) ((v.dettaglio||{}).filati||[]).forEach(agg); });
+  chiavi.sort(function(a,b){ var X=mappa[a], Y=mappa[b];
+    if(X.ruolo!==Y.ruolo) return X.ruolo==='ordito'?-1:1;
+    return (X.n||1)-(Y.n||1); });
 
-  function fil(v,k){
+  function fil(v,k){ if(!v) return null;
     var l=(v.dettaglio||{}).filati||[];
     for(var i=0;i<l.length;i++) if(l[i].ruolo+'#'+(l[i].n||1)===k) return l[i];
     return null; }
-  function somma(v,ruolo){
-    var l=(v.dettaglio||{}).filati||[], s=0, c=0;
-    l.forEach(function(f){ if(f.ruolo===ruolo){ s+=f.gm/1000*f.prezzo; c++; } });
-    return c?s:null; }
-  function E(x){ return (x||x===0)?eur.format(x)+' \u20ac':'\u2013'; }
+  function somma(v,ruolo){ if(!v) return null;
+    var l=(v.dettaglio||{}).filati||[], t=0, c=0;
+    l.forEach(function(f){ if(f.ruolo===ruolo){ t+=f.gm/1000*f.prezzo; c++; } });
+    return c?t:null; }
+  function E(x){ return (x||x===0)?eur.format(x)+' €':'–'; }
+  function scarto(a,b){
+    if(!B) return ['','pari'];
+    var d=(a||0)-(b||0);
+    if(Math.abs(d)<0.005) return ['=','pari'];
+    return [(d>0?'+':'−')+eur.format(Math.abs(d)), d>0?'su':'giu']; }
 
-  /* ogni riga e' un elenco di coppie [parametro, valore] lungo quanto le colonne */
-  function riga(nome,sub,coppie,extra){
-    var cam = cols.length>1 && coppie.length>1 &&
-              (coppie[0][0]+'|'+coppie[0][1]) !== (coppie[1][0]+'|'+coppie[1][1]);
-    var h='<div class="trg'+(extra?' '+extra:'')+'">'+
-      '<div class="vo"><b>'+nome+'</b>'+(sub?'<i>'+sub+'</i>':'')+'</div>';
-    coppie.forEach(function(c,i){
-      h+='<div class="cel'+(i===0?' ult':'')+(cam&&i===0?' cam':'')+'">'+
-         '<span class="p">'+(c[0]||'')+'</span><span class="v">'+c[1]+'</span></div>'; });
-    return h+'</div>'; }
-  function sez(t){
-    var h='<div class="tsz"><div class="et">'+t+'</div>';
-    cols.forEach(function(v,i){ h+='<div'+(i===0?' class="ult"':'')+'></div>'; });
-    return h+'</div>'; }
+  /* una riga: nome, valore in A, differenza, valore in B */
+  function riga(nome,sub,pa,va,pb,vb,extra){
+    var sc=scarto(va,vb);
+    return '<div class="cfr'+(extra?' '+extra:'')+'">'+
+      '<div class="cfv"><b>'+nome+'</b>'+(sub?'<i>'+sub+'</i>':'')+'</div>'+
+      '<div class="cfc a"><span class="p">'+(pa||'')+'</span><span class="v">'+E(va)+'</span></div>'+
+      '<div class="cfd '+sc[1]+'">'+sc[0]+'</div>'+
+      (B? '<div class="cfc"><span class="p">'+(pb||'')+'</span><span class="v">'+E(vb)+'</span></div>'
+        : '<div class="cfc"></div>')+
+      '</div>'; }
+  function sezione(t){
+    return '<div class="cfs"><div class="et">'+t+'</div><div class="a"></div>'+
+           '<div></div><div></div></div>'; }
+  function uguale(pa,va,pb,vb){
+    return B && (pa||'')===(pb||'') && Math.abs((va||0)-(vb||0))<0.005; }
 
-  var h='<style>#storico .tabst .trg,#storico .tabst .tsz{'+
-        'grid-template-columns:var(--vo) var(--ul) repeat('+Math.max(cols.length-1,0)+
-        ',minmax(var(--mc),1fr))}</style>'+
-        '<div class="tabst">';
+  /* blocco filati: prima quelli cambiati, poi una riga sola per gli altri */
+  function blocco(lista,titolo,ruolo,etichetta,chiave){
+    if(!lista.length) return '';
+    var h=sezione(titolo), nomi=[], nascoste='';
+    lista.forEach(function(k){
+      var m=mappa[k], fa=fil(A,k), fb=fil(B,k);
+      var pa=fa?eur.format(fa.prezzo):'', va=fa?fa.gm/1000*fa.prezzo:null;
+      var pb=fb?eur.format(fb.prezzo):'', vb=fb?fb.gm/1000*fb.prezzo:null;
+      var sub=m.ruolo+(m.n?' '+m.n:'')+(m.cod?' · '+esc(m.cod):'');
+      var r=riga(esc(m.nome)||'&ndash;',sub,pa,va,pb,vb);
+      if(uguale(pa,va,pb,vb)){ nomi.push(esc(m.nome)||'&ndash;'); nascoste+=r; }
+      else h+=r; });
+    if(nomi.length){
+      if(ST_APRI[chiave]) h+=nascoste;
+      h+='<div class="cfpieg"><span>'+nomi.length+
+         (nomi.length===1?' filato con lo stesso prezzo: ':' filati con lo stesso prezzo: ')+
+         nomi.join(', ')+'</span>'+
+         '<button type="button" class="lnk" data-piega="'+chiave+'">'+
+         (ST_APRI[chiave]?'nascondi':'mostra')+'</button></div>'; }
+    h+=riga(etichetta,'€/m','',somma(A,ruolo),'',somma(B,ruolo),'somma');
+    return h; }
 
-  /* intestazione: data, nota e i comandi della colonna */
-  h+='<div class="trg int"><div class="vo"></div>';
-  cols.forEach(function(v,i){
-    var cap=[]; if(v.nota) cap.push(esc(v.nota));
-    if(v.utente) cap.push(esc(String(v.utente).split('@')[0]));
-    h+='<div class="tes'+(i===0?' ult':'')+'">'+dataIt(v.data)+
-       '<small>'+(cap.join(' \u00b7 ')||'&nbsp;')+'</small>'+
-       '<span class="cmd"><button type="button" class="lnk" data-ric="'+i+'">ricarica</button>'+
-       '<button type="button" class="lnk" data-del="'+i+'">elimina</button></span></div>'; });
-  h+='</div>';
+  var h='<div class="cfdate">';
+  STORICO.forEach(function(v,i){
+    var cl=(i===ST_A?'a':(i===ST_B&&B?'b':''));
+    h+='<button type="button" class="cfch'+(cl?' '+cl:'')+'" data-pick="'+i+'">'+
+       (cl==='a'?'<span class="tag">A</span>':(cl==='b'?'<span class="tag">B</span>':''))+
+       dataIt(v.data)+' <b>'+eur.format(v.costo_ml||0)+' €</b></button>'; });
+  if(n>1) h+='<span class="cfaiuto">tocca una data per metterla a confronto</span>';
+  h+='</div><div class="cf">';
+
+  /* intestazione: due tendine, una per colonna */
+  function tendina(id,sel){
+    var o='';
+    STORICO.forEach(function(v,i){
+      o+='<option value="'+i+'"'+(i===sel?' selected':'')+'>'+dataIt(v.data)+
+         (v.nota?' · '+esc(v.nota):'')+'</option>'; });
+    return '<select class="cfsel" id="'+id+'">'+o+'</select>'; }
+  function comandi(i){
+    return '<div class="cfcmd"><button type="button" class="lnk" data-ric="'+i+'">ricarica</button>'+
+           '<button type="button" class="lnk" data-del="'+i+'">elimina</button></div>'; }
+  h+='<div class="cfr testa"><div class="cfv"></div>'+
+     '<div class="cfc a">'+tendina('cf-a',ST_A)+comandi(ST_A)+'</div>'+
+     '<div class="cfd">differenza</div>'+
+     (B? '<div class="cfc">'+tendina('cf-b',ST_B)+comandi(ST_B)+'</div>'
+       : '<div class="cfc"></div>')+'</div>';
+
+  if(!B) h+='<div class="cfsolo">C&rsquo;&egrave; una sola valutazione salvata: '+
+            'quando ne salvi un&rsquo;altra qui compare il confronto, voce per voce.</div>';
 
   var ord=chiavi.filter(function(k){ return mappa[k].ruolo==='ordito'; });
   var tra=chiavi.filter(function(k){ return mappa[k].ruolo!=='ordito'; });
+  h+=blocco(ord,'Ordito','ordito','Totale ordito','ord');
+  h+=blocco(tra,'Trama','trama','Totale trama','tra');
 
-  function blocco(lista,titolo,ruolo,etichetta){
-    if(!lista.length) return '';
-    var b=sez(titolo), primo=true;
-    lista.forEach(function(k){
-      var m=mappa[k];
-      var sub=m.ruolo+(m.n?' '+m.n:'')+(m.cod?' \u00b7 '+esc(m.cod):'');
-      b+=riga(esc(m.nome)||'&ndash;', sub, cols.map(function(v){
-        var f=fil(v,k);
-        return f ? [eur.format(f.prezzo), E(f.gm/1000*f.prezzo)] : ['','\u2013']; }),
-        primo?'primo':''); primo=false; });
-    b+=riga(etichetta,'\u20ac/m', cols.map(function(v){
-      return ['', E(somma(v,ruolo))]; }), 'somma');
-    return b; }
-
-  h+=blocco(ord,'Ordito','ordito','Totale ordito');
-  h+=blocco(tra,'Trama','trama','Totale trama');
-
-  h+=sez('Lavorazioni');
-  h+=riga('Calo','% sulle materie prime', cols.map(function(v){
-    var d=v.dettaglio||{};
-    return [nf.format(d.calo||0)+' %', E((d.voci||{}).calo)]; }));
-  h+=riga('Orditura','\u20ac/kg sul peso ordito', cols.map(function(v){
-    var d=v.dettaglio||{};
-    return [eur.format(d.ordit||0), E((d.voci||{}).orditura)]; }));
-  var batt=(cols[0].dettaglio||{}).battute||0;
-  h+=riga('Tessitura','tariffa battuta'+(batt?' \u00d7 '+nf.format(batt):''),
-    cols.map(function(v){ var d=v.dettaglio||{};
-      return [fine.format(d.tar||0), E((d.voci||{}).tessitura)]; }));
+  /* lavorazioni: stesso trattamento, le identiche si piegano */
+  h+=sezione('Lavorazioni');
+  var dA=(A.dettaglio||{}), dB=(B?(B.dettaglio||{}):{});
+  var vA=dA.voci||{}, vB=dB.voci||{};
+  var lav=[
+    ['Calo','% sulle materie prime', nf.format(dA.calo||0)+' %', vA.calo,
+      B?nf.format(dB.calo||0)+' %':'', vB.calo],
+    ['Orditura','€/kg sul peso ordito', eur.format(dA.ordit||0), vA.orditura,
+      B?eur.format(dB.ordit||0):'', vB.orditura],
+    ['Tessitura','tariffa battuta'+(dA.battute?' × '+nf.format(dA.battute):''),
+      fine.format(dA.tar||0), vA.tessitura, B?fine.format(dB.tar||0):'', vB.tessitura]
+  ];
   [0,1,2].forEach(function(j){
-    h+=riga('Finissaggio '+(j+1),'\u20ac/m', cols.map(function(v){
-      var x=((v.dettaglio||{}).fin||[])[j];
-      return ['', x? E(x) : '\u2013']; })); });
+    lav.push(['Finissaggio '+(j+1),'€/m','',(dA.fin||[])[j],'',B?(dB.fin||[])[j]:null]); });
+  var nomiL=[], nascL='';
+  lav.forEach(function(r){
+    var x=riga(r[0],r[1],r[2],r[3],r[4],r[5]);
+    if(uguale(r[2],r[3],r[4],r[5])){ nomiL.push(r[0].toLowerCase()); nascL+=x; }
+    else h+=x; });
+  if(nomiL.length){
+    if(ST_APRI.lav) h+=nascL;
+    h+='<div class="cfpieg"><span>'+nomiL.length+
+       (nomiL.length===1?' voce identica: ':' voci identiche: ')+nomiL.join(', ')+'</span>'+
+       '<button type="button" class="lnk" data-piega="lav">'+
+       (ST_APRI.lav?'nascondi':'mostra')+'</button></div>'; }
 
-  h+='<div class="fine">'+
-     riga('Costo totale','\u20ac/m lineare \u00b7 \u20ac/m\u00b2', cols.map(function(v){
-       return [eur.format(v.costo_mq||0)+' \u20ac/m\u00b2', E(v.costo_ml)]; }),'r1')+
-     riga('Prezzo di vendita','divisore '+nf.format(cols[0].divisore||0), cols.map(function(v){
-       return [eur.format(v.prezzo_mq||0)+' \u20ac/m\u00b2', E(v.prezzo_ml)]; }),'r2')+
+  h+='<div class="cffin">'+
+     riga('Costo totale','€/m lineare',
+          eur.format(A.costo_mq||0)+' €/m²', A.costo_ml,
+          B?eur.format(B.costo_mq||0)+' €/m²':'', B?B.costo_ml:null,'r1')+
+     riga('Prezzo di vendita','divisore '+nf.format(A.divisore||0),
+          eur.format(A.prezzo_mq||0)+' €/m²', A.prezzo_ml,
+          B?eur.format(B.prezzo_mq||0)+' €/m²':'', B?B.prezzo_ml:null,'r2')+
      '</div>';
   return h+'</div>'; }
 
@@ -1391,10 +1455,10 @@ function disegnaStorico(){
     collegaStorico(box); return; }
 
   if(VISTA_ST==='conf'){
-    box.innerHTML=testa+tabellaStorico()+'</div>'+
-      '<p class="nota">In ogni colonna, a sinistra il valore con cui &egrave; stata fatta la '+
-      'valutazione (€/kg del filato, percentuale di calo, tariffa) e a destra quanto pesa sul '+
-      'metro. In giallo le voci cambiate rispetto alla valutazione precedente.</p></div>';
+    box.innerHTML=testa+confrontoStorico()+'</div>'+
+      '<p class="nota">A sinistra di ogni valore il parametro con cui &egrave; stato calcolato '+
+      '(€/kg del filato, percentuale di calo, tariffa). Le voci rimaste uguali sono raccolte '+
+      'in una riga sola.</p></div>';
     collegaStorico(box); return; }
 
   var righe='';
@@ -1446,6 +1510,21 @@ function collegaStorico(box){
       try{ localStorage.setItem('storico_vista',quale); }catch(e){}
       disegnaStorico(); }); }
   vista('st-conf','conf'); vista('st-lista','lista');
+  /* la striscia delle date sceglie il termine di paragone; toccando la A si scambiano */
+  box.querySelectorAll('[data-pick]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.pick;
+      if(i===ST_A){ var t=ST_A; ST_A=ST_B; ST_B=t; }
+      else ST_B=i;
+      disegnaStorico(); }); });
+  function tend(id,set){
+    var e=$(id); if(!e) return;
+    e.addEventListener('change',function(){ set(+e.value); disegnaStorico(); }); }
+  tend('cf-a',function(i){ if(i===ST_B) ST_B=ST_A; ST_A=i; });
+  tend('cf-b',function(i){ if(i===ST_A) ST_A=ST_B; ST_B=i; });
+  box.querySelectorAll('[data-piega]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.piega; ST_APRI[k]=!ST_APRI[k]; disegnaStorico(); }); });
   box.querySelectorAll('[data-ric]').forEach(function(b){
     b.addEventListener('click',function(){ ricarica(STORICO[+b.dataset.ric]); }); });
   box.querySelectorAll('[data-del]').forEach(function(b){
