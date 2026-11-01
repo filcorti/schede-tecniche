@@ -252,61 +252,81 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  background:var(--verde-soft);border-color:transparent;color:var(--ink)}
 .vd .azioni button:hover{background:var(--surf3)}
 
-/* ---------- storico: confronto fra due valutazioni ---------- */
+/* ---------- storico a colonne: una scheda per valutazione ---------- */
 .st-cap .vista{margin-left:auto;display:flex;gap:6px}
 .pillv{font:600 11.5px inherit;padding:7px 13px;min-height:0;border:none;
  border-radius:999px;background:var(--surf3);color:var(--ink-soft)}
 .pillv.on{background:var(--verde);color:#fff}
 .pillv.on:hover{background:#1f5435}
-/* la striscia delle date: un tocco e diventa il termine di paragone */
-.cfdate{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 9px}
-.cfch{background:var(--surf2);border:none;border-radius:999px;padding:7px 13px;
- font:500 12px inherit;color:var(--ink-soft);display:flex;align-items:center;gap:7px;
- min-height:0;white-space:nowrap}
-.cfch b{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
-.cfch:hover{background:var(--verde-soft)}
-.cfch.a{background:var(--prim-c);color:var(--on-prim-c)}
-.cfch.a b{color:var(--on-prim-c)}
-.cfch.b{background:var(--surf2);outline:2px solid var(--verde)}
-.cfch .tag{font-size:9px;font-weight:900;letter-spacing:.06em;background:rgba(0,0,0,.12);
- border-radius:999px;padding:2px 6px}
-.cfaiuto{font-size:11.5px;color:var(--ink-soft)}
-/* la griglia: voce, A, differenza, B. Larghezze fisse: non si allarga a vuoto */
-.cf{--ca:186px;--cd:124px;--cb:186px}
-.cfr,.cfs{display:grid;grid-template-columns:minmax(200px,1fr) var(--ca) var(--cd) var(--cb);
- gap:0 10px;align-items:center}
-.cfr>*{padding:6px 12px}
-.cfv b{display:block;font-size:13.5px;font-weight:500;line-height:1.25}
+
+.cf{--vo:286px;--ul:190px;--mc:136px;--xc:212px;
+ overflow-x:auto;overflow-y:hidden;padding:2px 2px 4px;min-width:0;max-width:100%}
+.cf .trg,.cf .tsz{display:grid;gap:0 10px;align-items:stretch}
+.cf .trg>*{padding:5px 12px}
+.cf .trg>*:last-child,.cf .tsz>*:last-child{padding:0}
+.cfv{padding-left:2px;align-self:center;position:sticky;left:0;z-index:2;
+ background:var(--surf1)}
+.cfv b{display:block;font-size:13px;font-weight:500;line-height:1.25}
 .cfv i{display:block;font-style:normal;font-size:10px;color:var(--ink-soft)}
-.cfc{text-align:right;font-variant-numeric:tabular-nums}
-.cfc .p{display:block;font-size:11px;font-weight:600;color:var(--ink-soft)}
-.cfc .v{font-size:15px;font-weight:700}
-.cfc.a{background:var(--verde-soft)}
-.cfd{text-align:center;font-variant-numeric:tabular-nums;font-size:13px;font-weight:700}
-.cfd.su{color:#8A4B12}.cfd.giu{color:var(--verde)}.cfd.pari{color:#9AA69B;font-weight:500}
-.cfr.testa .cfc,.cfr.testa .cfd{font-size:12.5px;font-weight:700;padding-bottom:8px}
-.cfr.testa .cfc.a{border-radius:14px 14px 0 0;background:#C8E8D5}
-.cfsel{width:100%;font:700 12.5px inherit;color:var(--ink);background:var(--panel);
- border:1px solid var(--line);border-radius:12px;padding:6px 8px;text-align:right}
-.cfr.testa .cfc.a .cfsel{background:rgba(255,255,255,.75);border-color:transparent}
-.cfcmd{display:flex;gap:9px;justify-content:flex-end;margin-top:5px}
+.cl{background:var(--panel);text-align:right;font-variant-numeric:tabular-nums;
+ display:flex;flex-direction:column;justify-content:center}
+.cl.u{background:var(--verde-soft);position:sticky;left:var(--vo);z-index:1}
+.cl.cima{padding-top:11px;border-radius:16px 16px 0 0}
+.cl.fondo{padding-bottom:11px;border-radius:0 0 16px 16px}
+/* l'unita' di misura sta davanti al numero */
+.um{font-size:9.5px;font-weight:700;color:#8A938B;margin-right:5px}
+.cl .p{font-size:11.5px;font-weight:600;color:#6B746C}
+.cl .p .um{color:#9AA69B}
+.cl .v{font-size:14.5px;font-weight:700}
+.cl .v .um{color:#6B746C}
+.cl.u .p{color:#2E5B41}
+.cl.u .p .um,.cl.u .v .um{color:#4A7A5C}
+.pt{display:inline-block;width:6px;height:6px;border-radius:999px;background:var(--ambra);
+ margin-right:5px;vertical-align:1px}
+/* i tre blocchi: ordito, trama, lavorazioni */
+.cf .sz{padding:14px 2px 5px;font-size:13px;font-weight:900;letter-spacing:.09em;
+ text-transform:uppercase;color:var(--ink);align-self:end;position:sticky;left:0;z-index:2;
+ background:var(--surf1)}
+.cf .vuoto{background:var(--panel)}
+.cf .vuoto.u{background:var(--verde-soft);position:sticky;left:var(--vo);z-index:1}
+.trg.somma .cfv b{font-weight:700}
+.trg.somma .cl .v{font-size:15px}
+.trg.grossa .cfv b{font-size:14px;font-weight:900}
+.trg.grossa .cl{border-top:1px solid rgba(23,29,24,.14)}
+.trg.grossa .cl .v{font-size:16.5px;font-weight:900;letter-spacing:-.01em}
+/* intestazione di colonna */
+.cl.tst{text-align:right}
+.cl .dt{font-size:13px;font-weight:700;line-height:1.15}
+.cl .nt{font-size:10px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;
+ text-overflow:ellipsis}
+.cl .co{font-size:15px;font-weight:900;letter-spacing:-.02em;margin-top:5px;
+ font-variant-numeric:tabular-nums}
+.cl .dl{align-self:flex-end;display:inline-block;font-size:10px;font-weight:700;
+ border-radius:999px;padding:2px 7px;margin-top:3px;font-variant-numeric:tabular-nums}
+.dl.su{background:var(--ter-c);color:#7A3B13}
+.dl.giu{background:var(--prim-c);color:var(--on-prim-c)}
+.dl.pari{background:var(--surf3);color:var(--ink-soft)}
+.cl.u .dl.su{background:var(--panel)}
+.cfcmd{display:flex;gap:8px;justify-content:flex-end;margin-top:7px}
 .cfcmd .lnk{font-size:10.5px;padding:0;text-decoration:underline}
-.cfs{margin-top:9px;border-bottom:1px solid rgba(23,29,24,.16)}
-.cfs .et{padding:7px 6px 4px}
-.cfs .a{background:var(--verde-soft);height:100%}
-.cfpieg{display:flex;align-items:baseline;gap:9px;padding:6px 12px;font-size:12px;
- color:var(--ink-soft)}
-.cfpieg .lnk{font-size:12px}
-.cfr.somma{border-top:1px solid rgba(23,29,24,.10)}
-.cfr.somma .cfv b{font-weight:700}
-.cffin{margin-top:10px;padding-top:9px;border-top:2px solid rgba(23,29,24,.22)}
-.cffin .r2{border-top:1px solid rgba(23,29,24,.10)}
-.cffin .cfc .v{font-size:20px;font-weight:900;letter-spacing:-.02em}
-.cffin .cfd{font-size:15px}
-.cffin .cfv b{font-weight:700}
-.cffin .r1 .cfc.a{background:var(--prim-c);color:var(--on-prim-c);border-radius:14px 14px 0 0}
-.cffin .r2 .cfc.a{background:var(--ter-c);color:var(--on-ter-c);border-radius:0 0 14px 14px}
-.cffin .cfc.a .p{color:inherit;opacity:.75}
+/* il blocco dei totali */
+.cffin{margin-top:12px}
+.cffin .cl{background:var(--surf1)}
+.cffin .r1 .cl.u{background:var(--prim-c);color:var(--on-prim-c)}
+.cffin .r2 .cl.u{background:var(--ter-c);color:var(--on-ter-c)}
+.cffin .cl .v{font-size:19px;font-weight:900;letter-spacing:-.02em}
+.cffin .cl .p{font-size:10.5px}
+.cffin .cl.u .p,.cffin .cl.u .p .um,.cffin .cl.u .v .um{color:inherit;opacity:.72}
+.cffin .cfv b{font-size:13.5px;font-weight:700}
+/* l'andamento, nello spazio che sopra le voci resta sempre vuoto */
+.cfand{display:flex;flex-direction:column;justify-content:flex-end;gap:6px;
+ padding:0 6px 10px 2px}
+.cfand .t{font-size:11px;color:var(--ink-soft)}
+.cfand .b{display:flex;align-items:baseline;gap:8px}
+.cfand .b b{font-size:19px;font-weight:900;letter-spacing:-.02em;
+ font-variant-numeric:tabular-nums}
+.cfand .b span{font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.cfand svg{display:block;width:100%;height:34px;overflow:visible}
 .cfsolo{padding:10px 12px;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
 
 /* ogni filato e' una scheda bianca; i numeri stanno insieme a destra e,
@@ -481,19 +501,20 @@ h1{font-size:21px;margin:0 0 2px;letter-spacing:-.01em}
  main.st-aperto .cap,main.st-aperto .spec,main.st-aperto .duecol,
  main.st-aperto .riga-st{display:none}
  main.st-aperto #storico{display:block}
- .cf{--ca:94px;--cd:58px;--cb:94px}
- .cfr,.cfs{grid-template-columns:minmax(110px,1fr) var(--ca) var(--cd) var(--cb);gap:0 5px}
- .cfr>*{padding:6px 6px}
+ /* telefono: l'ultima piu' una, le altre scorrendo di lato */
+ .cf{--vo:118px;--ul:126px;--mc:112px;--xc:132px}
  .cfv b{font-size:12px}
  .cfv i{font-size:9.5px}
- .cfc .v{font-size:12.5px}
- .cfc .p{font-size:10px}
- .cfd{font-size:11px}
- .cffin .cfc .v{font-size:15px}
- .cffin .cfd{font-size:12px}
- .cfr.testa .cfc,.cfr.testa .cfd{font-size:11px}
- .cfsel{font-size:11px;padding:5px 6px}
- .cfcmd{gap:7px}
+ .cf .trg>*{padding:5px 7px}
+ .cf .sz{font-size:11.5px;padding:12px 2px 4px}
+ .cl .v{font-size:12.5px}
+ .cl .p{font-size:10.5px}
+ .um{font-size:8.5px;margin-right:3px}
+ .cl .dt{font-size:11.5px}
+ .cl .co{font-size:13px}
+ .trg.grossa .cl .v{font-size:14px}
+ .cffin .cl .v{font-size:15px}
+ .cfand .b b{font-size:16px}
  .st-cap{align-items:center;justify-content:flex-start;gap:6px}
  .st-cap .sh{flex:1 1 auto}
  .st-cap .q{flex:1 1 100%;margin-left:2px}
@@ -1276,154 +1297,171 @@ function caricaStorico(){
         '<div class="st-vuoto">Lo storico non si carica: '+esc(res.error.message)+'</div>'+
         '</div></div>'; return; }
       STORICO=res.data||[];
-      /* nuovo articolo o storico ricaricato: si riparte dall'ultima contro la penultima */
-      ST_A=0; ST_B=(STORICO.length>1?1:0); ST_APRI={};
       disegnaStorico(); }); }
 
 
-/* Storico, vista a confronto: due valutazioni affiancate con in mezzo la
-   differenza. Le voci che non sono cambiate si piegano in una riga sola,
-   cosi' sotto gli occhi resta solo quello che e' davvero cambiato. */
-var ST_A=0, ST_B=1, ST_APRI={};
+/* Storico a colonne: una scheda per valutazione, la piu' recente a sinistra.
+   Dentro ogni cella l'unita' di misura precede il numero, e un pallino segnala
+   i valori cambiati rispetto alla valutazione precedente. */
+function colonneStorico(){
+  var cols=STORICO, n=cols.length, E='€';
 
-function confrontoStorico(){
-  var n=STORICO.length;
-  if(ST_A>=n) ST_A=0;
-  if(ST_B>=n) ST_B=(n>1?(ST_A===0?1:0):0);
-  if(n>1 && ST_B===ST_A) ST_B=(ST_A===0?1:0);
-  var A=STORICO[ST_A], B=(n>1?STORICO[ST_B]:null);
-
-  /* le righe: i filati della scheda, piu' quelli che compaiono solo nelle
-     valutazioni messe a confronto */
+  /* le righe dei filati: quelli della scheda, piu' quelli che compaiono solo
+     nelle valutazioni vecchie */
   var chiavi=[], mappa={};
   function agg(f){ var k=f.ruolo+'#'+(f.n||1);
     if(!mappa[k]){ mappa[k]=f; chiavi.push(k); } }
   FILI.forEach(function(f){ agg({ruolo:f.ruolo,n:f.n,nome:f.nome,cod:f.cod}); });
-  [A,B].forEach(function(v){ if(v) ((v.dettaglio||{}).filati||[]).forEach(agg); });
+  cols.forEach(function(v){ ((v.dettaglio||{}).filati||[]).forEach(agg); });
   chiavi.sort(function(a,b){ var X=mappa[a], Y=mappa[b];
     if(X.ruolo!==Y.ruolo) return X.ruolo==='ordito'?-1:1;
     return (X.n||1)-(Y.n||1); });
 
-  function fil(v,k){ if(!v) return null;
+  function fil(v,k){
     var l=(v.dettaglio||{}).filati||[];
     for(var i=0;i<l.length;i++) if(l[i].ruolo+'#'+(l[i].n||1)===k) return l[i];
     return null; }
-  function somma(v,ruolo){ if(!v) return null;
+  function somma(v,ruolo){
     var l=(v.dettaglio||{}).filati||[], t=0, c=0;
     l.forEach(function(f){ if(f.ruolo===ruolo){ t+=f.gm/1000*f.prezzo; c++; } });
     return c?t:null; }
-  function E(x){ return (x||x===0)?eur.format(x)+' €':'–'; }
-  function scarto(a,b){
-    if(!B) return ['','pari'];
-    var d=(a||0)-(b||0);
-    if(Math.abs(d)<0.005) return ['=','pari'];
-    return [(d>0?'+':'−')+eur.format(Math.abs(d)), d>0?'su':'giu']; }
+  function lavTot(v){
+    var x=(v.dettaglio||{}).voci||{};
+    return (x.calo||0)+(x.orditura||0)+(x.tessitura||0)+(x.finissaggi||0); }
 
-  /* una riga: nome, valore in A, differenza, valore in B */
-  function riga(nome,sub,pa,va,pb,vb,extra){
-    var sc=scarto(va,vb);
-    return '<div class="cfr'+(extra?' '+extra:'')+'">'+
-      '<div class="cfv"><b>'+nome+'</b>'+(sub?'<i>'+sub+'</i>':'')+'</div>'+
-      '<div class="cfc a"><span class="p">'+(pa||'')+'</span><span class="v">'+E(va)+'</span></div>'+
-      '<div class="cfd '+sc[1]+'">'+sc[0]+'</div>'+
-      (B? '<div class="cfc"><span class="p">'+(pb||'')+'</span><span class="v">'+E(vb)+'</span></div>'
-        : '<div class="cfc"></div>')+
-      '</div>'; }
+  /* un numero: pallino se cambiato, poi l'unita', poi il valore */
+  function num(unita,testo,classe,cam){
+    if(testo==null||testo==='') return '<span class="'+classe+'">–</span>';
+    return '<span class="'+classe+'">'+(cam?'<span class="pt"></span>':'')+
+      (unita?'<span class="um">'+unita+'</span>':'')+testo+'</span>'; }
+  function eur0(x){ return (x||x===0)?eur.format(x):null; }
+  function diverso(a,b){
+    if(a==null&&b==null) return false;
+    if(a==null||b==null) return true;
+    return Math.abs(a-b)>0.005; }
+
+  /* una riga: etichetta e poi una cella per valutazione.
+     'dati' torna {p:parametro, v:valore} per ogni valutazione. */
+  function riga(nome,sub,unita,dati,extra,unitaV){
+    var h='<div class="trg'+(extra?' '+extra:'')+'">'+
+      '<div class="cfv"><b>'+nome+'</b>'+(sub?'<i>'+sub+'</i>':'')+'</div>';
+    dati.forEach(function(d,i){
+      var pre=dati[i+1];
+      var camP=pre?diverso(d.pn,pre.pn):false, camV=pre?diverso(d.vn,pre.vn):false;
+      h+='<div class="cl'+(i===0?' u':'')+'">';
+      if(d.p!=null) h+=num(unita,d.p,'p',camP);
+      h+=num(unitaV||E,d.v,'v',camV&&d.p==null)+'</div>'; });
+    return h+'<div></div></div>'; }
   function sezione(t){
-    return '<div class="cfs"><div class="et">'+t+'</div><div class="a"></div>'+
-           '<div></div><div></div></div>'; }
-  function uguale(pa,va,pb,vb){
-    return B && (pa||'')===(pb||'') && Math.abs((va||0)-(vb||0))<0.005; }
+    var h='<div class="tsz trg"><div class="sz">'+t+'</div>';
+    cols.forEach(function(v,i){ h+='<div class="vuoto'+(i===0?' u':'')+'"></div>'; });
+    return h+'<div></div></div>'; }
 
-  /* blocco filati: prima quelli cambiati, poi una riga sola per gli altri */
-  function blocco(lista,titolo,ruolo,etichetta,chiave){
-    if(!lista.length) return '';
-    var h=sezione(titolo), nomi=[], nascoste='';
-    lista.forEach(function(k){
-      var m=mappa[k], fa=fil(A,k), fb=fil(B,k);
-      var pa=fa?eur.format(fa.prezzo):'', va=fa?fa.gm/1000*fa.prezzo:null;
-      var pb=fb?eur.format(fb.prezzo):'', vb=fb?fb.gm/1000*fb.prezzo:null;
-      var sub=m.ruolo+(m.n?' '+m.n:'')+(m.cod?' · '+esc(m.cod):'');
-      var r=riga(esc(m.nome)||'&ndash;',sub,pa,va,pb,vb);
-      if(uguale(pa,va,pb,vb)){ nomi.push(esc(m.nome)||'&ndash;'); nascoste+=r; }
-      else h+=r; });
-    if(nomi.length){
-      if(ST_APRI[chiave]) h+=nascoste;
-      h+='<div class="cfpieg"><span>'+nomi.length+
-         (nomi.length===1?' filato con lo stesso prezzo: ':' filati con lo stesso prezzo: ')+
-         nomi.join(', ')+'</span>'+
-         '<button type="button" class="lnk" data-piega="'+chiave+'">'+
-         (ST_APRI[chiave]?'nascondi':'mostra')+'</button></div>'; }
-    h+=riga(etichetta,'€/m','',somma(A,ruolo),'',somma(B,ruolo),'somma');
-    return h; }
+  /* l'andamento del costo, nello spazio sopra le voci */
+  function andamento(){
+    var vs=[], i;
+    for(i=n-1;i>=0;i--) vs.push(cols[i].costo_ml||0);
+    if(vs.length<2) return '<div class="cfv cfand"></div>';
+    var W=250,H=34, mn=Math.min.apply(null,vs), mx=Math.max.apply(null,vs);
+    var X=function(i){ return 2+i*((W-4)/Math.max(vs.length-1,1)); };
+    var Y=function(v){ return 3+(mx-v)/Math.max(mx-mn,0.001)*(H-9); };
+    var d='';
+    vs.forEach(function(v,i){ d+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)+' '; });
+    var primo=vs[0], ultimo=vs[vs.length-1];
+    var dif=ultimo-primo, pc=primo>0?dif/primo*100:0;
+    var seg=(dif>=0?'+':'−');
+    return '<div class="cfv cfand"><div class="t">andamento dal '+
+      dataIt(cols[n-1].data)+'</div>'+
+      '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true">'+
+      '<path d="'+d+'" fill="none" stroke="var(--verde)" stroke-width="2" '+
+      'stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>'+
+      '<circle cx="'+X(vs.length-1).toFixed(1)+'" cy="'+Y(ultimo).toFixed(1)+
+      '" r="3.2" fill="var(--verde)"/></svg>'+
+      '<div class="b"><b>'+seg+Math.abs(pc).toFixed(1).replace('.',',')+'%</b>'+
+      '<span>'+seg+eur.format(Math.abs(dif))+' '+E+'/m</span></div></div>'; }
 
-  var h='<div class="cfdate">';
-  STORICO.forEach(function(v,i){
-    var cl=(i===ST_A?'a':(i===ST_B&&B?'b':''));
-    h+='<button type="button" class="cfch'+(cl?' '+cl:'')+'" data-pick="'+i+'">'+
-       (cl==='a'?'<span class="tag">A</span>':(cl==='b'?'<span class="tag">B</span>':''))+
-       dataIt(v.data)+' <b>'+eur.format(v.costo_ml||0)+' €</b></button>'; });
-  if(n>1) h+='<span class="cfaiuto">tocca una data per metterla a confronto</span>';
-  h+='</div><div class="cf">';
+  var h='<style>#storico .cf .trg,#storico .cf .tsz{grid-template-columns:'+
+        'var(--vo) var(--ul) repeat('+Math.max(n-1,0)+
+        ',minmax(var(--mc),var(--xc))) minmax(0,1fr)}</style><div class="cf">';
 
-  /* intestazione: due tendine, una per colonna */
-  function tendina(id,sel){
-    var o='';
-    STORICO.forEach(function(v,i){
-      o+='<option value="'+i+'"'+(i===sel?' selected':'')+'>'+dataIt(v.data)+
-         (v.nota?' · '+esc(v.nota):'')+'</option>'; });
-    return '<select class="cfsel" id="'+id+'">'+o+'</select>'; }
-  function comandi(i){
-    return '<div class="cfcmd"><button type="button" class="lnk" data-ric="'+i+'">ricarica</button>'+
-           '<button type="button" class="lnk" data-del="'+i+'">elimina</button></div>'; }
-  h+='<div class="cfr testa"><div class="cfv"></div>'+
-     '<div class="cfc a">'+tendina('cf-a',ST_A)+comandi(ST_A)+'</div>'+
-     '<div class="cfd">differenza</div>'+
-     (B? '<div class="cfc">'+tendina('cf-b',ST_B)+comandi(ST_B)+'</div>'
-       : '<div class="cfc"></div>')+'</div>';
-
-  if(!B) h+='<div class="cfsolo">C&rsquo;&egrave; una sola valutazione salvata: '+
-            'quando ne salvi un&rsquo;altra qui compare il confronto, voce per voce.</div>';
+  /* intestazione: data, nota, costo, scostamento e comandi */
+  h+='<div class="trg">'+andamento();
+  cols.forEach(function(v,i){
+    var cap=[]; if(v.nota) cap.push(esc(v.nota));
+    if(v.utente) cap.push(esc(String(v.utente).split('@')[0]));
+    var pre=cols[i+1], dl='<span class="dl pari">prima</span>';
+    if(pre && pre.costo_ml>0){
+      var p=(v.costo_ml-pre.costo_ml)/pre.costo_ml*100;
+      dl='<span class="dl '+(p>=0?'su':'giu')+'">'+(p>=0?'+':'−')+
+         Math.abs(p).toFixed(1).replace('.',',')+'%</span>'; }
+    h+='<div class="cl tst cima'+(i===0?' u':'')+'">'+
+       '<div class="dt">'+dataIt(v.data)+'</div>'+
+       '<div class="nt">'+(cap.join(' · ')||'&nbsp;')+'</div>'+
+       '<div class="co">'+eur.format(v.costo_ml||0)+' '+E+'</div>'+dl+
+       '<div class="cfcmd"><button type="button" class="lnk" data-ric="'+i+'">ricarica</button>'+
+       '<button type="button" class="lnk" data-del="'+i+'">elimina</button></div></div>'; });
+  h+='<div></div></div>';
 
   var ord=chiavi.filter(function(k){ return mappa[k].ruolo==='ordito'; });
   var tra=chiavi.filter(function(k){ return mappa[k].ruolo!=='ordito'; });
-  h+=blocco(ord,'Ordito','ordito','Totale ordito','ord');
-  h+=blocco(tra,'Trama','trama','Totale trama','tra');
 
-  /* lavorazioni: stesso trattamento, le identiche si piegano */
+  function blocco(lista,titolo,ruolo,etichetta){
+    if(!lista.length) return '';
+    var h=sezione(titolo);
+    lista.forEach(function(k){
+      var m=mappa[k], f0=fil(cols[0],k);
+      h+=riga(esc(m.nome)||'&ndash;',
+        m.ruolo+(m.n?' '+m.n:'')+(m.cod?' · '+esc(m.cod):'')+
+        (f0&&f0.gm?' · '+nf.format(f0.gm)+' g/m':''),
+        E+'/kg',
+        cols.map(function(v){
+          var f=fil(v,k);
+          if(!f) return {p:null,v:null,pn:null,vn:null};
+          var val=f.gm/1000*f.prezzo;
+          return {p:eur.format(f.prezzo), v:eur0(val), pn:f.prezzo, vn:val}; })); });
+    h+=riga(etichetta,'','',cols.map(function(v){
+      var t=somma(v,ruolo); return {p:null,v:eur0(t),pn:null,vn:t}; }),'somma');
+    return h; }
+
+  h+=blocco(ord,'Ordito','ordito','Totale ordito');
+  h+=blocco(tra,'Trama','trama','Totale trama');
+  h+=riga('Totale filati','ordito + trama','',cols.map(function(v){
+    var t=(somma(v,'ordito')||0)+(somma(v,'trama')||0);
+    return {p:null,v:eur0(t),pn:null,vn:t}; }),'grossa');
+
   h+=sezione('Lavorazioni');
-  var dA=(A.dettaglio||{}), dB=(B?(B.dettaglio||{}):{});
-  var vA=dA.voci||{}, vB=dB.voci||{};
-  var lav=[
-    ['Calo','% sulle materie prime', nf.format(dA.calo||0)+' %', vA.calo,
-      B?nf.format(dB.calo||0)+' %':'', vB.calo],
-    ['Orditura','€/kg sul peso ordito', eur.format(dA.ordit||0), vA.orditura,
-      B?eur.format(dB.ordit||0):'', vB.orditura],
-    ['Tessitura','tariffa battuta'+(dA.battute?' × '+nf.format(dA.battute):''),
-      fine.format(dA.tar||0), vA.tessitura, B?fine.format(dB.tar||0):'', vB.tessitura]
-  ];
+  function lav(nome,sub,unita,prendi){
+    h+=riga(nome,sub,unita,cols.map(function(v){
+      var d=v.dettaglio||{}, x=d.voci||{}, r=prendi(d,x);
+      return r; })); }
+  lav('Calo','sulle materie prime','%',function(d,x){
+    return {p:nf.format(d.calo||0), v:eur0(x.calo), pn:+d.calo||0, vn:x.calo}; });
+  lav('Orditura','sul peso ordito',E+'/kg',function(d,x){
+    return {p:eur.format(d.ordit||0), v:eur0(x.orditura), pn:+d.ordit||0, vn:x.orditura}; });
+  var batt=(cols[0].dettaglio||{}).battute||0;
+  lav('Tessitura',batt?nf.format(batt)+' battute':'',E+'/battuta',function(d,x){
+    return {p:fine.format(d.tar||0), v:eur0(x.tessitura), pn:+d.tar||0, vn:x.tessitura}; });
   [0,1,2].forEach(function(j){
-    lav.push(['Finissaggio '+(j+1),'€/m','',(dA.fin||[])[j],'',B?(dB.fin||[])[j]:null]); });
-  var nomiL=[], nascL='';
-  lav.forEach(function(r){
-    var x=riga(r[0],r[1],r[2],r[3],r[4],r[5]);
-    if(uguale(r[2],r[3],r[4],r[5])){ nomiL.push(r[0].toLowerCase()); nascL+=x; }
-    else h+=x; });
-  if(nomiL.length){
-    if(ST_APRI.lav) h+=nascL;
-    h+='<div class="cfpieg"><span>'+nomiL.length+
-       (nomiL.length===1?' voce identica: ':' voci identiche: ')+nomiL.join(', ')+'</span>'+
-       '<button type="button" class="lnk" data-piega="lav">'+
-       (ST_APRI.lav?'nascondi':'mostra')+'</button></div>'; }
+    h+=riga('Finissaggio '+(j+1),'','',cols.map(function(v){
+      var y=((v.dettaglio||{}).fin||[])[j];
+      return {p:null, v:(y?eur0(y):null), pn:null, vn:(y||0)}; })); });
+  h+=riga('Totale lavorazioni','calo, orditura, tessitura, finissaggi','',
+    cols.map(function(v){ var t=lavTot(v); return {p:null,v:eur0(t),pn:null,vn:t}; }),'grossa');
+
+  /* chiude le schede-colonna */
+  h+='<div class="trg"><div class="cfv"></div>';
+  cols.forEach(function(v,i){
+    h+='<div class="cl fondo'+(i===0?' u':'')+'" style="padding-top:0"></div>'; });
+  h+='<div></div></div>';
 
   h+='<div class="cffin">'+
-     riga('Costo totale','€/m lineare',
-          eur.format(A.costo_mq||0)+' €/m²', A.costo_ml,
-          B?eur.format(B.costo_mq||0)+' €/m²':'', B?B.costo_ml:null,'r1')+
-     riga('Prezzo di vendita','divisore '+nf.format(A.divisore||0),
-          eur.format(A.prezzo_mq||0)+' €/m²', A.prezzo_ml,
-          B?eur.format(B.prezzo_mq||0)+' €/m²':'', B?B.prezzo_ml:null,'r2')+
-     '</div>';
+    riga('Costo totale','filati + lavorazioni',E+'/m²',
+      cols.map(function(v){ return {p:eur.format(v.costo_mq||0), v:eur0(v.costo_ml),
+        pn:v.costo_mq, vn:v.costo_ml}; }),'r1',E+'/m')+
+    riga('Prezzo di vendita','divisore '+nf.format(cols[0].divisore||0),E+'/m²',
+      cols.map(function(v){ return {p:eur.format(v.prezzo_mq||0), v:eur0(v.prezzo_ml),
+        pn:v.prezzo_mq, vn:v.prezzo_ml}; }),'r2',E+'/m')+
+    '</div>';
   return h+'</div>'; }
 
 function disegnaStorico(){
@@ -1446,7 +1484,7 @@ function disegnaStorico(){
     '</span>'+
     (n? '<span class="vista">'+
         '<button type="button" class="pillv'+(VISTA_ST==='conf'?' on':'')+
-          '" id="st-conf">Confronto</button>'+
+          '" id="st-conf">Colonne</button>'+
         '<button type="button" class="pillv'+(VISTA_ST==='lista'?' on':'')+
           '" id="st-lista">Elenco</button></span>' : '')+
     '</div><div class="st-box">';
@@ -1455,10 +1493,10 @@ function disegnaStorico(){
     collegaStorico(box); return; }
 
   if(VISTA_ST==='conf'){
-    box.innerHTML=testa+confrontoStorico()+'</div>'+
-      '<p class="nota">A sinistra di ogni valore il parametro con cui &egrave; stato calcolato '+
-      '(€/kg del filato, percentuale di calo, tariffa). Le voci rimaste uguali sono raccolte '+
-      'in una riga sola.</p></div>';
+    box.innerHTML=testa+colonneStorico()+'</div>'+
+      '<p class="nota">Una colonna per valutazione, la pi&ugrave; recente nel blocco verde. '+
+      'Il pallino accanto a un valore segnala che &egrave; cambiato rispetto alla valutazione '+
+      'precedente.</p></div>';
     collegaStorico(box); return; }
 
   var righe='';
@@ -1510,21 +1548,6 @@ function collegaStorico(box){
       try{ localStorage.setItem('storico_vista',quale); }catch(e){}
       disegnaStorico(); }); }
   vista('st-conf','conf'); vista('st-lista','lista');
-  /* la striscia delle date sceglie il termine di paragone; toccando la A si scambiano */
-  box.querySelectorAll('[data-pick]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var i=+b.dataset.pick;
-      if(i===ST_A){ var t=ST_A; ST_A=ST_B; ST_B=t; }
-      else ST_B=i;
-      disegnaStorico(); }); });
-  function tend(id,set){
-    var e=$(id); if(!e) return;
-    e.addEventListener('change',function(){ set(+e.value); disegnaStorico(); }); }
-  tend('cf-a',function(i){ if(i===ST_B) ST_B=ST_A; ST_A=i; });
-  tend('cf-b',function(i){ if(i===ST_A) ST_A=ST_B; ST_B=i; });
-  box.querySelectorAll('[data-piega]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var k=b.dataset.piega; ST_APRI[k]=!ST_APRI[k]; disegnaStorico(); }); });
   box.querySelectorAll('[data-ric]').forEach(function(b){
     b.addEventListener('click',function(){ ricarica(STORICO[+b.dataset.ric]); }); });
   box.querySelectorAll('[data-del]').forEach(function(b){
